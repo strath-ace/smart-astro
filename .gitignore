@@ -1,0 +1,11 @@
+# Files to be ignored by git
+/docs/
+/.project
+/build/
+/cmake-build-debug/
+/.idea/
+/.vscode/
+/include/config.h
+/CMakeCache.txt
+cmake.check_cache
+*~

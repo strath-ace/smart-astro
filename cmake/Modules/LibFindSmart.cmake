@@ -1,0 +1,45 @@
+macro(find_smart LIBRARY_NAME HEADER_FILE VERSION_PREFIX)
+    string(TOUPPER ${LIBRARY_NAME} LIBRARY_NAME_TO_USE)
+    string(REPLACE "-" "_" LIBRARY_NAME_TO_USE ${LIBRARY_NAME_TO_USE})
+    mark_as_advanced(LIBRARY_NAME_TO_USE)
+
+    find_path(${LIBRARY_NAME_TO_USE}_INCLUDE_DIR
+            NAMES ${HEADER_FILE}
+            PATHS "/usr/local/include/${LIBRARY_NAME}" "C:/${LIBRARY_NAME}/${LIBRARY_NAME}/include")
+    mark_as_advanced(${LIBRARY_NAME_TO_USE}_INCLUDE_DIR)
+
+    find_library(${LIBRARY_NAME_TO_USE}_LIBRARY
+            NAMES ${LIBRARY_NAME}
+            PATHS "/usr/local/lib/${LIBRARY_NAME}" "C:/${LIBRARY_NAME}/${LIBRARY_NAME}/lib")
+    mark_as_advanced(${LIBRARY_NAME_TO_USE}_LIBRARY)
+
+    if (${LIBRARY_NAME_TO_USE}_INCLUDE_DIR)
+        if (EXISTS "${${LIBRARY_NAME_TO_USE}_INCLUDE_DIR}/${HEADER_FILE}")
+            file(STRINGS "${${LIBRARY_NAME_TO_USE}_INCLUDE_DIR}/${HEADER_FILE}" _VERSION_LINE REGEX "${VERSION_PREFIX}_VERSION_MAJOR")
+            string(REGEX MATCH "([0-9]+)$" _VERSION_MAJOR ${_VERSION_LINE})
+
+            file(STRINGS "${${LIBRARY_NAME_TO_USE}_INCLUDE_DIR}/${HEADER_FILE}" _VERSION_LINE REGEX "${VERSION_PREFIX}_VERSION_MINOR")
+            string(REGEX MATCH "([0-9]+)$" _VERSION_MINOR ${_VERSION_LINE})
+
+            file(STRINGS "${${LIBRARY_NAME_TO_USE}_INCLUDE_DIR}/${HEADER_FILE}" _VERSION_LINE REGEX "${VERSION_PREFIX}_VERSION_PATCH")
+            string(REGEX MATCH "([0-9]+)$" _VERSION_PATCH ${_VERSION_LINE})
+
+            set(${LIBRARY_NAME_TO_USE}_VERSION_STRING "${_VERSION_MAJOR}.${_VERSION_MINOR}.${_VERSION_PATCH}")
+            unset(_VERSION_MAJOR)
+            unset(_VERSION_MINOR)
+            unset(_VERSION_PATCH)
+            unset(_VERSION_LINE)
+        endif ()
+    endif ()
+
+    include(FindPackageHandleStandardArgs)
+    FIND_PACKAGE_HANDLE_STANDARD_ARGS(${LIBRARY_NAME_TO_USE}
+            REQUIRED_VARS ${LIBRARY_NAME_TO_USE}_LIBRARY ${LIBRARY_NAME_TO_USE}_INCLUDE_DIR
+            VERSION_VAR ${LIBRARY_NAME_TO_USE}_VERSION_STRING
+            )
+
+    if (${LIBRARY_NAME_TO_USE}_FOUND)
+        set(${LIBRARY_NAME_TO_USE}_LIBRARIES ${${LIBRARY_NAME_TO_USE}_LIBRARY})
+        set(${LIBRARY_NAME_TO_USE}_INCLUDE_DIRS ${${LIBRARY_NAME_TO_USE}_INCLUDE_DIR})
+    endif ()
+endmacro()

@@ -1,0 +1,13 @@
+#cmakedefine ENABLE_SMARTUQ
+#cmakedefine ENABLE_GRAPHICS
+#cmakedefine ENABLE_WORHP
+#cmakedefine ENABLE_MONGODB
+
+#cmakedefine MOID_DIR "@MOID_DIR@"
+#cmakedefine MOID_INPUT "@MOID_INPUT@"
+#cmakedefine MOID_EXEC "@MOID_EXEC@"
+#cmakedefine MOID_OUTPUT "@MOID_OUTPUT@"
+
+
+#define STRING2(x) #x
+#define STRING(x) STRING2(x)

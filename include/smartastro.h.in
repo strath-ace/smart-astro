@@ -1,0 +1,23 @@
+/******************************************************************************
+ *                               SMARTASTRO_H                                 *
+ *            Recursive inclusion of the SMART-ASTRO headers                  *
+ ******************************************************************************/
+
+#ifndef SMART_SMARTASTRO_H
+#define SMART_SMARTASTRO_H
+
+#define SMARTASTRO_VERSION_MAJOR @PROJECT_VERSION_MAJOR@
+#define SMARTASTRO_VERSION_MINOR @PROJECT_VERSION_MINOR@
+#define SMARTASTRO_VERSION_PATCH @PROJECT_VERSION_PATCH@
+
+#include "Astro-Core/smartastro_astrocore.h"
+
+#include "Propagators/smartastro_propagators.h"
+
+#include "Astrodynamics/smartastro_astrodynamics.h"
+
+#include "Ephemerides/smartastro_ephemerides.h"
+
+#include "smartastro_utils.h"
+
+#endif /* SMART_SMARTASTRO_H */
