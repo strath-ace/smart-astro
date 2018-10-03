@@ -23,13 +23,6 @@
     #include "smartuq.h"
 #endif
 
-#if defined(__GNUC__)
-    #if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 9))
-    #include "json/json.hpp"
-    using json = nlohmann::json;
-    #endif
-#endif
-
 namespace smartastro
 {
     namespace astrocore
@@ -169,13 +162,6 @@ namespace smartastro
              */
             void set_new_value(const double &time, const std::vector<T> &vector);
         };
-
-        //JSON methods
-        #if defined(__GNUC__)
-            #if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 9))
-                void to_json(json& j, const smart_vector<double>& val);
-            #endif
-        #endif
     }
 }
 

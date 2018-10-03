@@ -148,14 +148,6 @@ namespace smartastro
              */
             std::vector<T> propagate(const double &time);
         };
-
-        //JSON methods
-        #if defined(__GNUC__)
-            #if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 9))
-                //template < class T >
-                void to_json(json& j, const orbital_elements<double>& val);
-            #endif
-        #endif
     }
 }
 

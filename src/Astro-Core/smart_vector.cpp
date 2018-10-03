@@ -102,19 +102,6 @@ unsigned int smart_vector<T>::get_length() const
 }
 
 
-//JSON methods
-#if defined(__GNUC__)
-    #if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 9))
-        void astrocore::to_json(json& j, const smart_vector<double> &val)
-        {
-            j["time"] = val.get_time();
-//            j["type"] = get_text_VECTOR_type(val.get_type());
-            j["value"] = val.get_value();
-        }
-    #endif
-#endif
-
-
 template class smart_vector<double>;
 template class smart_vector<float>;
 template class smart_vector<long double>;

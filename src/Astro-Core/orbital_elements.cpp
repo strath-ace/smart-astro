@@ -233,24 +233,6 @@ std::vector<T> orbital_elements<T>::propagate(const double &time)
 }
 
 
-//JSON methods (namespace method)
-#if defined(__GNUC__)
-    #if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 9))
-        //template < class T >
-        void astrocore::to_json(json& j, const orbital_elements<double>& val)
-        {
-            j["time"] = val.get_time();
-            j["semimajor_axis"] = val.get_semimajor_axis(false);
-            j["eccentricity"] = val.get_eccentricity();
-            j["inclination"] = val.get_inclination();
-            j["right_ascension"] = val.get_right_ascension();
-            j["argument_of_perigee"] = val.get_argument_of_perigee();
-            j["true_anomaly"] = val.get_true_anomaly();
-        }
-    #endif
-#endif
-
-
 template class orbital_elements<double>;
 template class orbital_elements<float>;
 template class orbital_elements<long double>;
