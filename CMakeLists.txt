@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 
 # Change this section to correspond with your project info.
 project (smart-astro
-  LANGUAGES CXX
-  VERSION 0.1.0)
+        LANGUAGES C CXX
+        VERSION 0.1.0)
 
 set(CMAKE_INCLUDE_SYSTEM_FLAG_C "-isystem")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -20,10 +20,10 @@ set(INCLUDE_PATH                               "${PROJECT_PATH}/src")
 set(SRC_PATH                                   "${PROJECT_PATH}/src")
 set(TEST_SRC_PATH                              "${PROJECT_PATH}/test")
 if(NOT EXTERNAL_PATH)
-  set(EXTERNAL_PATH                            "${PROJECT_PATH}/external")
+    set(EXTERNAL_PATH                            "${PROJECT_PATH}/external")
 endif()
 if(NOT DOCS_PATH)
-  set(DOCS_PATH                                "${PROJECT_PATH}/docs")
+    set(DOCS_PATH                                "${PROJECT_PATH}/docs")
 endif()
 set(LIB_NAME                                   "smart-astro")
 set(LIB_NAME_STATIC                            "smart-astro-static")
@@ -43,8 +43,9 @@ endif()
 option(BUILD_STATIC                            "Build static library"           OFF)
 option(BUILD_MAIN                              "Build main function"            ON)
 option(BUILD_DOCS                              "Build docs"                     OFF)
-option(BUILD_EXAMPLES                          "Build examples"                 OFF)
+option(BUILD_EXAMPLES                          "Build examples"                 ON)
 option(ENABLE_SMARTUQ            	           "UQ methods"                     OFF)
+option(ENABLE_CSPICE            	           "JPL CSPICE"                     ON)
 option(ENABLE_WORHP            		           "eNLP solver"                    OFF)
 option(ENABLE_GRAPHICS                         "X11 libraries (only UNIX systems)" OFF)
 option(ENABLE_MONGODB                          "MongoDB database"               OFF)
@@ -78,58 +79,60 @@ SET(MANDATORY_LIBRARIES "")
 
 # mandatory dependancy to smartmath
 include(ExternalProject)
-include(cmake/External/smart-math.cmake)
-include_directories ("${SMART_MATH_INCLUDE_DIR}")
 
-if (ENABLE_SMARTUQ)
-    include(cmake/External/smart-uq.cmake)
-    include_directories ("${SMART_UQ_INCLUDE_DIR}")
-endif()
-
-
-find_package(OpenMP)
-if(OPENMP_FOUND)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-endif()
-
-if((CMAKE_COMPILER_IS_GNUCC) AND (CMAKE_BUILD_TYPE STREQUAL "Debug"))
-    # smart-uq requires __gcov_init and __gcov_merge_add symbols
-    set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} --coverage")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lgcov --coverage")
-endif()
-
-# Graphics libraries
-if(ENABLE_GRAPHICS)
-        set(MANDATORY_LIBRARIES ${MANDATORY_LIBRARIES} "X11" "Xext")
-endif(ENABLE_GRAPHICS)
-
-if(ENABLE_WORHP)
-        find_library(WORHP_LIBRARY NAMES worhp)
-        find_path(WORHP_INCLUDE_DIR NAMES worhp/worhp.h)
-        if(NOT WORHP_LIBRARY OR NOT WORHP_INCLUDE_DIR)
-                message(FATAL_ERROR "WORHP support was requested, but the worhp library or headers could not be located.")
-        endif(NOT WORHP_LIBRARY OR NOT WORHP_INCLUDE_DIR)
-        message(STATUS "worhp library: ${WORHP_LIBRARY}")
-        message(STATUS "worhp headers: ${WORHP_INCLUDE_DIR}")
-
-        set(MANDATORY_LIBRARIES ${MANDATORY_LIBRARIES} ${WORHP_LIBRARY})
-        include_directories("${WORHP_INCLUDE_DIR}")
-endif()
+include(cmake/CMakeLists.txt)
+#include(cmake/External/smart-math.cmake)
+#include_directories ("${SMART_MATH_INCLUDE_DIR}")
+#
+#if (ENABLE_SMARTUQ)
+#    include(cmake/External/smart-uq.cmake)
+#    include_directories ("${SMART_UQ_INCLUDE_DIR}")
+#endif()
+#
+#
+#find_package(OpenMP)
+#if(OPENMP_FOUND)
+#    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+#    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+#endif()
+#
+#if((CMAKE_COMPILER_IS_GNUCC) AND (CMAKE_BUILD_TYPE STREQUAL "Debug"))
+#    # smart-uq requires __gcov_init and __gcov_merge_add symbols
+#    set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} --coverage")
+#    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+#    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lgcov --coverage")
+#endif()
+#
+## Graphics libraries
+#if(ENABLE_GRAPHICS)
+#    set(MANDATORY_LIBRARIES ${MANDATORY_LIBRARIES} "X11" "Xext")
+#endif(ENABLE_GRAPHICS)
+#
+#if(ENABLE_WORHP)
+#    find_library(WORHP_LIBRARY NAMES worhp)
+#    find_path(WORHP_INCLUDE_DIR NAMES worhp/worhp.h)
+#    if(NOT WORHP_LIBRARY OR NOT WORHP_INCLUDE_DIR)
+#        message(FATAL_ERROR "WORHP support was requested, but the worhp library or headers could not be located.")
+#    endif(NOT WORHP_LIBRARY OR NOT WORHP_INCLUDE_DIR)
+#    message(STATUS "worhp library: ${WORHP_LIBRARY}")
+#    message(STATUS "worhp headers: ${WORHP_INCLUDE_DIR}")
+#
+#    set(MANDATORY_LIBRARIES ${MANDATORY_LIBRARIES} ${WORHP_LIBRARY})
+#    include_directories("${WORHP_INCLUDE_DIR}")
+#endif()
 
 file(GLOB_RECURSE SRC
-  "${SRC_PATH}/*.cpp")
+        "${SRC_PATH}/*.cpp")
 
 set(MAIN_SRC
-  "${SRC_PATH}/main.cpp")
+        "${SRC_PATH}/main.cpp")
 
 file(GLOB_RECURSE TEST_SRC
-  "${TEST_SRC_PATH}/*.cpp")
+        "${TEST_SRC_PATH}/*.cpp")
 
 file(GLOB_RECURSE LibFiles
-    "${INCLUDE_PATH}/*.h"
-    )
+        "${INCLUDE_PATH}/*.h"
+        )
 
 
 add_custom_target(headers SOURCES ${LibFiles})
@@ -142,7 +145,7 @@ set(MOID_OUTPUT ${MOID_DIR}/crtpts.out)
 
 # Set CMake build-type. If it not supplied by the user, the default built type is "Release".
 if(((NOT CMAKE_BUILD_TYPE))
-  OR (CMAKE_BUILD_TYPE STREQUAL "Release"))
+        OR (CMAKE_BUILD_TYPE STREQUAL "Release"))
     message(STATUS "WARNING: building release version!")
     set(CMAKE_BUILD_TYPE Release)
 elseif(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -151,24 +154,24 @@ endif()
 
 # Set platform-specific compiler flags.
 if(WIN32)
-  if(MSVC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc /Ox /W3 /FC -D_SCL_SECURE_NO_WARNINGS -std=c++11")
-    # We need to force MSVC to use static runtime:
-    # (from http://www.cmake.org/Wiki/CMake_FAQ#Dynamic_Replace).
-    foreach(flag_var
-      CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
-      CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
-      # Find all dynamic runtime (MD) references and replace with static (MT)
-      if(${flag_var} MATCHES "/MD")
-        string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
-      endif()
-    endforeach()
-  else()
-    set(CMAKE_LEGACY_CYGWIN_WIN32 0)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Woverloaded-virtual -Wnon-virtual-dtor")
-  endif()
+    if(MSVC)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc /Ox /W3 /FC -D_SCL_SECURE_NO_WARNINGS -std=c++11")
+        # We need to force MSVC to use static runtime:
+        # (from http://www.cmake.org/Wiki/CMake_FAQ#Dynamic_Replace).
+        foreach(flag_var
+                CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
+                CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+            # Find all dynamic runtime (MD) references and replace with static (MT)
+            if(${flag_var} MATCHES "/MD")
+                string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
+            endif()
+        endforeach()
+    else()
+        set(CMAKE_LEGACY_CYGWIN_WIN32 0)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Woverloaded-virtual -Wnon-virtual-dtor")
+    endif()
 else()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Woverloaded-virtual -Wnon-virtual-dtor")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Woverloaded-virtual -Wnon-virtual-dtor")
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX)
@@ -196,20 +199,20 @@ include_directories(src)
 include_directories(external)
 
 if(BUILD_STATIC)
-   add_library(${LIB_NAME_STATIC} STATIC ${SRC})
-   target_link_libraries(${LIB_NAME_STATIC} ${SMART_MATH_STATIC_LIBRARY} ${SMART_UQ_STATIC_LIBRARY} ${MANDATORY_LIBRARIES} ${IRILIB_NAME})
-   set_target_properties (${LIB_NAME_STATIC} PROPERTIES
-           VERSION ${PROJECT_VERSION}
-           SOVERSION ${PROJECT_VERSION}
-           OUTPUT_NAME ${LIB_NAME})
+    add_library(${LIB_NAME_STATIC} STATIC ${SRC})
+    target_link_libraries(${LIB_NAME_STATIC} ${SMART_MATH_STATIC_LIBRARY} ${SMART_UQ_STATIC_LIBRARY} ${MANDATORY_LIBRARIES} ${IRILIB_NAME})
+    set_target_properties (${LIB_NAME_STATIC} PROPERTIES
+            VERSION ${PROJECT_VERSION}
+            SOVERSION ${PROJECT_VERSION}
+            OUTPUT_NAME ${LIB_NAME})
 
-   if(SMART_MATH_EXTERNAL)
-       add_dependencies(${LIB_NAME_STATIC} smart-math)
-   endif()
+    if(SMART_MATH_EXTERNAL)
+        add_dependencies(${LIB_NAME_STATIC} smart-math)
+    endif()
 
-   if(SMART_UQ_EXTERNAL)
-       add_dependencies(${LIB_NAME_STATIC} smart-uq)
-   endif()
+    if(SMART_UQ_EXTERNAL)
+        add_dependencies(${LIB_NAME_STATIC} smart-uq)
+    endif()
 else()
     set(LIB_NAME_STATIC "")
 endif ()
@@ -217,9 +220,9 @@ endif ()
 add_library(${LIB_NAME} SHARED ${SRC})
 target_link_libraries(${LIB_NAME} ${SMART_MATH_LIBRARY} ${SMART_UQ_LIBRARY} ${MANDATORY_LIBRARIES} ${IRILIB_NAME})
 set_target_properties (${LIB_NAME} PROPERTIES
-	  VERSION ${PROJECT_VERSION}
-	  SOVERSION ${PROJECT_VERSION}
-      OUTPUT_NAME ${LIB_NAME})
+        VERSION ${PROJECT_VERSION}
+        SOVERSION ${PROJECT_VERSION}
+        OUTPUT_NAME ${LIB_NAME})
 
 if(SMART_MATH_EXTERNAL)
     add_dependencies(${LIB_NAME} smart-math)
@@ -230,36 +233,36 @@ if(SMART_UQ_EXTERNAL)
 endif()
 
 if(BUILD_MAIN)
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BIN_PATH})
-  add_executable(${MAIN_NAME} ${MAIN_SRC})
-  target_link_libraries(${MAIN_NAME} ${LIB_NAME} ${MANDATORY_LIBRARIES})
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BIN_PATH})
+    add_executable(${MAIN_NAME} ${MAIN_SRC})
+    target_link_libraries(${MAIN_NAME} ${LIB_NAME} ${MANDATORY_LIBRARIES})
 endif()
 
 if(BUILD_DOCS)
-  find_package(Doxygen)
+    find_package(Doxygen)
 
-  if(NOT DOXYGEN_FOUND)
-    message(FATAL_ERROR
-            "Doxygen is needed to build the documentation. Please make sure it is installed.")
-  endif()
+    if(NOT DOXYGEN_FOUND)
+        message(FATAL_ERROR
+                "Doxygen is needed to build the documentation. Please make sure it is installed.")
+    endif()
 
-  find_package(Boost 1.50.0)
-  message(STATUS "Detected Boost version: ${Boost_VERSION}")
+    find_package(Boost 1.50.0)
+    message(STATUS "Detected Boost version: ${Boost_VERSION}")
 
-  configure_file(${PROJECT_PATH}/Doxyfile.in
-                 ${PROJECT_BINARY_DIR}/Doxyfile @ONLY IMMEDIATE)
+    configure_file(${PROJECT_PATH}/Doxyfile.in
+            ${PROJECT_BINARY_DIR}/Doxyfile @ONLY IMMEDIATE)
 
-  # Add a custom target to run Doxygen whenever the project is built.
-  # If you do NOT want the documentation to be generated EVERY time you build the project
-  # then leave out the 'ALL' keyword from the command below.
-  add_custom_target(docs ALL COMMAND ${DOXYGEN_EXECUTABLE}
-                    ${PROJECT_BINARY_DIR}/Doxyfile
-                    SOURCES ${PROJECT_BINARY_DIR}/Doxyfile)
+    # Add a custom target to run Doxygen whenever the project is built.
+    # If you do NOT want the documentation to be generated EVERY time you build the project
+    # then leave out the 'ALL' keyword from the command below.
+    add_custom_target(docs ALL COMMAND ${DOXYGEN_EXECUTABLE}
+            ${PROJECT_BINARY_DIR}/Doxyfile
+            SOURCES ${PROJECT_BINARY_DIR}/Doxyfile)
 endif(BUILD_DOCS)
 
 if(BUILD_EXAMPLES)
-        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${EXAMPLES_PATH})
-  add_subdirectory("${PROJECT_PATH}/examples")
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${EXAMPLES_PATH})
+    add_subdirectory("${PROJECT_PATH}/examples")
 endif()
 
 
@@ -306,9 +309,9 @@ if(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
     # $LINUX_DISTRO Debian Redhat none
     set(LINUX_DISTRO "none")
     if(EXISTS "/etc/debian_version")
-          set ( LINUX_DISTRO "Debian")
+        set ( LINUX_DISTRO "Debian")
     elseif(EXISTS "/etc/redhat-release")
-          set ( LINUX_DISTRO "Redhat")
+        set ( LINUX_DISTRO "Redhat")
     endif()
 
     if (UNIX AND (LINUX_DISTRO STREQUAL "Debian"))

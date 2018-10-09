@@ -8,4 +8,8 @@
 /include/config.h
 /CMakeCache.txt
 cmake.check_cache
+.DS_Store
+cmake/.DS_Store
+cmake/External/.DS_Store
+src/.DS_Store
 *~
