@@ -7,7 +7,7 @@
 -------- e-mail: serra.romain@gmail.com ------------------------------
 */
 
-#include "../../include/Ephemerides/analytical_planets.h"
+#include "Ephemerides/analytical_planets.h"
 
 using namespace smartastro;
 using namespace ephemerides;

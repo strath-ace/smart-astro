@@ -7,7 +7,7 @@
 -------------- e-mail: francesco.torre@strath.ac.uk ------------------
 */
 
-#include "smartastro_utils.h"
+#include "AstroUtils/smartastro_utils.h"
 
 using namespace smartastro;
 

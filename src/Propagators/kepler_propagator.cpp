@@ -7,7 +7,7 @@
 -------- e-mail: smart@strath.ac.uk ------------------------------
 */
 
-#include "../../include/Propagators/kepler_propagator.h"
+#include "Propagators/kepler_propagator.h"
 
 using namespace smartastro;
 using namespace propagator;

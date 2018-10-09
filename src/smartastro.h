@@ -18,6 +18,6 @@
 
 #include "Ephemerides/smartastro_ephemerides.h"
 
-#include "smartastro_utils.h"
+#include "AstroUtils/smartastro_utils.h"
 
 #endif /* SMART_SMARTASTRO_H */

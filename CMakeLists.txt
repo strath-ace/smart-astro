@@ -7,7 +7,7 @@ project (smart-astro
 
 set(CMAKE_INCLUDE_SYSTEM_FLAG_C "-isystem")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 set(PROJECT_SUMMARY                            "Strathclyde Mechanical and Aerospace Research Toolbox for Astrodynamics (SMART-ASTRO)")
@@ -16,7 +16,7 @@ set(${PROJECT_NAME}_VENDOR_CONTACT             "spaceART@strathclyde.ac.uk")
 
 set(PROJECT_PATH                               "${CMAKE_CURRENT_SOURCE_DIR}")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}     "${PROJECT_PATH}/cmake/Modules")
-set(INCLUDE_PATH                               "${PROJECT_PATH}/include")
+set(INCLUDE_PATH                               "${PROJECT_PATH}/src")
 set(SRC_PATH                                   "${PROJECT_PATH}/src")
 set(TEST_SRC_PATH                              "${PROJECT_PATH}/test")
 if(NOT EXTERNAL_PATH)
@@ -192,7 +192,7 @@ endif()
 
 build_template("${INCLUDE_PATH}/config.h.in" "${INCLUDE_PATH}/config.h")
 
-include_directories(include)
+include_directories(src)
 include_directories(external)
 
 if(BUILD_STATIC)

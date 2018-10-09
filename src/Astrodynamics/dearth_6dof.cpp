@@ -14,8 +14,8 @@
 #include <iostream>
 #include <fstream>
 #include <map>
-#include "../../include/aero_database.h"
-#include "../../include/aero_database_heavy.h"
+#include "Astrodynamics/data/aero_database.h"
+#include "Astrodynamics/data/aero_database_heavy.h"
 
 #include "IRI_wrapper.h"
 #include "SCCal.h"

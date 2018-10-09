@@ -20,7 +20,7 @@
 #include <stdexcept>
 #include <cstdio>
 
-#include "constants.h"
+#include "../constants.h"
 #include "LinearAlgebra/Eigen/Core"
 #include "LinearAlgebra/Eigen/QR"
 
