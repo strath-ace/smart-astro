@@ -22,28 +22,37 @@
 #include <stdio.h>
 #include <string>
 
+using namespace std;
+
 int main()
 {
-
 
     double   et = 0.0;
     SpiceChar     utc[32];
 
     /*
-       load kernels: LSK, PCK, CASSINI SCLK, FK and CK
+       load LSK file
     */
-    furnsh_c ( "naif0012.tls" );
+    furnsh_c  ( "naif0012.tls" );
 
     /*
        convert UTC to ET
     */
-    ConstSpiceChar * string = "Oct 1, 1996 09:12:32";
+    str2et_c  ( "2005 DEC 31 12:00", &et );
 
     /*
-        add 1 day to ET and convert it back to UTC
+       add 1 day to ET and convert it back to UTC
     */
-    timout_c ( et+1.0, "YYYY-DOYTHR:MN:SC.### ::RND", 32, utc );
+    timout_c ( et+spd_c(), "YYYY-DOYTHR:MN:SC.### ::RND", 32, utc );
 
+    cout << endl;
+    cout << "et = " << et << endl;
+    cout << "utc = " ;
+    for (unsigned int i = 0 ; i < 32; i++)
+        cout << utc[i] ;
+    cout << endl;
+
+    cout << endl << "Welcome to template example" << endl;
 
     return 0;
 }

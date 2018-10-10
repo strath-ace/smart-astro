@@ -3,6 +3,7 @@
 /.project
 /build/
 /cmake-build-debug/
+/cmake-build-*
 /.idea/
 /.vscode/
 /include/config.h

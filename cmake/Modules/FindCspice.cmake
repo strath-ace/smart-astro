@@ -17,7 +17,7 @@ endif ()
 
 find_path(CSPICE_INCLUDE_DIR cspice/SpiceUsr.h
 #        HINTS "${_CSPICE_INCLUDE_LOCATIONS}"
-        PATHS "/usr/local/include" "${CSPICE_PKGCONF_INCLUDE_DIRS}"
+        PATHS "/usr/local/include/cspice/" "/usr/local/include/" "${CSPICE_PKGCONF_INCLUDE_DIRS}"
         )
 
 find_library(CSPICE_LIBRARY cspice.a

@@ -224,8 +224,8 @@ C*****ENTRY POINT  SHELLG  TO BE USED WITH GEODETIC CO-ORDINATES
       X(2)=X(1)*SIN(RLON)                                       
       X(1)=X(1)*COS(RLON)                                       
       GOTO9                                                     
-      ENTRY SHELLC(V,FL,B0)                                     
-C*****ENTRY POINT  SHELLC  TO BE USED WITH CARTESIAN CO-ORDINATES
+      ENTRY SHELLC2(V,FL,B0)
+C*****ENTRY POINT  SHELLC2  TO BE USED WITH CARTESIAN CO-ORDINATES
       X(1)=V(1)                                                  
       X(2)=V(2)                                                  
       X(3)=V(3)                                                  
