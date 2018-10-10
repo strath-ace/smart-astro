@@ -17,32 +17,33 @@
 
 #include "smartastro.h"
 
-#include <string>
-
 #include <cspice/SpiceUsr.h>
 
 #include <stdio.h>
+#include <string>
 
 int main()
 {
 
-    SpiceDouble   et;
+
+    double   et = 0.0;
     SpiceChar     utc[32];
 
     /*
-       load LSK file
+       load kernels: LSK, PCK, CASSINI SCLK, FK and CK
     */
-    furnsh_c  ( "naif0012.tls" );
+    furnsh_c ( "naif0012.tls" );
 
     /*
        convert UTC to ET
     */
-    str2et_c  ( "2005 DEC 31 12:00", &et );
+    ConstSpiceChar * string = "Oct 1, 1996 09:12:32";
 
     /*
-       add 1 day to ET and convert it back to UTC
+        add 1 day to ET and convert it back to UTC
     */
-    timout_c ( et+spd_c(), "YYYY-DOYTHR:MN:SC.### ::RND", 32, utc );
+    timout_c ( et+1.0, "YYYY-DOYTHR:MN:SC.### ::RND", 32, utc );
+
 
     return 0;
 }

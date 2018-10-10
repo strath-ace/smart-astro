@@ -50,21 +50,21 @@ option(ENABLE_WORHP            		           "eNLP solver"                    OFF
 option(ENABLE_GRAPHICS                         "X11 libraries (only UNIX systems)" OFF)
 option(ENABLE_MONGODB                          "MongoDB database"               OFF)
 
-if ("$ENV{CI}" STREQUAL "true")
-    set(before_install_output_file before_install_output.log)
-    set(before_install_error_file before_install_error.log)
-
-    message(STATUS "Executing before_install.sh script")
-    execute_process(COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/before_install.sh"
-            OUTPUT_FILE "${before_install_output_file}"
-            ERROR_FILE "${before_install_error_file}"
-            RESULT_VARIABLE before_install_code)
-    if ( NOT ${before_install_code} EQUAL 0 )
-        message(FATAL_ERROR "before_install.sh script failed with error code ${before_install_code}. See ${before_install_output_file} and ${before_install_error_file} logs for more details.")
-    endif()
-
-    mark_as_advanced(before_install_code before_install_output_file before_install_error_file)
-endif()
+#if ("$ENV{CI}" STREQUAL "true")
+#    set(before_install_output_file before_install_output.log)
+#    set(before_install_error_file before_install_error.log)
+#
+#    message(STATUS "Executing before_install.sh script")
+#    execute_process(COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/before_install.sh"
+#            OUTPUT_FILE "${before_install_output_file}"
+#            ERROR_FILE "${before_install_error_file}"
+#            RESULT_VARIABLE before_install_code)
+#    if ( NOT ${before_install_code} EQUAL 0 )
+#        message(FATAL_ERROR "before_install.sh script failed with error code ${before_install_code}. See ${before_install_output_file} and ${before_install_error_file} logs for more details.")
+#    endif()
+#
+#    mark_as_advanced(before_install_code before_install_output_file before_install_error_file)
+#endif()
 
 set(CMAKE_REQUIRED_LIBRARIES gfortran)
 include_directories("${IRILIB_PATH}")
@@ -152,48 +152,48 @@ elseif(CMAKE_BUILD_TYPE STREQUAL "Debug")
     message(STATUS "WARNING: building debug version!")
 endif()
 
-# Set platform-specific compiler flags.
-if(WIN32)
-    if(MSVC)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc /Ox /W3 /FC -D_SCL_SECURE_NO_WARNINGS -std=c++11")
-        # We need to force MSVC to use static runtime:
-        # (from http://www.cmake.org/Wiki/CMake_FAQ#Dynamic_Replace).
-        foreach(flag_var
-                CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
-                CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
-            # Find all dynamic runtime (MD) references and replace with static (MT)
-            if(${flag_var} MATCHES "/MD")
-                string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
-            endif()
-        endforeach()
-    else()
-        set(CMAKE_LEGACY_CYGWIN_WIN32 0)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Woverloaded-virtual -Wnon-virtual-dtor")
-    endif()
-else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Woverloaded-virtual -Wnon-virtual-dtor")
-endif()
+## Set platform-specific compiler flags.
+#if(WIN32)
+#    if(MSVC)
+#        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc /Ox /W3 /FC -D_SCL_SECURE_NO_WARNINGS -std=c++11")
+#        # We need to force MSVC to use static runtime:
+#        # (from http://www.cmake.org/Wiki/CMake_FAQ#Dynamic_Replace).
+#        foreach(flag_var
+#                CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
+#                CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+#            # Find all dynamic runtime (MD) references and replace with static (MT)
+#            if(${flag_var} MATCHES "/MD")
+#                string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
+#            endif()
+#        endforeach()
+#    else()
+#        set(CMAKE_LEGACY_CYGWIN_WIN32 0)
+#        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Woverloaded-virtual -Wnon-virtual-dtor")
+#    endif()
+#else()
+#    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Woverloaded-virtual -Wnon-virtual-dtor")
+#endif()
+#
+#if(CMAKE_COMPILER_IS_GNUCXX)
+#    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g3")
+#    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
+#
+#    #Flags for compiling mongocxx driver
+#    if(ENABLE_MONGODB)
+#        find_package(libmongocxx REQUIRED)
+#        find_package(libbsoncxx REQUIRED)
+#        include_directories(${LIBMONGOCXX_INCLUDE_DIR})
+#        include_directories(${LIBBSONCXX_INCLUDE_DIR})
+#        include_directories("${MONGOCXX_INSTALL_PREFIX}/include/mongocxx/v_noabi")
+#        include_directories("${MONGOCXX_INSTALL_PREFIX}/include/bsoncxx/v_noabi")
+#        include_directories("${MONGOCXX_INSTALL_PREFIX}/include/libmongoc-1.0")
+#        include_directories("${MONGOCXX_INSTALL_PREFIX}/include/libbson-1.0")
+#        include_directories("${MONGOCXX_INSTALL_PREFIX}/lib")
+#        set(MANDATORY_LIBRARIES ${MANDATORY_LIBRARIES} ${LIBMONGOCXX_LIBRARIES} ${LIBBSONCXX_LIBRARIES})
+#    endif()
+#endif()
 
-if(CMAKE_COMPILER_IS_GNUCXX)
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g3")
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
-
-    #Flags for compiling mongocxx driver
-    if(ENABLE_MONGODB)
-        find_package(libmongocxx REQUIRED)
-        find_package(libbsoncxx REQUIRED)
-        include_directories(${LIBMONGOCXX_INCLUDE_DIR})
-        include_directories(${LIBBSONCXX_INCLUDE_DIR})
-        include_directories("${MONGOCXX_INSTALL_PREFIX}/include/mongocxx/v_noabi")
-        include_directories("${MONGOCXX_INSTALL_PREFIX}/include/bsoncxx/v_noabi")
-        include_directories("${MONGOCXX_INSTALL_PREFIX}/include/libmongoc-1.0")
-        include_directories("${MONGOCXX_INSTALL_PREFIX}/include/libbson-1.0")
-        include_directories("${MONGOCXX_INSTALL_PREFIX}/lib")
-        set(MANDATORY_LIBRARIES ${MANDATORY_LIBRARIES} ${LIBMONGOCXX_LIBRARIES} ${LIBBSONCXX_LIBRARIES})
-    endif()
-endif()
-
-build_template("${INCLUDE_PATH}/config.h.in" "${INCLUDE_PATH}/config.h")
+#build_template("${INCLUDE_PATH}/config.h.in" "${INCLUDE_PATH}/config.h")
 
 include_directories(src)
 include_directories(external)
@@ -277,67 +277,67 @@ install(TARGETS ${LIB_NAME} ${LIB_NAME_STATIC} ${BIN_NAME}
         LIBRARY DESTINATION lib/${PROJECT_NAME}
         ARCHIVE DESTINATION lib/${PROJECT_NAME})
 
-add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package)
+#add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package)
 
 
 # Set up packager.
-if(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
-    include(InstallRequiredSystemLibraries)
-
-    set(CPACK_SET_DESTDIR "on")
-    set(CPACK_PACKAGING_INSTALL_PREFIX "/tmp")
-
-    set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
-    set(CPACK_PACKAGE_DESCRIPTION "${PROJECT_NAME}")
-    set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PROJECT_NAME}")
-    set(CPACK_PACKAGE_VENDOR "${PROJECT_NAME}_VENDOR_NAME")
-
-    set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE.md)
-    set(CPACK_RESOURCE_FILE_README ${CMAKE_SOURCE_DIR}/README.md)
-    set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
-    set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
-    set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
-    set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
-
-    set(CPACK_PACKAGE_DESCRIPTION_FILE "${PROJECT_PATH}/README.md")
-    set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_PATH}/LICENSE.md")
-
-    set(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}_${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
-    set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}_${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
-    set(CPACK_GENERATOR "ZIP")
-
-    # $LINUX_DISTRO Debian Redhat none
-    set(LINUX_DISTRO "none")
-    if(EXISTS "/etc/debian_version")
-        set ( LINUX_DISTRO "Debian")
-    elseif(EXISTS "/etc/redhat-release")
-        set ( LINUX_DISTRO "Redhat")
-    endif()
-
-    if (UNIX AND (LINUX_DISTRO STREQUAL "Debian"))
-        set(CPACK_GENERATOR "DEB")
-        set(CPACK_DEBIAN_PACKAGE_MAINTAINER "strathclydesmart.slack.com")
-        set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
-
-        execute_process(COMMAND dpkg --print-architecture OUTPUT_VARIABLE _CPACK_DEBIAN_PACKAGE_ARCHITECTURE)
-        string(STRIP ${_CPACK_DEBIAN_PACKAGE_ARCHITECTURE} _CPACK_DEBIAN_PACKAGE_ARCHITECTURE)
-        set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE ${_CPACK_DEBIAN_PACKAGE_ARCHITECTURE})
-
-        set(CPACK_DEBIAN_REVISON "a1")
-        set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CPACK_DEBIAN_REVISON}_${_CPACK_DEBIAN_PACKAGE_ARCHITECTURE}")
-        set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
-        set(CPACK_DEBIAN_COMPRESSION_TYPE "gzip")
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS "smart-math (>= 0.1.0); smart-uq (>= 1.0.0)")
-
-        mark_as_advanced(_CPACK_DEBIAN_PACKAGE_ARCHITECTURE)
-    elseif (WIN32)
-        # There is a bug in NSI that does not handle full unix paths properly. Make
-        # sure there is at least one set of four (4) backlasshes.
-        set(CPACK_GENERATOR "${CPACK_GENERATOR};NSIS")
-        set(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY}")
-        set(CPACK_NSIS_CONTACT "${PROJECT_NAME}_VENDOR_CONTACT")
-        set(CPACK_NSIS_MODIFY_PATH ON)
-    endif()
-
-    include(CPack)
-endif()
+#if(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
+#    include(InstallRequiredSystemLibraries)
+#
+#    set(CPACK_SET_DESTDIR "on")
+#    set(CPACK_PACKAGING_INSTALL_PREFIX "/tmp")
+#
+#    set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
+#    set(CPACK_PACKAGE_DESCRIPTION "${PROJECT_NAME}")
+#    set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PROJECT_NAME}")
+#    set(CPACK_PACKAGE_VENDOR "${PROJECT_NAME}_VENDOR_NAME")
+#
+#    set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE.md)
+#    set(CPACK_RESOURCE_FILE_README ${CMAKE_SOURCE_DIR}/README.md)
+#    set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
+#    set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+#    set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
+#    set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
+#
+#    set(CPACK_PACKAGE_DESCRIPTION_FILE "${PROJECT_PATH}/README.md")
+#    set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_PATH}/LICENSE.md")
+#
+#    set(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}_${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
+#    set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}_${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
+#    set(CPACK_GENERATOR "ZIP")
+#
+#    # $LINUX_DISTRO Debian Redhat none
+#    set(LINUX_DISTRO "none")
+#    if(EXISTS "/etc/debian_version")
+#        set ( LINUX_DISTRO "Debian")
+#    elseif(EXISTS "/etc/redhat-release")
+#        set ( LINUX_DISTRO "Redhat")
+#    endif()
+#
+#    if (UNIX AND (LINUX_DISTRO STREQUAL "Debian"))
+#        set(CPACK_GENERATOR "DEB")
+#        set(CPACK_DEBIAN_PACKAGE_MAINTAINER "strathclydesmart.slack.com")
+#        set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
+#
+#        execute_process(COMMAND dpkg --print-architecture OUTPUT_VARIABLE _CPACK_DEBIAN_PACKAGE_ARCHITECTURE)
+#        string(STRIP ${_CPACK_DEBIAN_PACKAGE_ARCHITECTURE} _CPACK_DEBIAN_PACKAGE_ARCHITECTURE)
+#        set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE ${_CPACK_DEBIAN_PACKAGE_ARCHITECTURE})
+#
+#        set(CPACK_DEBIAN_REVISON "a1")
+#        set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CPACK_DEBIAN_REVISON}_${_CPACK_DEBIAN_PACKAGE_ARCHITECTURE}")
+#        set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
+#        set(CPACK_DEBIAN_COMPRESSION_TYPE "gzip")
+#        set(CPACK_DEBIAN_PACKAGE_DEPENDS "smart-math (>= 0.1.0); smart-uq (>= 1.0.0)")
+#
+#        mark_as_advanced(_CPACK_DEBIAN_PACKAGE_ARCHITECTURE)
+#    elseif (WIN32)
+#        # There is a bug in NSI that does not handle full unix paths properly. Make
+#        # sure there is at least one set of four (4) backlasshes.
+#        set(CPACK_GENERATOR "${CPACK_GENERATOR};NSIS")
+#        set(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY}")
+#        set(CPACK_NSIS_CONTACT "${PROJECT_NAME}_VENDOR_CONTACT")
+#        set(CPACK_NSIS_MODIFY_PATH ON)
+#    endif()
+#
+#    include(CPack)
+#endif()

@@ -31,12 +31,12 @@ if(OPENMP_FOUND)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
 endif()
 
-if((CMAKE_COMPILER_IS_GNUCC) AND (CMAKE_BUILD_TYPE STREQUAL "Debug"))
-    # smart-uq requires __gcov_init and __gcov_merge_add symbols
-    set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} --coverage")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lgcov --coverage")
-endif()
+#if((CMAKE_COMPILER_IS_GNUCC) AND (CMAKE_BUILD_TYPE STREQUAL "Debug"))
+#    # smart-uq requires __gcov_init and __gcov_merge_add symbols
+#    set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} --coverage")
+#    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+#    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lgcov --coverage")
+#endif()
 
 # Graphics libraries
 if(ENABLE_GRAPHICS)
