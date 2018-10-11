@@ -217,7 +217,7 @@ else()
     set(LIB_NAME_STATIC "")
 endif ()
 
-add_library(${LIB_NAME} SHARED ${SRC} src/Ephemerides/base_ephemeris.cpp src/Ephemerides/base_ephemeris.h src/Ephemerides/analyticalPlanetsEphemeris.cpp src/Ephemerides/analyticalPlanetsEphemeris.h src/Ephemerides/keplerEphemeris.cpp src/Ephemerides/keplerEphemeris.h)
+add_library(${LIB_NAME} SHARED ${SRC})
 target_link_libraries(${LIB_NAME} ${SMART_MATH_LIBRARY} ${SMART_UQ_LIBRARY} ${MANDATORY_LIBRARIES} ${IRILIB_NAME})
 set_target_properties (${LIB_NAME} PROPERTIES
         VERSION ${PROJECT_VERSION}

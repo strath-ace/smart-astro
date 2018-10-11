@@ -1,6 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/* */
 /*
 ------ Copyright (C) 2018 University of Strathclyde and Authors ------
 -------------------- e-mail: c.greco@strath.ac.uk --------------------
@@ -16,6 +16,9 @@
 #include <cstdlib>
 
 #include "smartastro.h"
+#include "AstroData/SpiceKernels/spiceKernelNames.h"
+#include "Ephemerides/spiceEphemeris.h"
+
 
 #include <cspice/SpiceUsr.h>
 
@@ -27,32 +30,55 @@ using namespace std;
 int main()
 {
 
-    double   et = 0.0;
-    SpiceChar     utc[32];
+    string  SPK (smartastro::spiceKernels::planets);
+
 
     /*
-       load LSK file
+    Local variables
     */
-    furnsh_c  ( "naif0012.tls" );
+    SpiceDouble    et = 0.0;
+    SpiceDouble    lt;
+    SpiceDouble    state [6];
+
 
     /*
-       convert UTC to ET
-    */
-    str2et_c  ( "2005 DEC 31 12:00", &et );
+     * Load the spk file.
+     */
+    furnsh_c ( SPK.c_str() );
+    furnsh_c ( smartastro::spiceKernels::leap.c_str() );
 
-    /*
-       add 1 day to ET and convert it back to UTC
-    */
-    timout_c ( et+spd_c(), "YYYY-DOYTHR:MN:SC.### ::RND", 32, utc );
+    // Convert time
+    str2et_c("2000 Jan 01 12:00:00",&et);
 
+    // find position
+    spkezr_c ( "moon",    et,     "J2000",  "NONE",
+               "earth",  state,  &lt             );
+
+    cout << "state = ";
+    for (unsigned int i = 0 ; i < 6 ; i++)
+        cout << state[i] << " ";
     cout << endl;
-    cout << "et = " << et << endl;
-    cout << "utc = " ;
-    for (unsigned int i = 0 ; i < 32; i++)
-        cout << utc[i] ;
+
+    /**
+     * Now try with ephemerides
+     */
+    smartastro::ephemerides::spiceEphemeris::spiceEphemerisParams epParams;
+    epParams.observer = "earth";
+    epParams.target   = "moon";
+    epParams.abberrationCorrection = "NONE";
+    epParams.referenceFrame = "J2000";
+    epParams.kernelToLoad = vector<string>(1,SPK);
+
+    smartastro::ephemerides::spiceEphemeris spiceEp (&epParams);
+
+    double mjd2000 = 0.0;
+    vector<double> epState = spiceEp.getCartesianState(mjd2000);
+
+    cout << "state = ";
+    for (unsigned int i = 0 ; i < 6 ; i++)
+        cout << epState[i] << " ";
     cout << endl;
 
-    cout << endl << "Welcome to template example" << endl;
 
     return 0;
 }

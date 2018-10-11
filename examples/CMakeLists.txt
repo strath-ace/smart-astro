@@ -1,7 +1,8 @@
 add_executable(example_template example_template.cpp)
 target_link_libraries(example_template ${LIB_NAME} ${MANDATORY_LIBRARIES})
 if(ENABLE_CSPICE)
-    file(COPY "${SRC_PATH}/AstroData/SpiceKernels/lsk/" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+    file(COPY "${SRC_PATH}/AstroData/SpiceKernels/lsk/" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/SpiceKernels/lsk/")
+    file(COPY "${SRC_PATH}/AstroData/SpiceKernels/spk/" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/SpiceKernels/spk/")
 endif()
 
 #add_executable(example_OPPED_IPA_3dof example_OPPED_IPA_3dof.cpp)

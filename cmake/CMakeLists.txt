@@ -19,6 +19,9 @@ endif()
 
 # Cspice
 if (ENABLE_CSPICE)
+    # Add compiler flag
+    add_definitions(-D__USE_CSPICE)
+
     include(cmake/External/cspice.cmake)
     list (APPEND MANDATORY_LIBRARIES ${CSPICE_LIBRARY})
     include_directories(${CSPICE_INCLUDE_DIR})
