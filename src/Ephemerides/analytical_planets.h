@@ -36,7 +36,7 @@ namespace smartastro{
              * @param[out] kep orbital elements (semi-major axis is in kilometers and angles in radians, angular variable is true anomaly)
              * @return exit flag (0=success)
              */
-            static bool get_orbel(const double &mjd, const int &index_planet, std::vector<double> &kep);
+            static bool get_orbel(const double &mjd2000, const int &index_planet, std::vector<double> &kep);
 
         };
     }

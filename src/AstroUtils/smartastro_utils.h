@@ -19,6 +19,8 @@
 #include <memory>
 #include <stdexcept>
 #include <cstdio>
+#include <cctype>
+#include <functional>
 
 #include "../constants.h"
 #include "LinearAlgebra/Eigen/Core"
@@ -126,7 +128,17 @@ namespace smartastro
          * @return
          */
         static I random_element(I begin, I end);
+
     };
+
+    /**
+     * Compare two strings neglecting case sensitive differences
+     * @param str1: first string to compare
+     * @param str2: second string to compare
+     * @return true if equal, false otherwise
+     */
+    bool caseInsensitiveStringEqual( const std::string& str1, const std::string& str2 );
+
 }
 
 #endif // SMARTASTRO_UTILS_H

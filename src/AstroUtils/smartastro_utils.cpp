@@ -151,3 +151,25 @@ static I random_element(I begin, I end)
     std::advance(begin, k);
     return begin;
 }
+
+
+
+
+/**
+ * Compare two strings neglecting case sensitive differences
+ * @param str1: first string to compare
+ * @param str2: second string to compare
+ * @return true if equal, false otherwise
+ */
+bool smartastro::caseInsensitiveStringEqual( const std::string& str1, const std::string& str2 )
+{
+    // Define function to compare
+    std::function<bool(char,char)> caseInsensitiveCharEqual =
+            [](char a, char b) -> bool { return (std::toupper(a)==std::toupper(b)); };
+
+    // Return bool
+    return (
+            (str1.size()==str2.size()) &&
+            equal(str1.begin(),str1.end(),str2.begin(),caseInsensitiveCharEqual)
+            );
+}

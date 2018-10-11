@@ -13,7 +13,7 @@ using namespace smartastro;
 using namespace ephemerides;
 
 
-bool analytical_planets::get_orbel(const double &mjd, const int &index_planet, std::vector<double> &kep){
+bool analytical_planets::get_orbel(const double &mjd2000, const int &index_planet, std::vector<double> &kep){
 
     /** sanity checks **/
     if((index_planet<1)||(index_planet>8))
@@ -22,10 +22,6 @@ bool analytical_planets::get_orbel(const double &mjd, const int &index_planet, s
         smartastro_throw("ANALYTICAL_PLANETS: vector of orbital elements must have 6 components");    
 
     double XM;
-
-    // Convert input date to MJD2000
-    double mjd2000;
-    astrocore::conversion_time::mjd2mjd2000(mjd,mjd2000);
 
     //  T = JULIAN CENTURIES SINCE 31/12/1899 at 12:00
     double T   = (mjd2000 + 36525.0)/36525.0;

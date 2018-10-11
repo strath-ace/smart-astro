@@ -10,7 +10,7 @@
 #ifndef SMARTASTRO_EPHEMERIDES_H
 #define SMARTASTRO_EPHEMERIDES_H
 
-//#include "base_ephemerides.h"
+//#include "base_ephemeris.h"
 #include "analytical_planets.h"
 
 #endif // SMARTASTRO_EPHEMERIDES_H
