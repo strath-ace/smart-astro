@@ -3,6 +3,8 @@ target_link_libraries(example_template ${LIB_NAME} ${MANDATORY_LIBRARIES})
 if(ENABLE_CSPICE)
     file(COPY "${SRC_PATH}/AstroData/SpiceKernels/lsk/" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/SpiceKernels/lsk/")
     file(COPY "${SRC_PATH}/AstroData/SpiceKernels/spk/" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/SpiceKernels/spk/")
+    file(COPY "${SRC_PATH}/AstroData/SpiceKernels/fk/" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/SpiceKernels/fk/")
+    file(COPY "${SRC_PATH}/AstroData/SpiceKernels/pck/" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/SpiceKernels/pck/")
 endif()
 
 #add_executable(example_OPPED_IPA_3dof example_OPPED_IPA_3dof.cpp)

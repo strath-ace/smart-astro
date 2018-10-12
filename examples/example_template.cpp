@@ -18,6 +18,7 @@
 #include "smartastro.h"
 #include "AstroData/SpiceKernels/spiceKernelNames.h"
 #include "Ephemerides/spiceEphemeris.h"
+#include "Sensors/smartastro_sensors.h"
 
 
 #include <cspice/SpiceUsr.h>
@@ -26,12 +27,15 @@
 #include <string>
 
 using namespace std;
+using namespace smartastro;
+using namespace ephemerides;
+using namespace spiceKernels;
+using namespace sensors;
 
-int main()
+int moonFromEarth()
 {
 
-    string  SPK (smartastro::spiceKernels::planets);
-
+    string  SPK (smartastro::spiceKernels::planetsEph);
 
     /*
     Local variables
@@ -79,6 +83,506 @@ int main()
         cout << epState[i] << " ";
     cout << endl;
 
+
+    return 0;
+}
+
+int sunAzimuthElevationFromStation()
+{
+
+    std::string  META ("spkcpo.tm");
+    std::string  TIMFMT ("YYYY MON DD HR:MN:SC.###### UTC");
+    std::string  TIMFM2 ("YYYY MON DD HR:MN:SC.###### TDB ::TDB");
+    int          TIMLEN =  41;
+
+    /*
+     *   Local variables
+     */
+    ConstSpiceChar             * abcorr;
+    SpiceChar               emitim  [ TIMLEN ];
+    SpiceChar               epcstr  [ TIMLEN ];
+    ConstSpiceChar             * refloc;
+    ConstSpiceChar             * obsctr;
+    ConstSpiceChar             * obsref;
+    ConstSpiceChar             * obstim;
+    ConstSpiceChar             * outref;
+    ConstSpiceChar             * target;
+
+    SpiceDouble             az;
+    SpiceDouble             el;
+    SpiceDouble             et;
+    SpiceDouble             lat;
+    SpiceDouble             lon;
+    SpiceDouble             lt0;
+    SpiceDouble             obsepc;
+    SpiceDouble             obspos [ 3 ];
+    SpiceDouble             r;
+    SpiceDouble             state0 [ 6 ];
+
+
+    /*
+    Load SPICE kernels.
+                       */
+    std::vector<std::string> kernelToLoad ;
+    kernelToLoad.push_back(leap);
+    kernelToLoad.push_back(planetsEph);
+    kernelToLoad.push_back(planetsData);
+    kernelToLoad.push_back(earthHighAccOrientation);
+    kernelToLoad.push_back(groundStationEph);
+    kernelToLoad.push_back(groundStationTopo);
+
+    for (unsigned int i = 0 ; i < kernelToLoad.size(); i++)
+        furnsh_c ( kernelToLoad[i].c_str() );
+
+    /*
+    Convert the observation time to seconds past J2000 TDB.
+                                                               */
+    obstim = "2003 OCT 13 06:00:00.000000 UTC";
+    str2et_c ( obstim, &et );
+
+    /*
+    Set the target, observer center, and observer frame.
+                                                          */
+    target = "SUN";
+    obsctr = "EARTH";
+    obsref = "ITRF93";
+
+    /*
+    Set the position of DSS-14 relative to the earth's
+    center at the J2000 epoch, expressed in the
+    ITRF93 reference frame. Values come from the
+    earth station SPK specified in the meta-kernel.
+
+            The actual station velocity is non-zero due
+    to tectonic plate motion; we ignore the motion
+    in this example. See the routine SPKCVO for an
+    example in which the plate motion is accounted for.
+    */
+    obsepc    =  0.0;
+
+    obspos[0] =  -2353.6213656676991;
+    obspos[1] =  -4641.3414911499403;
+    obspos[2] =   3677.0523293197439;
+
+    /*
+        compute geometric state of observer relative to Earth center
+    */
+    SpiceDouble   state[6];
+    SpiceDouble   lt;
+    spkezr_c ( "DSS-14", et, "ITRF93", "NONE", "EARTH", state,
+               &lt );
+
+    cout << "DSS-14 state = " ;
+    for (unsigned int i = 0 ; i < 6 ; i++)
+        cout << state[i] << " " ;
+    cout << endl;
+
+    /*
+    Find the apparent state of the sun relative
+    to the station in the DSS-14_TOPO reference frame.
+            Evaluate the output frame's orientation, that is the
+    orientation of the DSS-14_TOPO frame relative to the
+    J2000 frame, at the observation epoch. This
+    correction is obtained by setting `refloc' to
+    "OBSERVER".
+            */
+
+    outref = "DSS-14_TOPO";
+    abcorr = "CN+S";
+
+    refloc = "OBSERVER";
+
+    /*
+    Compute the observer-target state.
+                                        */
+    spkcpo_c ( target, et,     outref, refloc,
+               abcorr, obspos, obsctr,
+               obsref, state0, &lt0            );
+
+    /*
+    Compute planetocentric coordinates of the
+    observer-target position in the local
+    topocentric reference frame DSS-14_TOPO.
+                                            */
+    reclat_c ( state0, &r, &lon, &lat );
+
+    /*
+    Compute solar azimuth. The latitude we've
+    already computed is the elevation. Express
+    both angles in degrees.
+                           */
+    el =   lat * dpr_c();
+    az = - lon * dpr_c();
+
+    if ( az < 0.0 )
+    {
+        az +=  360.0;
+    }
+
+    /*
+    Display the computed state, light time. and angles.
+                                                        */
+    timout_c ( et-lt0, TIMFMT.c_str(), TIMLEN, emitim );
+    timout_c ( obsepc, TIMFM2.c_str(), TIMLEN, epcstr );
+
+    printf ( "\n"
+             " Frame evaluation locus:     %s\n"
+             "\n"
+             " Target:                     %s\n"
+             " Observation time:           %s\n"
+             " Observer center:            %s\n"
+             " Observer-center state time: %s\n"
+             " Observer frame:             %s\n"
+             " Emission time:              %s\n"
+             " Output reference frame:     %s\n"
+             " Aberration correction:      %s\n"
+             "\n"
+             " Observer-target position (km):\n"
+             "   %20.8f %20.8f %20.8f\n"
+             " Observer-target velocity (km/s):\n"
+             "   %20.8f %20.8f %20.8f\n"
+             " Light time (s):        %20.8f\n",
+
+             refloc,    target,    obstim,    obsctr,
+             epcstr,    obsref,    emitim,    outref,
+             abcorr,    state0[0], state0[1], state0[2],
+             state0[3], state0[4], state0[5], lt0   );
+
+    printf ( "\n"
+             " Solar azimuth (deg):   %20.8f\n"
+             " Solar elevation (deg): %20.8f\n",
+             az, el                             );
+
+
+    /*
+     * UnLoad SPICE kernels.
+     */
+    for (unsigned int i = 0 ; i < kernelToLoad.size(); i++)
+        unload_c ( kernelToLoad[i].c_str() );
+
+    return 0;
+}
+
+
+
+int sunAzimuthElevationFromSensor()
+{
+
+    std::string  TIMFMT ("YYYY MON DD HR:MN:SC.###### UTC");
+    std::string  TIMFMT3 ("JD .############");
+    std::string  TIMFM2 ("YYYY MON DD HR:MN:SC.###### TDB ::TDB");
+    int          TIMLEN =  41;
+
+    /*
+     *   Local variables
+     */
+    ConstSpiceChar             * abcorr;
+    SpiceChar               emitim  [ TIMLEN ];
+    SpiceChar               epcstr  [ TIMLEN ];
+    ConstSpiceChar             * refloc;
+    ConstSpiceChar             * obsctr;
+    ConstSpiceChar             * obsref;
+    ConstSpiceChar             * obstim;
+    ConstSpiceChar             * outref;
+    ConstSpiceChar             * target;
+
+    SpiceDouble             az;
+    SpiceDouble             el;
+    SpiceDouble             et;
+    SpiceDouble             lat;
+    SpiceDouble             lon;
+    SpiceDouble             lt0;
+    SpiceDouble             obsepc;
+    SpiceDouble             obspos [ 3 ];
+    SpiceDouble             r;
+    SpiceDouble             state0 [ 6 ];
+
+
+    /*
+    Load SPICE kernels.
+                       */
+    std::vector<std::string> kernelToLoad ;
+    kernelToLoad.push_back(leap);
+    kernelToLoad.push_back(planetsEph);
+    kernelToLoad.push_back(planetsData);
+    kernelToLoad.push_back(earthHighAccOrientation);
+    kernelToLoad.push_back(groundStationEph);
+    kernelToLoad.push_back(groundStationTopo);
+
+    for (unsigned int i = 0 ; i < kernelToLoad.size(); i++)
+        furnsh_c ( kernelToLoad[i].c_str() );
+
+    /*
+    Convert the observation time to seconds past J2000 TDB.
+                                                               */
+    obstim = "2451545.000000 JD";
+    str2et_c ( obstim, &et );
+
+    timout_c ( et, TIMFMT.c_str(), TIMLEN, emitim );
+
+
+    printf ( "\n"
+             " Emission time:              %s\n",
+             emitim   );
+
+
+    // Convert to julian dates
+    cout << setprecision(25) << "et = " << et << endl;
+
+    et = 0.0;
+    double jd = unitim_c(et,"ET","JED");
+    cout << setprecision(15) << "Julian date = " << jd << endl; // 2452925.75074285
+
+    // Convert jd in seconds after 2000-01-01 noon
+    et = unitim_c(2451545.000000,"JED","ET");
+    cout << setprecision(25) << "et = " << et << endl;
+
+    return 0;
+
+    /*
+    Set the target, observer center, and observer frame.
+                                                          */
+    target = "SUN";
+    obsctr = "EARTH";
+    obsref = "ITRF93";
+
+    /*
+    Set the position of DSS-14 relative to the earth's
+    center at the J2000 epoch, expressed in the
+    ITRF93 reference frame. Values come from the
+    earth station SPK specified in the meta-kernel.
+
+            The actual station velocity is non-zero due
+    to tectonic plate motion; we ignore the motion
+    in this example. See the routine SPKCVO for an
+    example in which the plate motion is accounted for.
+    */
+
+    obsepc    =  0.0;
+
+    obspos[0] =  -2353.6213656676991;
+    obspos[1] =  -4641.3414911499403;
+    obspos[2] =   3677.0523293197439;
+
+    /*
+    compute geometric state of observer relative to Earth center
+        */
+
+
+    /*
+    Find the apparent state of the sun relative
+    to the station in the DSS-14_TOPO reference frame.
+            Evaluate the output frame's orientation, that is the
+    orientation of the DSS-14_TOPO frame relative to the
+    J2000 frame, at the observation epoch. This
+    correction is obtained by setting `refloc' to
+    "OBSERVER".
+            */
+
+    outref = "DSS-14_TOPO";
+    abcorr = "CN+S";
+
+    refloc = "OBSERVER";
+
+    /*
+    Compute the observer-target state.
+                                        */
+    spkcpo_c ( target, et,     outref, refloc,
+               abcorr, obspos, obsctr,
+               obsref, state0, &lt0            );
+
+    /*
+    Compute planetocentric coordinates of the
+    observer-target position in the local
+    topocentric reference frame DSS-14_TOPO.
+                                            */
+    reclat_c ( state0, &r, &lon, &lat );
+
+    /*
+    Compute solar azimuth. The latitude we've
+    already computed is the elevation. Express
+    both angles in degrees.
+                           */
+    el =   lat * dpr_c();
+    az = - lon * dpr_c();
+
+    if ( az < 0.0 )
+    {
+        az +=  360.0;
+    }
+
+    /*
+    Display the computed state, light time. and angles.
+                                                        */
+    timout_c ( et-lt0, TIMFMT.c_str(), TIMLEN, emitim );
+    timout_c ( obsepc, TIMFM2.c_str(), TIMLEN, epcstr );
+
+    printf ( "\n"
+             " Frame evaluation locus:     %s\n"
+             "\n"
+             " Target:                     %s\n"
+             " Observation time:           %s\n"
+             " Observer center:            %s\n"
+             " Observer-center state time: %s\n"
+             " Observer frame:             %s\n"
+             " Emission time:              %s\n"
+             " Output reference frame:     %s\n"
+             " Aberration correction:      %s\n"
+             "\n"
+             " Observer-target position (km):\n"
+             "   %20.8f %20.8f %20.8f\n"
+             " Observer-target velocity (km/s):\n"
+             "   %20.8f %20.8f %20.8f\n"
+             " Light time (s):        %20.8f\n",
+
+             refloc,    target,    obstim,    obsctr,
+             epcstr,    obsref,    emitim,    outref,
+             abcorr,    state0[0], state0[1], state0[2],
+             state0[3], state0[4], state0[5], lt0   );
+
+    printf ( "\n"
+             " Solar azimuth (deg):   %20.8f\n"
+             " Solar elevation (deg): %20.8f\n",
+             az, el                             );
+
+
+
+
+
+
+
+    /**
+     * Use sensors and ephemerides now
+     *
+     */
+
+
+
+    /**
+     * Ephemerides for Ground station
+     */
+    spiceEphemeris::spiceEphemerisParams groundStationParams;
+    groundStationParams.referenceFrame        = "DSS-14_TOPO";
+    groundStationParams.abberrationCorrection = "CN+S";
+    groundStationParams.observer              = "DSS-14";
+    groundStationParams.target                = "DSS-14";
+
+    spiceEphemeris groundStationEphemeris (&groundStationParams);
+
+    // Link function to compute station position
+    function<vector<double>(double)> getStationState = bind(&spiceEphemeris::getCartesianState,
+                                                            groundStationEphemeris,
+                                                            placeholders::_1);
+
+    /**
+     * Ephemerides for Sun
+     */
+    spiceEphemeris::spiceEphemerisParams sunParams;
+    sunParams.referenceFrame        = "DSS-14_TOPO";
+    sunParams.abberrationCorrection = "CN+S";
+    sunParams.observer              = "DSS-14";
+    sunParams.target                = "SUN";
+
+    spiceEphemeris sunEphemeris (&sunParams);
+
+    // Link function to compute station position
+    function<vector<double>(double)> getSunState = bind(&spiceEphemeris::getCartesianState,
+                                                        sunEphemeris,
+                                                        placeholders::_1);
+
+
+
+
+    // Check
+    vector<double> sunState = getSunState(jd);
+    vector<double> staState = getStationState(jd);
+    vector<double> relState (6);
+    for (unsigned int i = 0 ;i < 6 ; i++)
+        relState[i] = sunState[i]-staState[i];
+
+    cout << "Sun State = ";
+    for (unsigned int i = 0 ;i < 6 ; i++)
+        cout << sunState[i] << " ";
+    cout << endl;
+    cout << "Sta State = ";
+    for (unsigned int i = 0 ;i < 6 ; i++)
+        cout << staState[i] << " ";
+    cout << endl;
+    cout << "Rel State = ";
+    for (unsigned int i = 0 ;i < 6 ; i++)
+        cout << relState[i] << " ";
+    cout << endl << endl;
+
+
+    vector<double> relPosExam = {62512272.90368657,    58967494.62145661 , -122059095.32917914};
+    vector<double> relPos = getSunState(jd);
+
+
+    /**
+     * Create sensor
+     */
+
+    rangeSensor::sensorParams sParams;
+    sParams.getSensorEphemeris = getStationState;
+    sParams.getTargetEphemeris = getSunState;
+
+    //range
+    rangeSensor range(&sParams);
+
+    cout << "JD = " << jd << "; Range Ephemeris = " << range.getMeasurement(jd) << endl;
+    cout << "JD = " << jd << "; Range Cspice    = " << sqrt(pow(relPosExam[0],2.0)+pow(relPosExam[1],2.0)+pow(relPosExam[2],2.0)) << endl;
+    cout << endl;
+
+
+    // Elevation-azimuth
+    azimuthElevationSensor azEl(&sParams);
+
+    vector<double> azElMeas = azEl.getMeasurement(jd);
+
+    cout << "JD = " << jd << "; Az = " << azElMeas[0]*180.0/M_PI << "; El = " << azElMeas[1]*180.0/M_PI << endl;
+    cout << "JD = " << jd << "; Az = " << az  << "; El = " << el  << endl;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+     * UnLoad SPICE kernels.
+     */
+    for (unsigned int i = 0 ; i < kernelToLoad.size(); i++)
+        unload_c ( kernelToLoad[i].c_str() );
+
+    return 0;
+}
+
+
+
+int main()
+{
+
+    // Compute Moon position from Earth using ephemerides
+//    moonFromEarth();
+
+
+    // Compute Sun azimuth and elevation from spice routine
+//    sunAzimuthElevationFromStation();
+
+    sunAzimuthElevationFromSensor();
 
     return 0;
 }

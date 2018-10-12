@@ -89,11 +89,11 @@ namespace ephemerides {
         /**
          * getCartesianState: Function that returns object position-velocity for time t
          *
-         * @param mjd2000: time at which the Cartesian State is desired in mjd2000 (time system is defined in derived classes)
-         * @return Cartesian state at time mjd2000
+         * @param jd: time at which the Cartesian State is desired in jd
+         * @return Cartesian state at time jd
          *
          */
-        virtual std::vector<double> getCartesianState( const double& mjd2000 ) const ;
+        virtual std::vector<double> getCartesianState( const double& jd ) const ;
 
 
     }; // class spiceEphemeris

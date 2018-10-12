@@ -18,10 +18,23 @@ namespace spiceKernels
 {
 
     // Leap seconds
-    const std::string       leap    = "SpiceKernels/lsk/naif0012.tls";
+    const std::string       leap                    = "SpiceKernels/lsk/naif0012.tls";
 
     // Planetary kernels
-    const std::string       planets = "SpiceKernels/spk/de432s.bsp";
+    const std::string       planetsEph              = "SpiceKernels/spk/de432s.bsp";
+
+    // Planetary Orientation
+    const std::string       planetsData             = "SpiceKernels/pck/pck00010.tpc";
+
+    // Earth high accuracy orientation data
+    const std::string       earthHighAccOrientation = "SpiceKernels/pck/earth_720101_070426.bpc";
+
+    // Ground station ephemerides
+    const std::string       groundStationEph        = "SpiceKernels/spk/earthstns_itrf93_050714.bsp";
+
+    // Ground station topocentric frame
+    const std::string       groundStationTopo       = "SpiceKernels/fk/earth_topo_050714.tf";
+
 
 } // namespace spiceKernels
 } // namespace smartastro

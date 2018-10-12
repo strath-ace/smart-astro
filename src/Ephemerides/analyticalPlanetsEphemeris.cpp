@@ -49,19 +49,22 @@ analyticalPlanetsEphemeris::~analyticalPlanetsEphemeris()
 
 
 /**
- * getKeplerianState: Function that returns object keplerian State for time t mjd2000
+ * getKeplerianState: Function that returns object keplerian State for time t jd
  *
- * @param mjd: modified Julian Date 2000 at which the Cartesian State is desired
- * @return Keplerian state at mjd2000
+ * @param mjd: Julian Date at which the Cartesian State is desired
+ * @return Keplerian state at jd
  *         a [km], e [-], i [rad], RAAN [rad], argument of pericenter [rad], true anomaly [rad]
  *
  */
-std::vector<double> analyticalPlanetsEphemeris::getKeplerianState( const double& mjd2000 ) const
+std::vector<double> analyticalPlanetsEphemeris::getKeplerianState( const double& jd ) const
 {
     // Outpiut vector
     std::vector<double> kep(6);
 
-    // Call external routine
+    // Call external routine which uses mjd2000
+    double mjd2000;
+    smartastro::astrocore::conversion_time::jd2mjd2000(jd,mjd2000);
+
     analytical_planets::get_orbel(mjd2000,m_ID,kep);
 
     // Return output value

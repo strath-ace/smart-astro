@@ -46,15 +46,14 @@ spiceEphemeris::~spiceEphemeris()
 /**
  * getCartesianState: Function that returns object position-velocity for time t
  *
- * @param mjd2000: time at which the Cartesian State is desired in mjd2000 (time system is defined in derived classes)
- * @return Cartesian state at time mjd2000
+ * @param jd: time at which the Cartesian State is desired in jd (time system is defined in derived classes)
+ * @return Cartesian state at time jd
  *
  */
 
-std::vector<double> spiceEphemeris::getCartesianState( const double& mjd2000 ) const
+std::vector<double> spiceEphemeris::getCartesianState( const double& jd ) const
 {
     // Variables
-    double jd;
     SpiceDouble et, lt, state[6];
     std::vector<double> car(6);
 
@@ -63,12 +62,8 @@ std::vector<double> spiceEphemeris::getCartesianState( const double& mjd2000 ) c
     for (unsigned int i = 0 ; i < m_pParams->kernelToLoad.size(); i++)
         furnsh_c(m_pParams->kernelToLoad[i].c_str());
 
-    // Convert mjd2000 in jd
-    smartastro::astrocore::conversion_time::mjd20002jd(mjd2000,jd);
-
-    // Convert mjd2000 in seconds after 2000-01-01 noon
-    std::string jdString ("jd " + std::to_string((double)jd));
-    str2et_c(jdString.c_str(),&et);
+    // Convert jd in seconds after 2000-01-01 noon
+    et = unitim_c(jd,"JED","ET");
 
     // Get Cartesian state
     spkezr_c( m_pParams->target.c_str(), et,

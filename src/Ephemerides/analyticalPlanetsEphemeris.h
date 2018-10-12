@@ -87,13 +87,13 @@ namespace ephemerides {
 
 
         /**
-         * getKeplerianState: Function that returns object keplerian State for time t mjd2000
+         * getKeplerianState: Function that returns object keplerian State for time t jd
          *
-         * @param mjd: modified Julian Date 2000 at which the Cartesian State is desired
-         * @return Keplerian state at mjd2000
+         * @param jd: Julian Date at which the Cartesian State is desired
+         * @return Keplerian state at jd
          *         a [km], e [-], i [rad], RAAN [rad], argument of pericenter [rad], true anomaly [rad]
          */
-        std::vector<double> getKeplerianState( const double& mjd2000 ) const ;
+        std::vector<double> getKeplerianState( const double& jd ) const ;
 
 
 
