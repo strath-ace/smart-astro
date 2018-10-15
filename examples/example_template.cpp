@@ -143,7 +143,7 @@ int sunAzimuthElevationFromStation()
     /*
     Set the target, observer center, and observer frame.
                                                           */
-    target = "SUN";
+    target = "MOON";
     obsctr = "EARTH";
     obsref = "ITRF93";
 
@@ -318,31 +318,14 @@ int sunAzimuthElevationFromSensor()
     obstim = "2451545.000000 JD";
     str2et_c ( obstim, &et );
 
-    timout_c ( et, TIMFMT.c_str(), TIMLEN, emitim );
+    double jd = et ; //unitim_c(et,"ET","JED");
 
 
-    printf ( "\n"
-             " Emission time:              %s\n",
-             emitim   );
-
-
-    // Convert to julian dates
-    cout << setprecision(25) << "et = " << et << endl;
-
-    et = 0.0;
-    double jd = unitim_c(et,"ET","JED");
-    cout << setprecision(15) << "Julian date = " << jd << endl; // 2452925.75074285
-
-    // Convert jd in seconds after 2000-01-01 noon
-    et = unitim_c(2451545.000000,"JED","ET");
-    cout << setprecision(25) << "et = " << et << endl;
-
-    return 0;
 
     /*
     Set the target, observer center, and observer frame.
                                                           */
-    target = "SUN";
+    target = "MOON";
     obsctr = "EARTH";
     obsref = "ITRF93";
 
@@ -358,7 +341,7 @@ int sunAzimuthElevationFromSensor()
     example in which the plate motion is accounted for.
     */
 
-    obsepc    =  0.0;
+    obsepc    =  et;
 
     obspos[0] =  -2353.6213656676991;
     obspos[1] =  -4641.3414911499403;
@@ -464,7 +447,7 @@ int sunAzimuthElevationFromSensor()
     spiceEphemeris::spiceEphemerisParams groundStationParams;
     groundStationParams.referenceFrame        = "DSS-14_TOPO";
     groundStationParams.abberrationCorrection = "CN+S";
-    groundStationParams.observer              = "DSS-14";
+    groundStationParams.observer              = "EARTH";
     groundStationParams.target                = "DSS-14";
 
     spiceEphemeris groundStationEphemeris (&groundStationParams);
@@ -480,8 +463,8 @@ int sunAzimuthElevationFromSensor()
     spiceEphemeris::spiceEphemerisParams sunParams;
     sunParams.referenceFrame        = "DSS-14_TOPO";
     sunParams.abberrationCorrection = "CN+S";
-    sunParams.observer              = "DSS-14";
-    sunParams.target                = "SUN";
+    sunParams.observer              = "EARTH";
+    sunParams.target                = "MOON";
 
     spiceEphemeris sunEphemeris (&sunParams);
 
@@ -502,26 +485,22 @@ int sunAzimuthElevationFromSensor()
 
     cout << "Sun State = ";
     for (unsigned int i = 0 ;i < 6 ; i++)
-        cout << sunState[i] << " ";
+        cout << setprecision(15) << sunState[i] << " ";
     cout << endl;
     cout << "Sta State = ";
     for (unsigned int i = 0 ;i < 6 ; i++)
-        cout << staState[i] << " ";
+        cout << setprecision(15) << staState[i] << " ";
     cout << endl;
     cout << "Rel State = ";
     for (unsigned int i = 0 ;i < 6 ; i++)
-        cout << relState[i] << " ";
+        cout << setprecision(15) << relState[i] << " ";
     cout << endl << endl;
 
-
-    vector<double> relPosExam = {62512272.90368657,    58967494.62145661 , -122059095.32917914};
-    vector<double> relPos = getSunState(jd);
 
 
     /**
      * Create sensor
      */
-
     rangeSensor::sensorParams sParams;
     sParams.getSensorEphemeris = getStationState;
     sParams.getTargetEphemeris = getSunState;
@@ -529,8 +508,8 @@ int sunAzimuthElevationFromSensor()
     //range
     rangeSensor range(&sParams);
 
-    cout << "JD = " << jd << "; Range Ephemeris = " << range.getMeasurement(jd) << endl;
-    cout << "JD = " << jd << "; Range Cspice    = " << sqrt(pow(relPosExam[0],2.0)+pow(relPosExam[1],2.0)+pow(relPosExam[2],2.0)) << endl;
+    cout << "JD = " << jd << "; Range Ephemeris = " << setprecision(15) << range.getMeasurement(jd) << endl;
+    cout << "JD = " << jd << "; Range Cspice    = " << setprecision(15) << sqrt(pow(state0[0],2.0)+pow(state0[1],2.0)+pow(state0[2],2.0)) << endl;
     cout << endl;
 
 
@@ -539,8 +518,8 @@ int sunAzimuthElevationFromSensor()
 
     vector<double> azElMeas = azEl.getMeasurement(jd);
 
-    cout << "JD = " << jd << "; Az = " << azElMeas[0]*180.0/M_PI << "; El = " << azElMeas[1]*180.0/M_PI << endl;
-    cout << "JD = " << jd << "; Az = " << az  << "; El = " << el  << endl;
+    cout << "JD = " << jd << "; Az = " << setprecision(15) << azElMeas[0]*180.0/M_PI << "; El = " << azElMeas[1]*180.0/M_PI << endl;
+    cout << "JD = " << jd << "; Az = " << setprecision(15) << az  << "; El = " << el  << endl;
 
 
 

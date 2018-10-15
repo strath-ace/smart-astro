@@ -114,8 +114,10 @@ std::vector<double> smartastro::sensors::computeAzimuthElevation (const std::vec
 
     // Azimuth [clockwise from north direction]
     azimuthElevation[0] = - relTOPOSpherState[1];
-    if (azimuthElevation[0]<2.0*M_PI)
+    if (azimuthElevation[0]<0.0)
         azimuthElevation[0] += 2.0*M_PI;
+    if (azimuthElevation[0]>2.0*M_PI)
+        azimuthElevation[0] -= 2.0*M_PI;
 
     // Elevation [positive if +z-axis of topocentric frame]
     azimuthElevation[1] = relTOPOSpherState[2];
