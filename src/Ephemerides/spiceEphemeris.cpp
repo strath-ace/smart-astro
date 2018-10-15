@@ -36,7 +36,7 @@ spiceEphemeris::spiceEphemeris(const ephemerisParams* pParams) :
  */
 spiceEphemeris::~spiceEphemeris()
 {
-
+    // Nothing to delete
 }
 
 
@@ -51,7 +51,7 @@ spiceEphemeris::~spiceEphemeris()
  *
  */
 
-std::vector<double> spiceEphemeris::getCartesianState( const double& jd ) const
+std::vector<double> spiceEphemeris::getCartesianState( const double& jd )
 {
     // Variables
     SpiceDouble et, lt, state[6];

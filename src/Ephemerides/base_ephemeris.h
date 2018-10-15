@@ -13,6 +13,8 @@
 #include <string>
 #include <vector>
 
+#include "../exception.h"
+
 namespace smartastro
 {
 namespace ephemerides
@@ -77,7 +79,7 @@ namespace ephemerides
           * @return Cartesian state at time t
           *
           */
-         virtual std::vector<double> getCartesianState( const double& t ) const = 0;
+         virtual std::vector<double> getCartesianState( const double& t ) = 0;
 
 
     }; // class base_ephemeris

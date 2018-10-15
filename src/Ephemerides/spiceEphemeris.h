@@ -93,7 +93,7 @@ namespace ephemerides {
          * @return Cartesian state at time jd
          *
          */
-        virtual std::vector<double> getCartesianState( const double& jd ) const ;
+        virtual std::vector<double> getCartesianState( const double& jd ) ;
 
 
     }; // class spiceEphemeris

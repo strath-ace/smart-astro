@@ -47,7 +47,7 @@ keplerEphemeris::~keplerEphemeris()
  * @return Cartesian state at time t
  *
  */
-std::vector<double> keplerEphemeris::getCartesianState( const double& t ) const
+std::vector<double> keplerEphemeris::getCartesianState( const double& t )
 {
     // Sanity check
     if(!m_pParams->centralBodyGravitationalParameter)

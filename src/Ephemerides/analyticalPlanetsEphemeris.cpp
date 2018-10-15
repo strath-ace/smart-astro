@@ -56,7 +56,7 @@ analyticalPlanetsEphemeris::~analyticalPlanetsEphemeris()
  *         a [km], e [-], i [rad], RAAN [rad], argument of pericenter [rad], true anomaly [rad]
  *
  */
-std::vector<double> analyticalPlanetsEphemeris::getKeplerianState( const double& jd ) const
+std::vector<double> analyticalPlanetsEphemeris::getKeplerianState( const double& jd )
 {
     // Outpiut vector
     std::vector<double> kep(6);

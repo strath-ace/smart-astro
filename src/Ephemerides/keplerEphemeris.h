@@ -81,7 +81,7 @@ namespace ephemerides {
          * @return Cartesian state at time t
          *
          */
-        virtual std::vector<double> getCartesianState( const double& t ) const ;
+        virtual std::vector<double> getCartesianState( const double& t ) ;
 
 
         /**
@@ -93,7 +93,7 @@ namespace ephemerides {
          * @return Cartesian state at time t
          *
          */
-        virtual std::vector<double> getKeplerianState( const double& t ) const = 0;
+        virtual std::vector<double> getKeplerianState( const double& t ) = 0;
 
 
     }; // class base_ephemeris

@@ -93,7 +93,7 @@ namespace ephemerides {
          * @return Keplerian state at jd
          *         a [km], e [-], i [rad], RAAN [rad], argument of pericenter [rad], true anomaly [rad]
          */
-        std::vector<double> getKeplerianState( const double& jd ) const ;
+        std::vector<double> getKeplerianState( const double& jd ) ;
 
 
 
