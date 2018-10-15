@@ -8,17 +8,17 @@
 */
 
 
-#ifndef SMART_ASTRO_RANGESENSOR_H
-#define SMART_ASTRO_RANGESENSOR_H
+#ifndef SMART_ASTRO_rangeObservation_H
+#define SMART_ASTRO_rangeObservation_H
 
-#include "Sensors/base_sensor.h"
+#include "Observations/base_observation.h"
 
 namespace smartastro
 {
-namespace sensors
+namespace observations
 {
 
-    class rangeSensor : public base_sensor {
+    class rangeObservation : public base_observation {
 
 
         /**
@@ -32,14 +32,14 @@ namespace sensors
          * Default constructor
          *
          */
-        rangeSensor(const sensorParams* pParams);
+        rangeObservation(const observationParams* pParams);
 
 
         /**
          * Default destructor
          *
          */
-        virtual ~rangeSensor();
+        virtual ~rangeObservation();
 
 
         /**
@@ -56,7 +56,7 @@ namespace sensors
 
 
 
-    }; // class rangeSensor
+    }; // class rangeObservation
 
 
 
@@ -75,8 +75,8 @@ namespace sensors
      */
     double computeRange ( const std::vector<double>& relPos );
 
-} // namespace sensors
+} // namespace observations
 } // namespace smartastro
 
 
-#endif //SMART_ASTRO_RANGESENSOR_H
+#endif //SMART_ASTRO_rangeObservation_H

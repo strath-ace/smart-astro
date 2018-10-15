@@ -18,7 +18,7 @@
 #include "smartastro.h"
 #include "AstroData/SpiceKernels/spiceKernelNames.h"
 #include "Ephemerides/spiceEphemeris.h"
-#include "Sensors/smartastro_sensors.h"
+#include "Observations/smartastro_observations.h"
 
 
 #include <cspice/SpiceUsr.h>
@@ -30,7 +30,7 @@ using namespace std;
 using namespace smartastro;
 using namespace ephemerides;
 using namespace spiceKernels;
-using namespace sensors;
+using namespace observations;
 
 int moonFromEarth()
 {
@@ -265,7 +265,7 @@ int sunAzimuthElevationFromStation()
 
 
 
-int sunAzimuthElevationFromSensor()
+int sunAzimuthElevationFromObservation()
 {
 
     std::string  TIMFMT ("YYYY MON DD HR:MN:SC.###### UTC");
@@ -318,7 +318,7 @@ int sunAzimuthElevationFromSensor()
     obstim = "2451545.000000 JD";
     str2et_c ( obstim, &et );
 
-    double jd = et ; //unitim_c(et,"ET","JED");
+    double jd = unitim_c(et,"ET","JED");
 
 
 
@@ -435,7 +435,7 @@ int sunAzimuthElevationFromSensor()
 
 
     /**
-     * Use sensors and ephemerides now
+     * Use observations and ephemerides now
      *
      */
 
@@ -499,14 +499,14 @@ int sunAzimuthElevationFromSensor()
 
 
     /**
-     * Create sensor
+     * Create observation
      */
-    rangeSensor::sensorParams sParams;
+    rangeObservation::observationParams sParams;
     sParams.getSensorEphemeris = getStationState;
     sParams.getTargetEphemeris = getSunState;
 
     //range
-    rangeSensor range(&sParams);
+    rangeObservation range(&sParams);
 
     cout << "JD = " << jd << "; Range Ephemeris = " << setprecision(15) << range.getMeasurement(jd) << endl;
     cout << "JD = " << jd << "; Range Cspice    = " << setprecision(15) << sqrt(pow(state0[0],2.0)+pow(state0[1],2.0)+pow(state0[2],2.0)) << endl;
@@ -514,7 +514,7 @@ int sunAzimuthElevationFromSensor()
 
 
     // Elevation-azimuth
-    azimuthElevationSensor azEl(&sParams);
+    azimuthElevationObservation azEl(&sParams);
 
     vector<double> azElMeas = azEl.getMeasurement(jd);
 
@@ -561,7 +561,7 @@ int main()
     // Compute Sun azimuth and elevation from spice routine
 //    sunAzimuthElevationFromStation();
 
-    sunAzimuthElevationFromSensor();
+    sunAzimuthElevationFromObservation();
 
     return 0;
 }

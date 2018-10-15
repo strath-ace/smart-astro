@@ -8,17 +8,17 @@
 */
 
 
-#include "base_sensor.h"
+#include "base_observation.h"
 
 
-using namespace smartastro::sensors;
+using namespace smartastro::observations;
 
 
 /**
  * Default constructor
  *
  */
-base_sensor::base_sensor(const sensorParams* pParams) :
+base_observation::base_observation(const observationParams* pParams) :
     m_pParams(pParams), m_noisyMeasurement(false)
 {
     // Initialise flags
@@ -30,7 +30,7 @@ base_sensor::base_sensor(const sensorParams* pParams) :
  * Default destructor
  *
  */
-base_sensor::~base_sensor()
+base_observation::~base_observation()
 {
     // Nothing to delete
 }
@@ -43,7 +43,7 @@ base_sensor::~base_sensor()
  * @return Measurement vector
  *
  */
-std::vector<double> base_sensor::getMeasurement( const double& t )
+std::vector<double> base_observation::getMeasurement( const double& t )
 {
     // Get perfect measurement
     std::vector<double> measurement = getPerfectMeasurement(t);
@@ -73,7 +73,7 @@ std::vector<double> base_sensor::getMeasurement( const double& t )
 
 
 // Set noisy measurements
-void base_sensor::setNoisyMeasurement( const bool noisyMeasurement )
+void base_observation::setNoisyMeasurement( const bool noisyMeasurement )
 {
     // Assign value
     m_noisyMeasurement = noisyMeasurement;
@@ -91,7 +91,7 @@ void base_sensor::setNoisyMeasurement( const bool noisyMeasurement )
  */
 
 // Check whether relative or absolute positions shall be used
-void base_sensor::initialise()
+void base_observation::initialise()
 {
     // Absolute state flag
     if(m_pParams->getSensorEphemeris && m_pParams->getTargetEphemeris)
@@ -109,7 +109,7 @@ void base_sensor::initialise()
 
 
 // Get noise value and save it
-std::vector<double> base_sensor::getNoiseSample()
+std::vector<double> base_observation::getNoiseSample()
 {
     // Compute noise sample
     std::vector<double> noiseSample = m_pParams->generateMeasurementNoise();

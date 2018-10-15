@@ -11,14 +11,14 @@
 #ifndef SMART_ASTRO_RANGERATESENSOR_H
 #define SMART_ASTRO_RANGERATESENSOR_H
 
-#include "Sensors/base_sensor.h"
+#include "Observations/base_observation.h"
 
 namespace smartastro
 {
-namespace sensors
+namespace observations
 {
 
-    class rangeRateSensor : public base_sensor {
+    class rangeRateObservation : public base_observation {
 
 
         /**
@@ -32,14 +32,14 @@ namespace sensors
          * Default constructor
          *
          */
-        rangeRateSensor(const sensorParams* pParams);
+        rangeRateObservation(const observationParams* pParams);
 
 
         /**
          * Default destructor
          *
          */
-        virtual ~rangeRateSensor();
+        virtual ~rangeRateObservation();
 
 
         /**
@@ -52,7 +52,7 @@ namespace sensors
         virtual std::vector<double> getPerfectMeasurement( const double& t ) ;
 
 
-    }; // class rangeRateSensor
+    }; // class rangeRateObservation
 
 
 
@@ -72,7 +72,7 @@ namespace sensors
     double computeRangeRate ( const std::vector<double>& relState);
 
 
-} // namespace sensors
+} // namespace observations
 } // namespace smartastro
 
 

@@ -8,17 +8,17 @@
 */
 
 
-#include "rangeSensor.h"
+#include "rangeObservation.h"
 
-using namespace smartastro::sensors;
+using namespace smartastro::observations;
 
 
 /**
  * Default constructor
  *
  */
-rangeSensor::rangeSensor(const base_sensor::sensorParams* pParams) :
-        base_sensor(pParams)
+rangeObservation::rangeObservation(const base_observation::observationParams* pParams) :
+        base_observation(pParams)
 {
     // Nothing to initialise
 }
@@ -28,7 +28,7 @@ rangeSensor::rangeSensor(const base_sensor::sensorParams* pParams) :
  * Default destructor
  *
  */
-rangeSensor::~rangeSensor()
+rangeObservation::~rangeObservation()
 {
     // Nothing to delete
 }
@@ -41,7 +41,7 @@ rangeSensor::~rangeSensor()
  * @return Measurement vector
  *
  */
-std::vector<double> rangeSensor::getPerfectMeasurement(const double &t)
+std::vector<double> rangeObservation::getPerfectMeasurement(const double &t)
 {
     // Return value
     double range = -1.0;
@@ -63,7 +63,7 @@ std::vector<double> rangeSensor::getPerfectMeasurement(const double &t)
         targetPosition.resize(3);
 
         // Compute range
-        range = smartastro::sensors::computeRange(sensorPosition, targetPosition);
+        range = smartastro::observations::computeRange(sensorPosition, targetPosition);
     }
     else if (m_relativeEphemeris)
     {
@@ -78,7 +78,7 @@ std::vector<double> rangeSensor::getPerfectMeasurement(const double &t)
         relativePosition.resize(3);
 
         // Compute range
-        range = smartastro::sensors::computeRange(relativePosition);
+        range = smartastro::observations::computeRange(relativePosition);
     }
     else
         smartastro_throw("Range requested but function pointers not assigned");
@@ -97,7 +97,7 @@ std::vector<double> rangeSensor::getPerfectMeasurement(const double &t)
  *
  * @return Range between two position vectors
  */
-double smartastro::sensors::computeRange ( const std::vector<double>& pos1,
+double smartastro::observations::computeRange ( const std::vector<double>& pos1,
                                            const std::vector<double>& pos2)
 {
     // Sanity check on dimensions
@@ -119,7 +119,7 @@ double smartastro::sensors::computeRange ( const std::vector<double>& pos1,
  *
  * @return Range of relative position vector
  */
-double smartastro::sensors::computeRange ( const std::vector<double>& relPos )
+double smartastro::observations::computeRange ( const std::vector<double>& relPos )
 {
     // Sanity check on dimensions
     if ( relPos.size()!=3 )

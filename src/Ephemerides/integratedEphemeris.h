@@ -14,6 +14,8 @@
 #include <functional>
 
 #include "Ephemerides/base_ephemeris.h"
+#include "Integrators/euler.h"
+
 
 namespace smartastro {
     namespace ephemerides {

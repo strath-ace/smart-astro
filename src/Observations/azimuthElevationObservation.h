@@ -11,12 +11,12 @@
 #ifndef SMART_ASTRO_AZIMUTHELEVATIONSENSOR_H
 #define SMART_ASTRO_AZIMUTHELEVATIONSENSOR_H
 
-#include "Sensors/base_sensor.h"
+#include "Observations/base_observation.h"
 #include "Astro-Core/conversion_coordinates.h"
 
 namespace smartastro
 {
-    namespace sensors
+    namespace observations
     {
 
         /**
@@ -25,7 +25,7 @@ namespace smartastro
          * x-axis pointing local north, y-axis pointing local west, z-axis pointing local zenith
          *
          */
-        class azimuthElevationSensor : public base_sensor {
+        class azimuthElevationObservation : public base_observation {
 
 
             /**
@@ -40,14 +40,14 @@ namespace smartastro
              * Default constructor
              *
              */
-            azimuthElevationSensor(const sensorParams* pParams);
+            azimuthElevationObservation(const observationParams* pParams);
 
 
             /**
              * Default destructor
              *
              */
-            virtual ~azimuthElevationSensor();
+            virtual ~azimuthElevationObservation();
 
 
             /**
@@ -60,7 +60,7 @@ namespace smartastro
             virtual std::vector<double> getPerfectMeasurement( const double& t ) ;
 
 
-        }; // class azimuthElevationSensor
+        }; // class azimuthElevationObservation
 
 
 
@@ -80,7 +80,7 @@ namespace smartastro
         std::vector<double> computeAzimuthElevation ( const std::vector<double>& relStateTOPO );
 
 
-    } // namespace sensors
+    } // namespace observations
 } // namespace smartastro
 
 

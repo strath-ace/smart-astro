@@ -8,17 +8,17 @@
 */
 
 
-#include "rangeRateSensor.h"
+#include "rangeRateObservation.h"
 
-using namespace smartastro::sensors;
+using namespace smartastro::observations;
 
 
 /**
  * Default constructor
  *
  */
-rangeRateSensor::rangeRateSensor(const base_sensor::sensorParams* pParams) :
-        base_sensor(pParams)
+rangeRateObservation::rangeRateObservation(const base_observation::observationParams* pParams) :
+        base_observation(pParams)
 {
     // Nothing to initialise
 }
@@ -28,7 +28,7 @@ rangeRateSensor::rangeRateSensor(const base_sensor::sensorParams* pParams) :
  * Default destructor
  *
  */
-rangeRateSensor::~rangeRateSensor()
+rangeRateObservation::~rangeRateObservation()
 {
     // Nothing to delete
 }
@@ -41,7 +41,7 @@ rangeRateSensor::~rangeRateSensor()
  * @return Measurement vector
  *
  */
-std::vector<double> rangeRateSensor::getPerfectMeasurement(const double &t)
+std::vector<double> rangeRateObservation::getPerfectMeasurement(const double &t)
 {
     // Return value
     double rangeRate = 0.0;
@@ -53,7 +53,7 @@ std::vector<double> rangeRateSensor::getPerfectMeasurement(const double &t)
         std::vector<double> targetState = m_pParams->getTargetEphemeris(t);
 
         // Compute rangeRate [sanity check on dimensions inside]
-        rangeRate = smartastro::sensors::computeRangeRate(sensorState, targetState);
+        rangeRate = smartastro::observations::computeRangeRate(sensorState, targetState);
     }
     else if (m_relativeEphemeris)
     {
@@ -61,7 +61,7 @@ std::vector<double> rangeRateSensor::getPerfectMeasurement(const double &t)
         std::vector<double> relativeState = m_pParams->getSensorTargetRelativeEphemeris(t);
 
         // Compute rangeRate [sanity check on dimensions inside]
-        rangeRate = smartastro::sensors::computeRangeRate(relativeState);
+        rangeRate = smartastro::observations::computeRangeRate(relativeState);
     }
     else
         smartastro_throw("RangeRate requested but function pointers not assigned");
@@ -76,7 +76,7 @@ std::vector<double> rangeRateSensor::getPerfectMeasurement(const double &t)
  *
  * @return RangeRate between two state vectors
  */
-double smartastro::sensors::computeRangeRate ( const std::vector<double>& state1,
+double smartastro::observations::computeRangeRate ( const std::vector<double>& state1,
                                                const std::vector<double>& state2)
 {
     // Sanity check on dimensions
@@ -99,7 +99,7 @@ double smartastro::sensors::computeRangeRate ( const std::vector<double>& state1
  *
  * @return RangeRate
  */
-double smartastro::sensors::computeRangeRate (const std::vector<double>& relState)
+double smartastro::observations::computeRangeRate (const std::vector<double>& relState)
 {
     // Sanity check on dimensions
     if ( relState.size()!=6 )

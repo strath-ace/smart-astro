@@ -8,11 +8,4 @@
 */
 
 
-#ifndef SMART_ASTRO_SMARTASTRO_SENSORS_H
-#define SMART_ASTRO_SMARTASTRO_SENSORS_H
-
-#include "Sensors/rangeSensor.h"
-#include "Sensors/rangeRateSensor.h"
-#include "Sensors/azimuthElevationSensor.h"
-
-#endif //SMART_ASTRO_SMARTASTRO_SENSORS_H
+#include "groundStation.h"

@@ -8,17 +8,17 @@
 */
 
 
-#include "Sensors/azimuthElevationSensor.h"
+#include "Observations/azimuthElevationObservation.h"
 
-using namespace smartastro::sensors;
+using namespace smartastro::observations;
 
 
 /**
  * Default constructor
  *
  */
-azimuthElevationSensor::azimuthElevationSensor(const base_sensor::sensorParams* pParams) :
-        base_sensor(pParams)
+azimuthElevationObservation::azimuthElevationObservation(const base_observation::observationParams* pParams) :
+        base_observation(pParams)
 {
     // Nothing to initialise
 }
@@ -28,7 +28,7 @@ azimuthElevationSensor::azimuthElevationSensor(const base_sensor::sensorParams* 
  * Default destructor
  *
  */
-azimuthElevationSensor::~azimuthElevationSensor()
+azimuthElevationObservation::~azimuthElevationObservation()
 {
     // Nothing to delete
 }
@@ -41,7 +41,7 @@ azimuthElevationSensor::~azimuthElevationSensor()
  * @return Measurement vector
  *
  */
-std::vector<double> azimuthElevationSensor::getPerfectMeasurement(const double &t)
+std::vector<double> azimuthElevationObservation::getPerfectMeasurement(const double &t)
 {
     // Return value
     std::vector<double> azimuthElevation (2);
@@ -53,7 +53,7 @@ std::vector<double> azimuthElevationSensor::getPerfectMeasurement(const double &
         std::vector<double> targetState = m_pParams->getTargetEphemeris(t);
 
         // Compute azimuthElevation [sanity check on dimensions inside]
-        azimuthElevation = smartastro::sensors::computeAzimuthElevation(sensorState, targetState);
+        azimuthElevation = smartastro::observations::computeAzimuthElevation(sensorState, targetState);
     }
     else if (m_relativeEphemeris)
     {
@@ -61,7 +61,7 @@ std::vector<double> azimuthElevationSensor::getPerfectMeasurement(const double &
         std::vector<double> relativeState = m_pParams->getSensorTargetRelativeEphemeris(t);
 
         // Compute azimuthElevation [sanity check on dimensions inside]
-        azimuthElevation = smartastro::sensors::computeAzimuthElevation(relativeState);
+        azimuthElevation = smartastro::observations::computeAzimuthElevation(relativeState);
     }
     else
         smartastro_throw("AzimuthElevation requested but function pointers not assigned");
@@ -76,7 +76,7 @@ std::vector<double> azimuthElevationSensor::getPerfectMeasurement(const double &
  *
  * @return AzimuthElevation between two state vectors
  */
-std::vector<double> smartastro::sensors::computeAzimuthElevation ( const std::vector<double>& stateTOPO1,
+std::vector<double> smartastro::observations::computeAzimuthElevation ( const std::vector<double>& stateTOPO1,
                                                                    const std::vector<double>& stateTOPO2)
 {
     // Sanity check on dimensions
@@ -99,7 +99,7 @@ std::vector<double> smartastro::sensors::computeAzimuthElevation ( const std::ve
  *
  * @return AzimuthElevation
  */
-std::vector<double> smartastro::sensors::computeAzimuthElevation (const std::vector<double>& relTOPOCartState)
+std::vector<double> smartastro::observations::computeAzimuthElevation (const std::vector<double>& relTOPOCartState)
 {
     // Sanity check on dimensions
     if ( relTOPOCartState.size()!=6 )

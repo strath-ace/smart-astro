@@ -19,10 +19,10 @@
 
 namespace smartastro
 {
-namespace sensors
+namespace observations
 {
 
-    class base_sensor {
+    class base_observation {
 
 
         /**
@@ -31,7 +31,7 @@ namespace sensors
 
     public:
 
-        struct sensorParams {
+        struct observationParams {
 
             // Function to get noise on measurements
             std::function<std::vector<double>()>          generateMeasurementNoise          = nullptr;
@@ -45,7 +45,7 @@ namespace sensors
             // Function to get sensor-target relative state
             std::function<std::vector<double>(double)>    getSensorTargetRelativeEphemeris  = nullptr;
 
-        }; // sensorParams
+        }; // observationParams
 
 
         /**
@@ -55,19 +55,19 @@ namespace sensors
     protected:
 
         // Input parameters
-        const sensorParams*     m_pParams;
+        const observationParams*     m_pParams;
 
         // Flag for noise [false by default]
-        bool                    m_noisyMeasurement;
+        bool                         m_noisyMeasurement;
 
         // Flag to check absolute ephemerides [priority]
-        bool                    m_absoluteEphemeris;
+        bool                         m_absoluteEphemeris;
 
         // Flag to check relative ephemerides
-        bool                    m_relativeEphemeris;
+        bool                         m_relativeEphemeris;
 
         // Last noise value
-        std::vector<double>     m_currentNoiseSample;
+        std::vector<double>          m_currentNoiseSample;
 
 
         /**
@@ -81,14 +81,14 @@ namespace sensors
          * Default constructor
          *
          */
-        base_sensor(const sensorParams* pParams);
+        base_observation(const observationParams* pParams);
 
 
         /**
          * Default destructor
          *
          */
-        virtual ~base_sensor();
+        virtual ~base_observation();
 
 
         /**
@@ -136,9 +136,9 @@ namespace sensors
         std::vector<double> getNoiseSample() ;
 
 
-    }; // class base_sensor
+    }; // class base_observation
 
-} // namespace sensors
+} // namespace observations
 } // namespace smartastro
 
 
