@@ -508,7 +508,7 @@ int sunAzimuthElevationFromObservation()
     //range
     rangeObservation range(&sParams);
 
-    cout << "JD = " << jd << "; Range Ephemeris = " << setprecision(15) << range.getMeasurement(jd) << endl;
+    cout << "JD = " << jd << "; Range Ephemeris = " << setprecision(15) << range.getObservation(jd) << endl;
     cout << "JD = " << jd << "; Range Cspice    = " << setprecision(15) << sqrt(pow(state0[0],2.0)+pow(state0[1],2.0)+pow(state0[2],2.0)) << endl;
     cout << endl;
 
@@ -516,7 +516,7 @@ int sunAzimuthElevationFromObservation()
     // Elevation-azimuth
     azimuthElevationObservation azEl(&sParams);
 
-    vector<double> azElMeas = azEl.getMeasurement(jd);
+    vector<double> azElMeas = azEl.getObservation(jd);
 
     cout << "JD = " << jd << "; Az = " << setprecision(15) << azElMeas[0]*180.0/M_PI << "; El = " << azElMeas[1]*180.0/M_PI << endl;
     cout << "JD = " << jd << "; Az = " << setprecision(15) << az  << "; El = " << el  << endl;

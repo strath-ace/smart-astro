@@ -35,13 +35,13 @@ rangeRateObservation::~rangeRateObservation()
 
 
 /**
- * getMeasurement: Function that returns measurements at time t
+ * getObservation: Function that returns measurements at time t
  *
  * @param t: time at which the measurement(time system is defined in derived classes)
  * @return Measurement vector
  *
  */
-std::vector<double> rangeRateObservation::getPerfectMeasurement(const double &t)
+std::vector<double> rangeRateObservation::getPerfectObservation(const double &t)
 {
     // Return value
     double rangeRate = 0.0;

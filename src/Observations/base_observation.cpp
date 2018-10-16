@@ -19,7 +19,7 @@ using namespace smartastro::observations;
  *
  */
 base_observation::base_observation(const observationParams* pParams) :
-    m_pParams(pParams), m_noisyMeasurement(false)
+    m_pParams(pParams), m_noisyObservation(false)
 {
     // Initialise flags
     this->initialise();
@@ -37,19 +37,19 @@ base_observation::~base_observation()
 
 
 /**
- * getMeasurement: Function that returns noisy measurements at time t
+ * getObservation: Function that returns noisy measurements at time t
  *
  * @param t: time at which the measurement(time system is defined in derived classes)
  * @return Measurement vector
  *
  */
-std::vector<double> base_observation::getMeasurement( const double& t )
+std::vector<double> base_observation::getObservation( const double& t )
 {
     // Get perfect measurement
-    std::vector<double> measurement = getPerfectMeasurement(t);
+    std::vector<double> measurement = getPerfectObservation(t);
 
     // Add noisy if requested
-    if (m_noisyMeasurement)
+    if (m_noisyObservation)
     {
         // Get noise sample
         std::vector<double> noise = getNoiseSample();
@@ -73,13 +73,13 @@ std::vector<double> base_observation::getMeasurement( const double& t )
 
 
 // Set noisy measurements
-void base_observation::setNoisyMeasurement( const bool noisyMeasurement )
+void base_observation::setNoisyObservation( const bool noisyObservation )
 {
     // Assign value
-    m_noisyMeasurement = noisyMeasurement;
+    m_noisyObservation = noisyObservation;
 
     // Check if generating function exists
-    if (m_noisyMeasurement && !m_pParams->generateMeasurementNoise)
+    if (m_noisyObservation && !m_pParams->generateMeasurementNoise)
         smartastro_throw("Noisy measurements requested but function to generate noise not assigned");
 }
 

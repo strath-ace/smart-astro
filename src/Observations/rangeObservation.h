@@ -43,13 +43,13 @@ namespace observations
 
 
         /**
-         * getMeasurement: Function that returns measurements at time t
+         * getObservation: Function that returns measurements at time t
          *
          * @param t: time at which the measurement(time system is defined in derived classes)
          * @return Measurement vector
          *
          */
-        virtual std::vector<double> getPerfectMeasurement( const double& t ) ;
+        virtual std::vector<double> getPerfectObservation( const double& t ) ;
 
 
 

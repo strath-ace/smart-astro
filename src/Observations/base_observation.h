@@ -22,6 +22,17 @@ namespace smartastro
 namespace observations
 {
 
+    // Types of observations
+    enum observationTypes {
+
+        RANGE,
+        RANGERATE,
+        AZIMUTHELEVATION,
+        MAX_OBSERVATIONTYPES
+
+    };
+
+
     class base_observation {
 
 
@@ -58,7 +69,7 @@ namespace observations
         const observationParams*     m_pParams;
 
         // Flag for noise [false by default]
-        bool                         m_noisyMeasurement;
+        bool                         m_noisyObservation;
 
         // Flag to check absolute ephemerides [priority]
         bool                         m_absoluteEphemeris;
@@ -92,23 +103,23 @@ namespace observations
 
 
         /**
-         * getMeasurement: Function that returns noisy measurements at time t [could be overloaded to include other effects]
+         * getObservation: Function that returns noisy measurements at time t [could be overloaded to include other effects]
          *
          * @param t: time at which the measurement(time system is defined in derived classes)
          * @return Measurement vector
          *
          */
-        virtual std::vector<double> getMeasurement( const double& t ) ;
+        virtual std::vector<double> getObservation( const double& t ) ;
 
 
         /**
-         * getMeasurement: Function that returns perfect measurements at time t
+         * getObservation: Function that returns perfect measurements at time t
          *
          * @param t: time at which the measurement(time system is defined in derived classes)
          * @return Measurement vector
          *
          */
-        virtual std::vector<double> getPerfectMeasurement( const double& t ) = 0 ;
+        virtual std::vector<double> getPerfectObservation( const double& t ) = 0 ;
 
 
 
@@ -119,7 +130,7 @@ namespace observations
     public:
 
         // Set noisy measurements
-        void setNoisyMeasurement( const bool noisyMeasurement );
+        void setNoisyObservation( const bool noisyObservation );
 
 
 

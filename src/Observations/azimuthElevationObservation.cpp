@@ -35,13 +35,13 @@ azimuthElevationObservation::~azimuthElevationObservation()
 
 
 /**
- * getMeasurement: Function that returns measurements at time t
+ * getObservation: Function that returns measurements at time t
  *
  * @param t: time at which the measurement(time system is defined in derived classes)
  * @return Measurement vector
  *
  */
-std::vector<double> azimuthElevationObservation::getPerfectMeasurement(const double &t)
+std::vector<double> azimuthElevationObservation::getPerfectObservation(const double &t)
 {
     // Return value
     std::vector<double> azimuthElevation (2);

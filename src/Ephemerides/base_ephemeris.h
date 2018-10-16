@@ -67,19 +67,19 @@ namespace ephemerides
          * Default destructor
          *
          */
-         virtual ~base_ephemeris();
+        virtual ~base_ephemeris();
 
 
-         /**
-          * getCartesianState: Function that returns object position-velocity for time t
-          *
-          * Virtual function to be implemented in derived class
-          *
-          * @param t: time at which the Cartesian State is desired (time system is defined in derived classes)
-          * @return Cartesian state at time t
-          *
-          */
-         virtual std::vector<double> getCartesianState( const double& t ) = 0;
+        /**
+         * getCartesianState: Function that returns object position-velocity for time t
+         *
+         * Virtual function to be implemented in derived class
+         *
+         * @param t: time at which the Cartesian State is desired (time system is defined in derived classes)
+         * @return Cartesian state at time t
+         *
+         */
+        virtual std::vector<double> getCartesianState( const double& t ) = 0;
 
 
     }; // class base_ephemeris
