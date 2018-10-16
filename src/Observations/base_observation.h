@@ -80,6 +80,8 @@ namespace observations
         // Last noise value
         std::vector<double>          m_currentNoiseSample;
 
+        // Observation type
+        observationTypes             m_observationType;
 
         /**
          * Class functions
@@ -92,7 +94,8 @@ namespace observations
          * Default constructor
          *
          */
-        base_observation(const observationParams* pParams);
+        base_observation( const observationParams* pParams,
+                          const observationTypes&  obsType = MAX_OBSERVATIONTYPES );
 
 
         /**
@@ -124,7 +127,7 @@ namespace observations
 
 
         /**
-         * Functions to set member attributes
+         * Functions to get/set member attributes
          */
 
     public:
@@ -132,6 +135,8 @@ namespace observations
         // Set noisy measurements
         void setNoisyObservation( const bool noisyObservation );
 
+        // Get observation type
+        observationTypes getObservationType () const;
 
 
         /**

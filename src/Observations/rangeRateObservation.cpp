@@ -18,7 +18,7 @@ using namespace smartastro::observations;
  *
  */
 rangeRateObservation::rangeRateObservation(const base_observation::observationParams* pParams) :
-        base_observation(pParams)
+        base_observation(pParams,RANGERATE)
 {
     // Nothing to initialise
 }

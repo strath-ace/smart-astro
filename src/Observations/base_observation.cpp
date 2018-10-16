@@ -18,8 +18,9 @@ using namespace smartastro::observations;
  * Default constructor
  *
  */
-base_observation::base_observation(const observationParams* pParams) :
-    m_pParams(pParams), m_noisyObservation(false)
+base_observation::base_observation(const observationParams* pParams,
+                                   const observationTypes&  obsType) :
+        m_pParams(pParams), m_noisyObservation(false), m_observationType(obsType)
 {
     // Initialise flags
     this->initialise();
@@ -84,6 +85,11 @@ void base_observation::setNoisyObservation( const bool noisyObservation )
 }
 
 
+// Get observation type
+observationTypes base_observation::getObservationType () const
+{
+    return m_observationType;
+}
 
 
 /**

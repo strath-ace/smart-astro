@@ -16,6 +16,7 @@
 #include <cmath>
 
 #include "Observations/smartastro_observations.h"
+#include "Ephemerides/smartastro_ephemerides.h"
 
 namespace smartastro
 {
@@ -47,7 +48,6 @@ namespace sensors
 
     class groundStation {
 
-
         /**
          * Parameter struct
          */
@@ -57,19 +57,25 @@ namespace sensors
         struct groundStationParams {
 
             // Reference frame to which ephemerides are referred
-            std::string                                     name = "";
+            std::string                                     name;
 
-            // Latitude [-pi/2,+pi/2]
-            double                                          lat = -M_PI;
-
-            // Longitude [-pi,+pi]
-            double                                          lon = -2.0*M_PI;
+            /**
+             * TODO: Include latitude and longitude
+             */
+//            // Latitude [-pi/2,+pi/2]
+//            double                                          lat = -M_PI;
+//
+//            // Longitude [-pi,+pi]
+//            double                                          lon = -2.0*M_PI;
 
             // Types of measurements
-            std::vector<observations::observationTypes>     obsTypes;
+            std::vector<observations::base_observation*>    observations;
 
-            // Function to get target state
-            std::function<std::vector<double>(double)>      getTargetEphemeris = nullptr;
+//            // Function to get target state
+//            std::function<std::vector<double>(double)>      getTargetEphemeris  = nullptr;
+//
+//            // Function to get station state
+//            std::function<std::vector<double>(double)>      getStationEphemeris = nullptr;
 
         }; // ephemerisParams
 
@@ -81,10 +87,7 @@ namespace sensors
     protected:
 
         // Input parameters
-        const groundStationParams*                      m_pParams;
-
-        // Pointer to observations
-        std::vector<observations::base_observation>     m_observations;
+        const groundStationParams*                          m_pParams;
 
 
         /**
@@ -122,9 +125,9 @@ namespace sensors
     private:
 
         /**
-         * Initialise routine that create observation classes in constructor
+         * Check routine that ensures good input
          */
-        void initialise() ;
+        void checkInput() ;
 
 
     };

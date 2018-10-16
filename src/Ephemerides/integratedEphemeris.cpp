@@ -77,3 +77,13 @@ std::vector<double> integratedEphemeris::getCartesianState( const double& t )
     // Return value
     return x;
 }
+
+
+/**
+ * Reset current time and state
+ */
+void integratedEphemeris::resetCurrentTimeState()
+{
+    m_currT = -1.0e10;
+    m_currX.clear();
+}

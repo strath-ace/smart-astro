@@ -96,6 +96,16 @@ namespace smartastro {
             virtual std::vector<double> getCartesianState( const double& t ) ;
 
 
+
+
+        public:
+
+            /**
+             * Reset current time and state
+             */
+             void resetCurrentTimeState() ;
+
+
         }; // class integratedEphemeris
 
 

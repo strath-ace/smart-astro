@@ -18,7 +18,7 @@ using namespace smartastro::observations;
  *
  */
 azimuthElevationObservation::azimuthElevationObservation(const base_observation::observationParams* pParams) :
-        base_observation(pParams)
+        base_observation(pParams,AZIMUTHELEVATION)
 {
     // Nothing to initialise
 }
