@@ -18,6 +18,7 @@ namespace smartastro
 namespace observations
 {
 
+
     class rangeObservation : public base_observation {
 
 
@@ -43,17 +44,13 @@ namespace observations
 
 
         /**
-         * getObservation: Function that returns measurements at time t
+         * getObservation: Function that returns measurements
          *
-         * @param t: time at which the measurement(time system is defined in derived classes)
          * @return Measurement vector
          *
          */
-        virtual std::vector<double> getPerfectObservation( const double& t ) ;
-
-
-
-
+        virtual std::vector<double> getPerfectObservation( const std::vector<double>& sensorState,
+                                                           const std::vector<double>& targetState ) ;
 
 
     }; // class rangeObservation

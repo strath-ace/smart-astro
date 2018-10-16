@@ -34,37 +34,21 @@ azimuthElevationObservation::~azimuthElevationObservation()
 }
 
 
+
 /**
- * getObservation: Function that returns measurements at time t
+ * getObservation: Function that returns measurements
  *
- * @param t: time at which the measurement(time system is defined in derived classes)
  * @return Measurement vector
  *
  */
-std::vector<double> azimuthElevationObservation::getPerfectObservation(const double &t)
+std::vector<double> azimuthElevationObservation::getPerfectObservation( const std::vector<double>& sensorStateTOPO,
+                                                                        const std::vector<double>& targetStateTOPO )
 {
     // Return value
     std::vector<double> azimuthElevation (2);
 
-    if (m_absoluteEphemeris) {
-
-        // Compute state of observer sensor and target at time t
-        std::vector<double> sensorState = m_pParams->getSensorEphemeris(t);
-        std::vector<double> targetState = m_pParams->getTargetEphemeris(t);
-
-        // Compute azimuthElevation [sanity check on dimensions inside]
-        azimuthElevation = smartastro::observations::computeAzimuthElevation(sensorState, targetState);
-    }
-    else if (m_relativeEphemeris)
-    {
-        // Compute state of observer sensor and target at time t
-        std::vector<double> relativeState = m_pParams->getSensorTargetRelativeEphemeris(t);
-
-        // Compute azimuthElevation [sanity check on dimensions inside]
-        azimuthElevation = smartastro::observations::computeAzimuthElevation(relativeState);
-    }
-    else
-        smartastro_throw("AzimuthElevation requested but function pointers not assigned");
+    // Compute azimuthElevation [sanity check on dimensions inside]
+    azimuthElevation = smartastro::observations::computeAzimuthElevation(sensorStateTOPO, targetStateTOPO);
 
     return azimuthElevation;
 }
@@ -77,7 +61,7 @@ std::vector<double> azimuthElevationObservation::getPerfectObservation(const dou
  * @return AzimuthElevation between two state vectors
  */
 std::vector<double> smartastro::observations::computeAzimuthElevation ( const std::vector<double>& stateTOPO1,
-                                                                   const std::vector<double>& stateTOPO2)
+                                                                        const std::vector<double>& stateTOPO2)
 {
     // Sanity check on dimensions
     if ( stateTOPO1.size()!=6 )

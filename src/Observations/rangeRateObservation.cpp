@@ -35,36 +35,19 @@ rangeRateObservation::~rangeRateObservation()
 
 
 /**
- * getObservation: Function that returns measurements at time t
+ * getObservation: Function that returns measurements
  *
- * @param t: time at which the measurement(time system is defined in derived classes)
  * @return Measurement vector
  *
  */
-std::vector<double> rangeRateObservation::getPerfectObservation(const double &t)
+std::vector<double> rangeRateObservation::getPerfectObservation( const std::vector<double>& sensorState,
+                                                                 const std::vector<double>& targetState )
 {
     // Return value
-    double rangeRate = 0.0;
+    double rangeRate ;
 
-    if (m_absoluteEphemeris) {
-
-        // Compute state of observer sensor and target at time t
-        std::vector<double> sensorState = m_pParams->getSensorEphemeris(t);
-        std::vector<double> targetState = m_pParams->getTargetEphemeris(t);
-
-        // Compute rangeRate [sanity check on dimensions inside]
-        rangeRate = smartastro::observations::computeRangeRate(sensorState, targetState);
-    }
-    else if (m_relativeEphemeris)
-    {
-        // Compute state of observer sensor and target at time t
-        std::vector<double> relativeState = m_pParams->getSensorTargetRelativeEphemeris(t);
-
-        // Compute rangeRate [sanity check on dimensions inside]
-        rangeRate = smartastro::observations::computeRangeRate(relativeState);
-    }
-    else
-        smartastro_throw("RangeRate requested but function pointers not assigned");
+    // Compute rangeRate [sanity check on dimensions inside]
+    rangeRate = smartastro::observations::computeRangeRate(sensorState, targetState);
 
     return std::vector<double>(1,rangeRate);
 }

@@ -35,53 +35,19 @@ rangeObservation::~rangeObservation()
 
 
 /**
- * getObservation: Function that returns measurements at time t
+ * getObservation: Function that returns measurements
  *
- * @param t: time at which the measurement(time system is defined in derived classes)
  * @return Measurement vector
  *
  */
-std::vector<double> rangeObservation::getPerfectObservation(const double &t)
+std::vector<double> rangeObservation::getPerfectObservation( const std::vector<double>& sensorState,
+                                                             const std::vector<double>& targetState )
 {
     // Return value
-    double range = -1.0;
+    double range ;
 
-    if (m_absoluteEphemeris) {
-
-        // Compute state of observer sensor and target at time t
-        std::vector<double> sensorPosition = m_pParams->getSensorEphemeris(t);
-        std::vector<double> targetPosition = m_pParams->getTargetEphemeris(t);
-
-        // Sanity check on dimensions
-        if (sensorPosition.size() != 3 && sensorPosition.size() != 6)
-            smartastro_throw("Sensor state size = " + std::to_string(sensorPosition.size()) + " differs from pure position or cartesian state");
-        if (targetPosition.size() != 3 && targetPosition.size() != 6)
-            smartastro_throw("Target state size = " + std::to_string(targetPosition.size()) + " differs from pure position or cartesian state");
-
-        // Resize to be sure to keep only position
-        sensorPosition.resize(3);
-        targetPosition.resize(3);
-
-        // Compute range
-        range = smartastro::observations::computeRange(sensorPosition, targetPosition);
-    }
-    else if (m_relativeEphemeris)
-    {
-        // Compute relative state of observer-target at time t
-        std::vector<double> relativePosition = m_pParams->getSensorTargetRelativeEphemeris(t);
-
-        // Sanity check on dimensions
-        if (relativePosition.size() != 3 && relativePosition.size() != 6)
-            smartastro_throw("Relative state size differs from pure position or cartesian state");
-
-        // Resize to be sure to keep only position
-        relativePosition.resize(3);
-
-        // Compute range
-        range = smartastro::observations::computeRange(relativePosition);
-    }
-    else
-        smartastro_throw("Range requested but function pointers not assigned");
+    // Compute range
+    range = smartastro::observations::computeRange(sensorState, targetState);
 
     // Sanity check on sign
     if(range<0.0)
@@ -97,19 +63,19 @@ std::vector<double> rangeObservation::getPerfectObservation(const double &t)
  *
  * @return Range between two position vectors
  */
-double smartastro::observations::computeRange ( const std::vector<double>& pos1,
-                                           const std::vector<double>& pos2)
+double smartastro::observations::computeRange ( const std::vector<double>& state1,
+                                                const std::vector<double>& state2)
 {
     // Sanity check on dimensions
-    if ( pos1.size()!=3 )
-        smartastro_throw("First position size differs from 3");
-    if ( pos2.size()!=3 )
-        smartastro_throw("Second position size differs from 3");
+    if ( state1.size()!=3 && state1.size()!=6 )
+        smartastro_throw("First state size differs from 3 or 6");
+    if ( state2.size()!=3 && state2.size()!=6 )
+        smartastro_throw("Second state size differs from 3 or 6");
 
     // Compute range
     double range = std::sqrt(
-            std::pow(pos1[0]-pos2[0],2.0) + std::pow(pos1[1]-pos2[1],2.0) + std::pow(pos1[2]-pos2[2],2.0)
-            );
+            std::pow(state1[0]-state2[0],2.0) + std::pow(state1[1]-state2[1],2.0) + std::pow(state1[2]-state2[2],2.0)
+    );
 
     return range;
 }
@@ -119,15 +85,15 @@ double smartastro::observations::computeRange ( const std::vector<double>& pos1,
  *
  * @return Range of relative position vector
  */
-double smartastro::observations::computeRange ( const std::vector<double>& relPos )
+double smartastro::observations::computeRange ( const std::vector<double>& relState )
 {
     // Sanity check on dimensions
-    if ( relPos.size()!=3 )
-        smartastro_throw("Relative position size differs from 3");
+    if ( relState.size()!=3 && relState.size()!=6 )
+        smartastro_throw("Relative position size differs from 3 or 6");
 
     // Compute range
     double range = std::sqrt(
-            std::pow(relPos[0],2.0) + std::pow(relPos[1],2.0) + std::pow(relPos[2],2.0)
+            std::pow(relState[0],2.0) + std::pow(relState[1],2.0) + std::pow(relState[2],2.0)
     );
 
     return range;

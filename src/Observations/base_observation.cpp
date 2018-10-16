@@ -20,10 +20,10 @@ using namespace smartastro::observations;
  */
 base_observation::base_observation(const observationParams* pParams,
                                    const observationTypes&  obsType) :
-        m_pParams(pParams), m_noisyObservation(false), m_observationType(obsType)
+        m_pParams(pParams), m_observationType(obsType)
 {
-    // Initialise flags
-    this->initialise();
+    // Check input
+    checkInput();
 }
 
 
@@ -38,16 +38,16 @@ base_observation::~base_observation()
 
 
 /**
- * getObservation: Function that returns noisy measurements at time t
+ * getObservation: Function that returns noisy measurements
  *
- * @param t: time at which the measurement(time system is defined in derived classes)
  * @return Measurement vector
  *
  */
-std::vector<double> base_observation::getObservation( const double& t )
+std::vector<double> base_observation::getNoisyObservation( const std::vector<double>& sensorState,
+                                                           const std::vector<double>& targetState )
 {
     // Get perfect measurement
-    std::vector<double> measurement = getPerfectObservation(t);
+    std::vector<double> measurement = getPerfectObservation(sensorState,targetState);
 
     // Add noisy if requested
     if (m_noisyObservation)
@@ -73,18 +73,6 @@ std::vector<double> base_observation::getObservation( const double& t )
  */
 
 
-// Set noisy measurements
-void base_observation::setNoisyObservation( const bool noisyObservation )
-{
-    // Assign value
-    m_noisyObservation = noisyObservation;
-
-    // Check if generating function exists
-    if (m_noisyObservation && !m_pParams->generateMeasurementNoise)
-        smartastro_throw("Noisy measurements requested but function to generate noise not assigned");
-}
-
-
 // Get observation type
 observationTypes base_observation::getObservationType () const
 {
@@ -97,19 +85,12 @@ observationTypes base_observation::getObservationType () const
  */
 
 // Check whether relative or absolute positions shall be used
-void base_observation::initialise()
+void base_observation::checkInput()
 {
-    // Absolute state flag
-    if(m_pParams->getSensorEphemeris && m_pParams->getTargetEphemeris)
-        m_absoluteEphemeris = true;
+    if(m_pParams->generateMeasurementNoise)
+        m_noisyObservation = true;
     else
-        m_absoluteEphemeris = false;
-
-    // Relative state flag
-    if(m_pParams->getSensorTargetRelativeEphemeris)
-        m_relativeEphemeris = true;
-    else
-        m_relativeEphemeris = false;
+        m_noisyObservation = false;
 }
 
 
@@ -117,6 +98,9 @@ void base_observation::initialise()
 // Get noise value and save it
 std::vector<double> base_observation::getNoiseSample()
 {
+    if (!m_noisyObservation)
+        smartastro_throw("Noise sample requested but noise generator not set");
+
     // Compute noise sample
     std::vector<double> noiseSample = m_pParams->generateMeasurementNoise();
 

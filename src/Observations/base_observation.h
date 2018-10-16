@@ -45,16 +45,7 @@ namespace observations
         struct observationParams {
 
             // Function to get noise on measurements
-            std::function<std::vector<double>()>          generateMeasurementNoise          = nullptr;
-
-            // Function to get sensor state
-            std::function<std::vector<double>(double)>    getSensorEphemeris                = nullptr;
-
-            // Function to get target state
-            std::function<std::vector<double>(double)>    getTargetEphemeris                = nullptr;
-
-            // Function to get sensor-target relative state
-            std::function<std::vector<double>(double)>    getSensorTargetRelativeEphemeris  = nullptr;
+            std::function<std::vector<double>()>          generateMeasurementNoise = nullptr;
 
         }; // observationParams
 
@@ -70,12 +61,6 @@ namespace observations
 
         // Flag for noise [false by default]
         bool                         m_noisyObservation;
-
-        // Flag to check absolute ephemerides [priority]
-        bool                         m_absoluteEphemeris;
-
-        // Flag to check relative ephemerides
-        bool                         m_relativeEphemeris;
 
         // Last noise value
         std::vector<double>          m_currentNoiseSample;
@@ -106,23 +91,23 @@ namespace observations
 
 
         /**
-         * getObservation: Function that returns noisy measurements at time t [could be overloaded to include other effects]
+         * getObservation: Function that returns noisy measurements
          *
-         * @param t: time at which the measurement(time system is defined in derived classes)
          * @return Measurement vector
          *
          */
-        virtual std::vector<double> getObservation( const double& t ) ;
+        virtual std::vector<double> getNoisyObservation( const std::vector<double>& sensorState,
+                                                         const std::vector<double>& targetState ) ;
 
 
         /**
-         * getObservation: Function that returns perfect measurements at time t
+         * getObservation: Function that returns perfect measurement
          *
-         * @param t: time at which the measurement(time system is defined in derived classes)
          * @return Measurement vector
          *
          */
-        virtual std::vector<double> getPerfectObservation( const double& t ) = 0 ;
+        virtual std::vector<double> getPerfectObservation( const std::vector<double>& sensorState,
+                                                           const std::vector<double>& targetState ) = 0 ;
 
 
 
@@ -131,9 +116,6 @@ namespace observations
          */
 
     public:
-
-        // Set noisy measurements
-        void setNoisyObservation( const bool noisyObservation );
 
         // Get observation type
         observationTypes getObservationType () const;
@@ -145,8 +127,8 @@ namespace observations
 
     private:
 
-        // Constructor call: check whether relative or absolute positions shall be used
-        void initialise() ;
+        // Constructor call: check inputs
+        void checkInput() ;
 
         // Get noise value and save it
         std::vector<double> getNoiseSample() ;
