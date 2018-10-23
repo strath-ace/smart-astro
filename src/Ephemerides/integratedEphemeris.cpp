@@ -11,6 +11,7 @@
 #include "Ephemerides/integratedEphemeris.h"
 
 using namespace smartastro::ephemerides;
+using namespace std;
 
 /**
  * Default constructor
@@ -47,14 +48,14 @@ integratedEphemeris::~integratedEphemeris()
  * @return Cartesian state at time t
  *
  */
-std::vector<double> integratedEphemeris::getCartesianState( const double& t )
+vector<double> integratedEphemeris::getCartesianState( const double& t )
 {
     // Initial time and state vector
     double ti;
-    std::vector<double> xi;
+    vector<double> xi;
 
     // Check which is closer
-    if ( std::abs(t-m_pParams->ti)<=std::abs(t-m_currT) )
+    if ( abs(t-m_pParams->ti)<=abs(t-m_currT) )
     {
         ti = m_pParams->ti;
         xi = m_pParams->xi;
@@ -66,8 +67,9 @@ std::vector<double> integratedEphemeris::getCartesianState( const double& t )
     }
 
     // Integrate to final state x
-    std::vector<double> x(xi);
-    m_pParams->integrate(ti,t,m_pParams->nsteps,xi,x);
+    vector<double> x(xi);
+    int nsteps = abs(ceil((t-ti)/m_pParams->hstep));
+    m_pParams->integrate(ti,t,nsteps,xi,x);
 
     // Set current time and state to last integrated one
     m_currT = t;

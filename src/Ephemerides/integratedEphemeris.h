@@ -32,8 +32,8 @@ namespace smartastro {
 
             struct integratedEphemerisParams : public ephemerisParams {
 
-                // Integration function -> int (const double &ti, const double &tend, const int &nsteps, const std::vector<T> &x0, std::vector<T> &xfinal)
-                std::function<int(double,double,int,std::vector<double>,std::vector<double>)>       integrate;
+                // Integration function -> int (const double &ti, const double &tend,const int& nsteps, const std::vector<T> &x0, std::vector<T> &xfinal)
+                std::function<int(double,double,int,std::vector<double>,std::vector<double>)>          integrate;
 
                 // Initial time
                 double                                                                              ti;
@@ -41,8 +41,8 @@ namespace smartastro {
                 // Initial state
                 std::vector<double>                                                                 xi;
 
-                // Number of integration steps
-                int                                                                                 nsteps;
+                // Integration time step
+                double                                                                              hstep;
 
             }; // ephemerisParams
 
