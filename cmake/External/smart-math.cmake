@@ -14,8 +14,8 @@ if (NOT __SMART_MATH_INCLUDED) # guard against multiple includes
         ExternalProject_Add(smart-math
                 PREFIX ${smart-math_PREFIX}
                 INSTALL_DIR ${smart-math_INSTALL}
-                GIT_REPOSITORY "git@github.com:strath-ace-labs/smart-math.git"
-                GIT_TAG "development"
+                GIT_REPOSITORY "git@github.com:strath-ace/smart-math.git"
+                GIT_TAG "master"
                 #GIT_SHALLOW 1
                 CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
                 -DCMAKE_INSTALL_PREFIX=${smart-math_INSTALL}
