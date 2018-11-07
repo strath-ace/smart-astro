@@ -49,8 +49,8 @@ namespace observations
          * @return Measurement vector
          *
          */
-        virtual std::vector<double> getPerfectObservation( const std::vector<double>& sensorState,
-                                                           const std::vector<double>& targetState ) ;
+        virtual std::vector<double> getPerfectObservation( const std::vector<double>& targetState,
+                                                           const std::vector<double>& sensorState = {} ) ;
 
 
     }; // class rangeObservation
@@ -62,8 +62,8 @@ namespace observations
      *
      * @return Range between two position vectors
      */
-    double computeRange ( const std::vector<double>& pos1,
-                          const std::vector<double>& pos2);
+    double computeRange ( const std::vector<double>& targetPos,
+                          const std::vector<double>& sensorPos);
 
     /**
      * Compute range given relative position vector

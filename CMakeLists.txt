@@ -269,7 +269,10 @@ endif()
 # Install header files and library.
 # Destination is set by CMAKE_INSTALL_PREFIX and defaults to usual locations, unless overridden by
 # user.
-install(DIRECTORY ${INCLUDE_PATH}/ DESTINATION include/${PROJECT_NAME} FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp")
+install(DIRECTORY ${INCLUDE_PATH}/ DESTINATION include/${PROJECT_NAME} #FILES_MATCHING
+        PATTERN "*.c" EXCLUDE
+        PATTERN "*.cpp" EXCLUDE
+        PATTERN "*.in" EXCLUDE )
 install(DIRECTORY ${EXTERNAL_PATH}/ DESTINATION include/${PROJECT_NAME})
 
 install(TARGETS ${LIB_NAME} ${LIB_NAME_STATIC} ${BIN_NAME}

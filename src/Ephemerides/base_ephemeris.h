@@ -13,6 +13,10 @@
 #include <string>
 #include <vector>
 
+#ifdef __USE_CSPICE
+    #include <cspice/SpiceUsr.h>
+#endif // __USE_CSPICE
+
 #include "../exception.h"
 
 namespace smartastro
@@ -32,7 +36,10 @@ namespace ephemerides
         struct ephemerisParams {
 
             // Reference frame to which ephemerides are referred
-            std::string        referenceFrame = "";
+            std::string          referenceFrame = "";
+
+            // Center of Reference frame to which ephemerides are referred
+            std::vector<double>  referenceFrameCenter;
 
         }; // ephemerisParams
 
@@ -80,6 +87,22 @@ namespace ephemerides
          *
          */
         virtual std::vector<double> getCartesianState( const double& t ) = 0;
+
+//
+//        /**
+//         * getCartesianState: Function that returns object position-velocity for time t
+//         *
+//         * @param jd: time at which the Cartesian State is desired in jd
+//         * @param jd: Reference frame name of output state
+//         * @param jd: Reference frame center of output state
+//         * @return Cartesian state at time jd
+//         *
+//         */
+//        virtual std::vector<double> getCartesianState( const double& jd,
+//                                                       const std::string& outputReferenceFrame,
+//                                                       const std::vector<double>& outputReferenceFrameCenter ={} ) ;
+//
+
 
 
     }; // class base_ephemeris

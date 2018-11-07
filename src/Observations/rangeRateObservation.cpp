@@ -40,14 +40,14 @@ rangeRateObservation::~rangeRateObservation()
  * @return Measurement vector
  *
  */
-std::vector<double> rangeRateObservation::getPerfectObservation( const std::vector<double>& sensorState,
-                                                                 const std::vector<double>& targetState )
+std::vector<double> rangeRateObservation::getPerfectObservation( const std::vector<double>& targetState,
+                                                                 const std::vector<double>& sensorState )
 {
     // Return value
     double rangeRate ;
 
     // Compute rangeRate [sanity check on dimensions inside]
-    rangeRate = smartastro::observations::computeRangeRate(sensorState, targetState);
+    rangeRate = smartastro::observations::computeRangeRate(targetState, sensorState);
 
     return std::vector<double>(1,rangeRate);
 }
@@ -59,22 +59,23 @@ std::vector<double> rangeRateObservation::getPerfectObservation( const std::vect
  *
  * @return RangeRate between two state vectors
  */
-double smartastro::observations::computeRangeRate ( const std::vector<double>& state1,
-                                               const std::vector<double>& state2)
+double smartastro::observations::computeRangeRate ( const std::vector<double>& targetState,
+                                                    const std::vector<double>& sensorState)
 {
     // Sanity check on dimensions
-    if ( state1.size()!=6 )
+    if ( targetState.size()!=6 )
         smartastro_throw("First state size differs from 6");
-    if ( state2.size()!=6 )
+    if ( !sensorState.empty()&&sensorState.size()!=6 )
         smartastro_throw("Second state size differs from 6");
 
     // Compute rangeRate from relative state routine
-    std::vector<double> relState (6);
-    for (unsigned int i = 0 ; i < 6; i++)
-        relState[i] = state2[i]-state1[i];
-    double rangeRate = computeRangeRate(relState);
+    std::vector<double> relState (targetState);
 
-    return rangeRate;
+    if (!sensorState.empty())
+        for (unsigned int i = 0 ; i < 6; i++)
+            relState[i] -= sensorState[i];
+
+    return computeRangeRate(relState);
 }
 
 /**

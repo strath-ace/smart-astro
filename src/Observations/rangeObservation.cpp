@@ -40,14 +40,14 @@ rangeObservation::~rangeObservation()
  * @return Measurement vector
  *
  */
-std::vector<double> rangeObservation::getPerfectObservation( const std::vector<double>& sensorState,
-                                                             const std::vector<double>& targetState )
+std::vector<double> rangeObservation::getPerfectObservation( const std::vector<double>& targetState,
+                                                             const std::vector<double>& sensorState )
 {
     // Return value
     double range ;
 
     // Compute range
-    range = smartastro::observations::computeRange(sensorState, targetState);
+    range = smartastro::observations::computeRange(targetState, sensorState);
 
     // Sanity check on sign
     if(range<0.0)
@@ -63,19 +63,22 @@ std::vector<double> rangeObservation::getPerfectObservation( const std::vector<d
  *
  * @return Range between two position vectors
  */
-double smartastro::observations::computeRange ( const std::vector<double>& state1,
-                                                const std::vector<double>& state2)
+double smartastro::observations::computeRange ( const std::vector<double>& targetPos,
+                                                const std::vector<double>& sensorPos)
 {
     // Sanity check on dimensions
-    if ( state1.size()!=3 && state1.size()!=6 )
-        smartastro_throw("First state size differs from 3 or 6");
-    if ( state2.size()!=3 && state2.size()!=6 )
-        smartastro_throw("Second state size differs from 3 or 6");
+    if ( targetPos.size()!=3 && targetPos.size()!=6 )
+        smartastro_throw("Target state size differs from 3 or 6");
+    if ( !sensorPos.empty() && sensorPos.size()!=3 && sensorPos.size()!=6 )
+        smartastro_throw("Target state size differs from 3 or 6");
 
     // Compute range
-    double range = std::sqrt(
-            std::pow(state1[0]-state2[0],2.0) + std::pow(state1[1]-state2[1],2.0) + std::pow(state1[2]-state2[2],2.0)
-    );
+    std::vector<double> relPos (targetPos.begin(),targetPos.begin()+3);
+    if (!sensorPos.empty())
+        for (unsigned int i = 0 ; i < 3; i++)
+            relPos[i] -= sensorPos[i];
+
+    double range = computeRange(relPos);
 
     return range;
 }

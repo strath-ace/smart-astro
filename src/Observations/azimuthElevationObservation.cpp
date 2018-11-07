@@ -41,14 +41,14 @@ azimuthElevationObservation::~azimuthElevationObservation()
  * @return Measurement vector
  *
  */
-std::vector<double> azimuthElevationObservation::getPerfectObservation( const std::vector<double>& sensorStateTOPO,
-                                                                        const std::vector<double>& targetStateTOPO )
+std::vector<double> azimuthElevationObservation::getPerfectObservation( const std::vector<double>& targetStateTOPO,
+                                                                        const std::vector<double>& sensorStateTOPO )
 {
     // Return value
     std::vector<double> azimuthElevation (2);
 
     // Compute azimuthElevation [sanity check on dimensions inside]
-    azimuthElevation = smartastro::observations::computeAzimuthElevation(sensorStateTOPO, targetStateTOPO);
+    azimuthElevation = smartastro::observations::computeAzimuthElevation(targetStateTOPO, sensorStateTOPO);
 
     return azimuthElevation;
 }
@@ -60,19 +60,20 @@ std::vector<double> azimuthElevationObservation::getPerfectObservation( const st
  *
  * @return AzimuthElevation between two state vectors
  */
-std::vector<double> smartastro::observations::computeAzimuthElevation ( const std::vector<double>& stateTOPO1,
-                                                                        const std::vector<double>& stateTOPO2)
+std::vector<double> smartastro::observations::computeAzimuthElevation ( const std::vector<double>& targetTOPO,
+                                                                        const std::vector<double>& sensorTOPO)
 {
     // Sanity check on dimensions
-    if ( stateTOPO1.size()!=6 )
+    if ( targetTOPO.size()!=6 )
         smartastro_throw("First state size differs from 6");
-    if ( stateTOPO2.size()!=6 )
+    if ( !sensorTOPO.empty()&&sensorTOPO.size()!=6 )
         smartastro_throw("Second state size differs from 6");
 
     // Compute azimuthElevation from relative state routine
-    std::vector<double> relTOPOCartState (6);
-    for (unsigned int i = 0 ; i < 6; i++)
-        relTOPOCartState[i] = stateTOPO2[i]-stateTOPO1[i];
+    std::vector<double> relTOPOCartState (targetTOPO);
+    if (!sensorTOPO.empty())
+        for (unsigned int i = 0 ; i < 6; i++)
+            relTOPOCartState[i] -= sensorTOPO[i];
 
     return computeAzimuthElevation(relTOPOCartState);
 }

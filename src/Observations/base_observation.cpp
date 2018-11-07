@@ -43,11 +43,11 @@ base_observation::~base_observation()
  * @return Measurement vector
  *
  */
-std::vector<double> base_observation::getNoisyObservation( const std::vector<double>& sensorState,
-                                                           const std::vector<double>& targetState )
+std::vector<double> base_observation::getNoisyObservation( const std::vector<double>& targetState,
+                                                           const std::vector<double>& sensorState )
 {
     // Get perfect measurement
-    std::vector<double> measurement = getPerfectObservation(sensorState,targetState);
+    std::vector<double> measurement = getPerfectObservation(targetState,sensorState);
 
     // Add noisy if requested
     if (m_noisyObservation)
@@ -63,6 +63,8 @@ std::vector<double> base_observation::getNoisyObservation( const std::vector<dou
         for ( unsigned int i = 0 ; i < measurement.size(); i++ )
             measurement[i] += noise[i];
     }
+    else
+        smartastro_throw("Noise generator not set");
 
     return measurement;
 }

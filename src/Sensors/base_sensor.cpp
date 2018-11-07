@@ -18,7 +18,7 @@ using namespace smartastro::sensors;
  *
  * @param Parameters structure
  */
-base_sensor::base_sensor(const baseSensorParams* pParams) :
+base_sensor::base_sensor(baseSensorParams* pParams) :
         m_pParams(pParams), m_currTime(std::nan("NaN"))
 {
     // Check input
@@ -57,9 +57,9 @@ std::vector<OutputSensor> base_sensor::getMeasurements( const std::vector<double
     for (unsigned int i = 0 ; i < nObs; i++)
     {
         outputObs[i].sensor = m_pParams->name;
-        outputObs[i].time = m_currTime;
+        outputObs[i].time   = m_currTime;
         outputObs[i].number = i;
-        outputObs[i].value = m_pParams->vGetObservations[i](m_currSensorState,targetState);
+        outputObs[i].value  = m_pParams->vGetObservations[i](m_currSensorState,targetState);
     }
 
     // Return output

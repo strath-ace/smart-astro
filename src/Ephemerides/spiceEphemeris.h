@@ -19,9 +19,9 @@
 #include "AstroData/SpiceKernels/spiceKernelNames.h"
 
 
-#ifdef __USE_CSPICE
-    #include <cspice/SpiceUsr.h>
-#endif // __USE_CSPICE
+//#ifdef __USE_CSPICE
+//    #include <cspice/SpiceUsr.h>
+//#endif // __USE_CSPICE
 
 namespace smartastro {
 namespace ephemerides {

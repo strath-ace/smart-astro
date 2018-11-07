@@ -56,8 +56,8 @@ namespace smartastro
              * @return Measurement vector
              *
              */
-            virtual std::vector<double> getPerfectObservation( const std::vector<double>& sensorStateTOPO,
-                                                               const std::vector<double>& targetStateTOPO ) ;
+            virtual std::vector<double> getPerfectObservation( const std::vector<double>& targetStateTOPO,
+                                                               const std::vector<double>& sensorStateTOPO = {}) ;
 
 
         }; // class azimuthElevationObservation
@@ -69,8 +69,8 @@ namespace smartastro
          *
          * @return Range between two state vectors
          */
-        std::vector<double> computeAzimuthElevation ( const std::vector<double>& stateTOPO1,
-                                                      const std::vector<double>& stateTOPO2 );
+        std::vector<double> computeAzimuthElevation ( const std::vector<double>& targetTOPO,
+                                                      const std::vector<double>& sensorTOPO );
 
         /**
          * Compute azimuthElevation given relative state vector in topocentric reference frame

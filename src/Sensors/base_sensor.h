@@ -73,7 +73,7 @@ namespace sensors
     protected:
 
         // Input parameters
-        const baseSensorParams*         m_pParams;
+        baseSensorParams*               m_pParams;
 
         // Current time
         double                          m_currTime;
@@ -94,7 +94,7 @@ namespace sensors
          *
          * @param Parameters structure
          */
-        base_sensor(const baseSensorParams* pParams);
+        base_sensor(baseSensorParams* pParams);
 
 
         /**

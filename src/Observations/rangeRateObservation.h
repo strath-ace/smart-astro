@@ -48,8 +48,8 @@ namespace observations
          * @return Measurement vector
          *
          */
-        virtual std::vector<double> getPerfectObservation( const std::vector<double>& sensorState,
-                                                           const std::vector<double>& targetState ) ;
+        virtual std::vector<double> getPerfectObservation( const std::vector<double>& targetState,
+                                                           const std::vector<double>& sensorState = {} ) ;
 
 
     }; // class rangeRateObservation
@@ -61,8 +61,8 @@ namespace observations
      *
      * @return Range between two state vectors
      */
-    double computeRangeRate ( const std::vector<double>& state1,
-                              const std::vector<double>& state2);
+    double computeRangeRate ( const std::vector<double>& targetState,
+                              const std::vector<double>& sensorState);
 
     /**
      * Compute rangeRate given relative state vector

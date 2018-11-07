@@ -8,8 +8,8 @@
 */
 
 
-#ifndef SMART_ASTRO_BASE_SENSOR_H
-#define SMART_ASTRO_BASE_SENSOR_H
+#ifndef SMART_ASTRO_BASE_OBSERVATION_H
+#define SMART_ASTRO_BASE_OBSERVATION_H
 
 #include <vector>
 #include <functional>
@@ -96,8 +96,8 @@ namespace observations
          * @return Measurement vector
          *
          */
-        virtual std::vector<double> getNoisyObservation( const std::vector<double>& sensorState,
-                                                         const std::vector<double>& targetState ) ;
+        virtual std::vector<double> getNoisyObservation( const std::vector<double>& targetState,
+                                                         const std::vector<double>& sensorState = {} ) ;
 
 
         /**
@@ -106,8 +106,8 @@ namespace observations
          * @return Measurement vector
          *
          */
-        virtual std::vector<double> getPerfectObservation( const std::vector<double>& sensorState,
-                                                           const std::vector<double>& targetState ) = 0 ;
+        virtual std::vector<double> getPerfectObservation( const std::vector<double>& targetState,
+                                                           const std::vector<double>& sensorState = {} ) = 0 ;
 
 
 
@@ -140,4 +140,4 @@ namespace observations
 } // namespace smartastro
 
 
-#endif //SMART_ASTRO_BASE_SENSOR_H
+#endif //SMART_ASTRO_BASE_OBSERVATION_H
