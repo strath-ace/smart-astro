@@ -33,7 +33,7 @@ namespace smartastro {
             struct integratedEphemerisParams : public ephemerisParams {
 
                 // Integration function -> int (const double &ti, const double &tend,const int& nsteps, const std::vector<T> &x0, std::vector<T> &xfinal)
-                std::function<int(double,double,int,std::vector<double>,std::vector<double>)>          integrate;
+                std::function<int(double,double,int,std::vector<double>,std::vector<double>&)>      integrate;
 
                 // Initial time
                 double                                                                              ti;
@@ -54,14 +54,13 @@ namespace smartastro {
         protected:
 
             // Input parameters
-            const integratedEphemerisParams* m_pParams;
+            const integratedEphemerisParams*  m_pParams;
 
-            // Current time
-            double                           m_currT;
+            // Time history
+            std::vector<double>               m_histT;
 
-            // Current state
-            std::vector<double>              m_currX;
-
+            // State history
+            std::vector<std::vector<double>>  m_histX;
 
 
             /**
@@ -99,6 +98,16 @@ namespace smartastro {
 
 
         public:
+
+            /**
+             * Get time history
+             */
+             std::vector<double> getTimeHistory() const;
+
+            /**
+             * Get state history
+             */
+            std::vector<std::vector<double>> getStateHistory() const;
 
             /**
              * Reset current time and state

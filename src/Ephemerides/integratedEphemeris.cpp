@@ -19,7 +19,8 @@ using namespace std;
  * @param Input parameters as defined in integratedEphemerisParams
  */
 integratedEphemeris::integratedEphemeris(const ephemerisParams* pParams) :
-        base_ephemeris(pParams), m_pParams(static_cast<const integratedEphemerisParams*>(pParams)), m_currT(-1.0e10)
+        base_ephemeris(pParams), m_pParams(static_cast<const integratedEphemerisParams*>(pParams)),
+        m_histT(vector<double>(1,m_pParams->ti)), m_histX(vector<vector<double>>(1,m_pParams->xi))
 {
     // Sanity check
     if ( m_pParams == nullptr )
@@ -55,29 +56,70 @@ vector<double> integratedEphemeris::getCartesianState( const double& t )
     vector<double> xi;
 
     // Check which is closer
-    if ( abs(t-m_pParams->ti)<=abs(t-m_currT) )
+    unsigned int nT = m_histT.size();
+    int cc = 0;
+
+    // First, last and between times
+    if (t<m_histT[0])
     {
-        ti = m_pParams->ti;
-        xi = m_pParams->xi;
+        ti = m_histT[0];
+        xi = m_histX[0];
     }
+    else if (t>m_histT.back())
+    {
+        cc = nT;
+        ti = m_histT.back();
+        xi = m_histX.back();
+    }
+    else if (abs(t-m_histT.back())<1.0e-8)
+        return m_histX.back();
     else
     {
-        ti = m_currT;
-        xi = m_currX;
+        bool closerFound = false;
+        while (cc<nT-1 && !closerFound)
+        {
+            if (abs(t-m_histT[cc])<1.0e-8)
+                return m_histX[cc];
+
+            if (t>m_histT[cc] && t<m_histT[cc+1])
+            {
+                ti = m_histT[cc];
+                xi = m_histX[cc];
+                closerFound = true;
+            }
+            cc++;
+        }
     }
 
     // Integrate to final state x
     vector<double> x(xi);
-    int nsteps = abs(ceil((t-ti)/m_pParams->hstep));
+    int nsteps = ceil(abs((t-ti)/m_pParams->hstep));
     m_pParams->integrate(ti,t,nsteps,xi,x);
 
-    // Set current time and state to last integrated one
-    m_currT = t;
-    m_currX.clear();
-    m_currX = x;
+    // Set last integrated time and state in history
+    m_histT.insert(m_histT.begin()+cc,t);
+    m_histX.insert(m_histX.begin()+cc,x);
 
     // Return value
     return x;
+}
+
+
+
+/**
+ * Get time history
+ */
+std::vector<double> integratedEphemeris::getTimeHistory() const
+{
+    return m_histT;
+}
+
+/**
+ * Get state history
+ */
+std::vector<std::vector<double>> integratedEphemeris::getStateHistory() const
+{
+    return m_histX;
 }
 
 
@@ -86,6 +128,6 @@ vector<double> integratedEphemeris::getCartesianState( const double& t )
  */
 void integratedEphemeris::resetCurrentTimeState()
 {
-    m_currT = -1.0e10;
-    m_currX.clear();
+    m_histX.clear();
+    m_histT.clear();
 }

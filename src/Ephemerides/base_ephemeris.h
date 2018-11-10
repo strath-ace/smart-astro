@@ -36,10 +36,10 @@ namespace ephemerides
         struct ephemerisParams {
 
             // Reference frame to which ephemerides are referred
-            std::string          referenceFrame = "";
+            std::string          referenceFrame ;
 
             // Center of Reference frame to which ephemerides are referred
-            std::vector<double>  referenceFrameCenter;
+            std::string          referenceFrameCenter;
 
         }; // ephemerisParams
 

@@ -29,16 +29,19 @@ namespace sensors
     struct OutputSensor {
 
         // Name of sensor
-        std::string             sensor;
+        std::string                       sensor;
 
         // Number of measurement
-        unsigned int            number;
+        unsigned int                      number;
 
         // Time of observation [jd]
-        double                  time;
+        double                            time;
 
         // Value of observation
-        std::vector<double>     value;
+        std::vector<double>               value;
+
+        // Covariance of observation
+        std::vector<std::vector<double>>  cov;
 
     };
 
