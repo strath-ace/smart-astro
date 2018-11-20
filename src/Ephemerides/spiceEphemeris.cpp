@@ -41,8 +41,6 @@ spiceEphemeris::~spiceEphemeris()
 
 
 
-#ifdef __USE_CSPICE
-
 /**
  * getCartesianState: Function that returns object position-velocity for time t
  *
@@ -53,6 +51,8 @@ spiceEphemeris::~spiceEphemeris()
 
 std::vector<double> spiceEphemeris::getCartesianState( const double& jd )
 {
+
+#ifdef __USE_CSPICE
     // Variables
     SpiceDouble et, lt, state[6];
     std::vector<double> car(6);
@@ -75,7 +75,12 @@ std::vector<double> spiceEphemeris::getCartesianState( const double& jd )
         car[i] = state[i];
 
     return car;
+
+#else
+    smartastro_throw("cspice not included");
+    return {};
+#endif
+
 }
 
 
-#endif

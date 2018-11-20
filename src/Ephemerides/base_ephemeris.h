@@ -13,10 +13,6 @@
 #include <string>
 #include <vector>
 
-#ifdef __USE_CSPICE
-    #include <cspice/SpiceUsr.h>
-#endif // __USE_CSPICE
-
 #include "../exception.h"
 
 namespace smartastro
