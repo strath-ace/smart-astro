@@ -45,7 +45,7 @@ option(BUILD_MAIN                              "Build main function"            
 option(BUILD_DOCS                              "Build docs"                     OFF)
 option(BUILD_EXAMPLES                          "Build examples"                 ON)
 option(ENABLE_SMARTUQ            	           "UQ methods"                     OFF)
-option(ENABLE_CSPICE            	           "JPL CSPICE"                     OFF)
+option(ENABLE_CSPICE            	           "JPL CSPICE"                     ON)
 option(ENABLE_WORHP            		           "eNLP solver"                    OFF)
 option(ENABLE_GRAPHICS                         "X11 libraries (only UNIX systems)" OFF)
 option(ENABLE_MONGODB                          "MongoDB database"               OFF)

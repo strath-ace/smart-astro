@@ -122,6 +122,21 @@ std::vector<std::vector<double>> integratedEphemeris::getStateHistory() const
     return m_histX;
 }
 
+/**
+ * Set time history
+ */
+void integratedEphemeris::setTimeHistory(const std::vector<double> &THist)
+{
+    m_histT = THist;
+}
+
+/**
+ * Set state history
+ */
+void integratedEphemeris::setStateHistory(const std::vector<std::vector<double>> &XHist)
+{
+    m_histX = XHist;
+}
 
 /**
  * Reset current time and state

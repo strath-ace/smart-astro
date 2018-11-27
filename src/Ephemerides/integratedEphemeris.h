@@ -110,6 +110,16 @@ namespace smartastro {
             std::vector<std::vector<double>> getStateHistory() const;
 
             /**
+             * Set time history
+             */
+            void setTimeHistory(const std::vector<double> &THist);
+
+            /**
+             * Set state history
+             */
+            void setStateHistory(const std::vector<std::vector<double>> &XHist);
+
+            /**
              * Reset current time and state
              */
              void resetCurrentTimeState() ;

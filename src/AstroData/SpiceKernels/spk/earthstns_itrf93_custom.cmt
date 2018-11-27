@@ -1,0 +1,162 @@
+
+
+NDOSL Station Locations SPK File
+=========================================================================
+
+   Fri Nov  7 08:54:11 PST 2014 -- BVS/NAIF
+
+
+Abstract
+=======================================================
+
+   This pair of SPK and FK files contains locations and topocentric
+   frame definitions for a subset of stations from ``WGS84 NASA
+   DIRECTORY OF STATION LOCATIONS'' (NDOSL) [1]. This subset does not
+   includes locations of launch pads, lasers, aircraft, runways,
+   cameras, and command centers.
+
+   The WGS-84 reference parameters, station coordinates, and location
+   and equipment descriptions are summarized in Tables 1, 2, and 3
+   below.
+
+   These SPK and FK were made using PINPOINT. The keywords defining
+   PINPOINT inputs are provided in the section "PINPOINT Inputs" below.
+
+   Since both the station locations and frame orientations are defined
+   relative to ITRF93, a high precision Earth orientation PCK file
+   providing the orientation of ITRF93 must be loaded together with
+   these SPK and FK.
+
+
+Station and Frame Names and IDs
+=======================================================
+
+   NAIF object and frame names and IDs for stations, for which data is
+   provided in these files were based on the from alpha-numeric station
+   codes (STDN_CODE) and four-digit station NASA numbers (NASA_NMBR) as
+   follows:
+
+      <NAIF_NAME>  = 'NDOSL_<STDN_CODE>'
+
+      <NAIF_ID>    = 399100000 + <NASA_NMBR>
+
+      <FRAME_NAME> = 'NDOSL_<STDN_CODE>_TOPO'
+
+      <FRAME_ID>   = 399100000 + <NASA_NMBR>
+
+
+References
+=======================================================
+
+   [1] NASA DIRECTORY OF STATION LOCATIONS (NDOSL), May 30, 2014
+
+
+
+Table 1: WGS-84 Ellipsoid
+=======================================================
+
+   From "SECT. D1: SPHEROID CONSTANTS" in [1]:
+
+      --  --------  ------------  -------------
+      NO  SPHEROID  R (M)         1/F
+      --  --------  ------------  -------------
+      25  WGS84     6378137.0000  298.257223563
+      --  --------  ------------  -------------
+
+   Spheroid RADII corresponding to the values above are:
+
+      BODY399_RADII     = ( 6378.137  6378.137  6356.75231424518 )
+
+
+PINPOINT Inputs
+=======================================================
+
+\begindata
+
+
+   NAIF_BODY_NAME          += 'GROTTAGLIE'
+   NAIF_BODY_CODE          += 399109991
+   SITES                   += 'GROTTAGLIE'
+   GROTTAGLIE_CENTER        = 399
+   GROTTAGLIE_FRAME         = 'ITRF93'
+   GROTTAGLIE_IDCODE        = 399109991
+   GROTTAGLIE_LATLON        = (  40.5333333333,  17.4333333333,  0.071470 )
+   GROTTAGLIE_TOPO_FRAME    = 'GROTTAGLIE_TOPO'
+   GROTTAGLIE_TOPO_ID       = 399109991
+   GROTTAGLIE_UP            = 'Z'
+   GROTTAGLIE_NORTH         = 'X'
+
+
+   NAIF_BODY_NAME         += 'ROMA'
+   NAIF_BODY_CODE         += 399109992
+   SITES                   += 'ROMA'
+   ROMA_CENTER              = 399
+   ROMA_FRAME               = 'ITRF93'
+   ROMA_IDCODE              = 399109992
+   ROMA_LATLON              = (   41.893056, 12.482778, -0.013808 )
+   ROMA_TOPO_FRAME          = 'ROMA_TOPO'
+   ROMA_TOPO_ID             = 399109992
+   ROMA_UP                  = 'Z'
+   ROMA_NORTH               = 'X'
+
+
+   NAIF_BODY_NAME          += 'MATERA'
+   NAIF_BODY_CODE          += 399109993
+   SITES                   += 'MATERA'
+   MATERA_CENTER            = 399
+   MATERA_FRAME             = 'ITRF93'
+   MATERA_IDCODE            = 399109993
+   MATERA_LATLON            = (  40.64910126, 16.70450020,  0.436700 )
+   MATERA_TOPO_FRAME        = 'MATERA_TOPO'
+   MATERA_TOPO_ID           = 399109993
+   MATERA_UP                = 'Z'
+   MATERA_NORTH             = 'X'
+
+
+
+   NAIF_BODY_NAME          += 'KIRUNA'
+   NAIF_BODY_CODE          += 399109994
+   SITES                   += 'KIRUNA'
+   KIRUNA_CENTER            = 399
+   KIRUNA_FRAME             = 'ITRF93'
+   KIRUNA_IDCODE            = 399109994
+   KIRUNA_LATLON            = ( 67.858428, 20.966880,  0.730000 )
+   KIRUNA_TOPO_FRAME        = 'KIRUNA_TOPO'
+   KIRUNA_TOPO_ID           = 399109994
+   KIRUNA_UP                = 'Z'
+   KIRUNA_NORTH             = 'X'
+
+
+
+   NAIF_BODY_NAME          += 'TROLL'
+   NAIF_BODY_CODE          += 399109995
+   SITES                   += 'TROLL'
+   TROLL_CENTER             = 399
+   TROLL_FRAME              = 'ITRF93'
+   TROLL_IDCODE             = 399109995
+   TROLL_LATLON             = ( -72.0167, 2.53333333,  0.730853 )
+   TROLL_TOPO_FRAME         = 'TROLL_TOPO'
+   TROLL_TOPO_ID            = 399109995
+   TROLL_UP                 = 'Z'
+   TROLL_NORTH              = 'X'
+
+
+   NAIF_BODY_NAME          += 'SVALDARD'
+   NAIF_BODY_CODE          += 399109996
+   SITES                   += 'SVALDARD'
+   SVALDARD_CENTER          = 399
+   SVALDARD_FRAME           = 'ITRF93'
+   SVALDARD_IDCODE          = 399109996
+   SVALDARD_LATLON          = ( 78.229772, 15.407786,  0.730853 )
+   SVALDARD_TOPO_FRAME      = 'SVALDARD_TOPO'
+   SVALDARD_TOPO_ID         = 399109996
+   SVALDARD_UP              = 'Z'
+   SVALDARD_NORTH           = 'X'
+
+
+\begintext
+
+
+
+End of PINPOINT inputs.
+
