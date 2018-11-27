@@ -509,7 +509,7 @@ int sunAzimuthElevationFromObservation()
     //range
     rangeObservation range(&sParams);
 
-    cout << "JD = " << jd << "; Range Ephemeris = " << setprecision(15) << range.getPerfectObservation(sensorState,targetState) << endl;
+    //cout << "JD = " << jd << "; Range Ephemeris = " << setprecision(15) << range.getPerfectObservation(sensorState,targetState) << endl;
     cout << "JD = " << jd << "; Range Cspice    = " << setprecision(15) << sqrt(pow(state0[0],2.0)+pow(state0[1],2.0)+pow(state0[2],2.0)) << endl;
     cout << endl;
 
