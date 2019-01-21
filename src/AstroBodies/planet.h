@@ -1,6 +1,11 @@
 #ifndef PLANET_H
 #define PLANET_H
 
+extern "C" {
+#include "../../../CSpice/cspice/include/SpiceUsr.h"
+#include "../../../CSpice/cspice/include/SpiceZfc.h"
+}
+
 #include "celestial_object.h"
 
 namespace smartastro
@@ -8,9 +13,12 @@ namespace smartastro
 	namespace astrobodies
 	{
 
-		class planet : public celestial_object
+		class Planet : public Celestial_Object
 		{
+			public:
+				Planet();
 
+				~Planet();
 		};
 	}
 }

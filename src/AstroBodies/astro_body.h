@@ -5,10 +5,12 @@ namespace smartastro
 {
 	namespace astrobodies
 	{
-
-		class astro_body
+		class Astro_Body
 		{
+			public:
+				Astro_Body();
 
+				~Astro_Body();
 		};
 	}
 }
