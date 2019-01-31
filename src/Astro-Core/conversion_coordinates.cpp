@@ -1325,3 +1325,149 @@ bool conversion_coordinates::euler_axis_angle(const std::vector<double> &v, cons
       
     return 0;
 }
+
+int conversion_coordinates::radrec_(doublereal *range, doublereal *ra, doublereal *dec, doublereal *rectan)
+{
+                return radrec_(range, ra, dec, rectan);
+}
+
+int conversion_coordinates::recrad_(doublereal *rectan, doublereal *range, doublereal *ra, doublereal *dec)
+{
+        return recrad_(rectan, range, ra, dec);
+}
+
+int conversion_coordinates::cylrec_(doublereal *r__, doublereal *long__, doublereal *z__, doublereal *rectan)
+{
+        return cylrec_(r__, long__, z__, rectan);
+}
+
+int conversion_coordinates::reccyl_(doublereal *rectan, doublereal *r__, doublereal *long__, doublereal *z__)
+{
+        return reccyl_(rectan, r__, long__, z__);
+}
+
+int conversion_coordinates::sphrec_(doublereal *r__, doublereal *colat, doublereal *long__, doublereal *rectan)
+{
+        return sphrec_(r__, colat, long__, rectan);
+}
+
+int conversion_coordinates::recsph_(doublereal *rectan, doublereal *r__, doublereal *colat, doublereal *long__)
+{
+        return recsph_(rectan, r__, colat, long__);
+}
+
+int conversion_coordinates::sphcyl_(doublereal *radius, doublereal *colat, doublereal *slong, doublereal *r__, doublereal *long__, doublereal *z__)
+{
+                return sphcyl_(radius, colat, slong, r__, long__, z__);
+}
+
+int conversion_coordinates::cylsph_(doublereal *r__, doublereal *longc, doublereal *z__, doublereal *radius, doublereal *colat, doublereal *long__)
+{
+        return cylsph_(r__, longc, z__, radius, colat, long__);
+}
+
+int conversion_coordinates::sphlat_(doublereal *r__, doublereal *colat, doublereal *longs, doublereal *radius, doublereal *long__, doublereal *lat)
+{
+        return sphlat_(r__, colat, longs, radius, long__, lat);
+}
+
+int conversion_coordinates::latsph_(doublereal *radius, doublereal *long__, doublereal *lat, doublereal *rho, doublereal *colat, doublereal *longs)
+{
+        return latsph_(radius, long__, lat, rho, colat, longs);
+}
+
+int conversion_coordinates::latcyl_(doublereal *radius, doublereal *long__, doublereal *lat, doublereal *r__, doublereal *longc, doublereal *z__)
+{
+        return latcyl_(radius, long__, lat, r__, longc, z__);
+}
+
+int conversion_coordinates::cyllat_(doublereal *r__, doublereal *longc, doublereal *z__, doublereal *radius, doublereal *long__, doublereal *lat)
+{
+        return cyllat_(r__, longc, z__, radius, long__, lat);
+}
+
+int conversion_coordinates::reclat_(doublereal *rectan, doublereal *radius, doublereal *long__, doublereal *lat)
+{
+        return reclat_(rectan, radius, long__, lat);
+}
+
+int conversion_coordinates::latrec_(doublereal *radius, doublereal *long__, doublereal *lat, doublereal *rectan)
+{
+ 	return latrec_(radius, long__, lat, rectan);
+}
+
+int conversion_coordinates::recgeo_(doublereal *rectan, doublereal *re, doublereal *f, doublereal *long__, doublereal *lat, doublereal *alt)
+{
+  return recgeo_(rectan, re, f, long__, lat, alt);
+}
+
+int conversion_coordinates::georec_(doublereal *long__, doublereal *lat, doublereal *alt, doublereal *re, doublereal *f, doublereal *rectan)
+{
+  return georec_(long__, lat, alt, re, f, rectan);
+}
+
+int conversion_coordinates::recpgr_(char *body, doublereal *rectan, doublereal *re, doublereal *f, doublereal *lon, doublereal *lat, doublereal *alt, ftnlen body_len)
+{
+  return recpgr_(body, rectan, re, f,lon, lat, alt, body_len);
+}
+
+int conversion_coordinates::pgrrec_(char *body, doublereal *lon, doublereal *lat, doublereal *alt, doublereal *re, doublereal *f, doublereal *rectan, ftnlen body_len)
+{
+  return pgrrec_(body, lon, lat, alt, re, f, rectan, body_len);
+}
+
+int conversion_coordinates::xfmsta_(doublereal *istate, char *icosys, char *ocosys, char *body, doublereal *ostate, ftnlen icosys_len, ftnlen ocosy\
+s_len, ftnlen body_len)
+{
+  return xfmsta_(istate, icosys, ocosys, body, ostate, icosys_len, ocosys_len, body_len);
+}
+
+int conversion_coordinates::drdlat_(doublereal *r__, doublereal *long__, doublereal *lat, doublereal *jacobi)
+{
+  return drdlat_(r__, long__, lat, jacobi);
+}
+
+int conversion_coordinates::dlatdr_(doublereal *x, doublereal *y, doublereal *z__, doublereal *jacobi)
+{
+  return dlatdr_(x, y, z__, jacobi);
+}
+
+int conversion_coordinates::drdpgr_(char *body, doublereal *lon, doublereal *lat, doublereal *alt, doublereal *re, doublereal *f, doublereal *jacobi, ftnlen body_len)
+{
+  return drdpgr_(body, lon, lat, alt, re, f, jacobi, body_len);
+}
+
+int conversion_coordinates::dpgrdr_(char *body, doublereal *x, doublereal *y, doublereal *z__, doublereal *re, doublereal *f, doublereal *jacobi, ftnlen body_len)
+{
+  return dpgrdr_(body, x, y, z__, re, f, jacobi, body_len);
+}
+
+int conversion_coordinates::drdgeo_(doublereal *long__, doublereal *lat, doublereal *alt, doublereal *re, doublereal *f, doublereal *jacobi)
+{
+  return drdgeo_(long__, lat, alt, re, f, jacobi);
+}
+
+int conversion_coordinates::dgeodr_(doublereal *x, doublereal *y, doublereal *z__, doublereal *re, doublereal *f, doublereal *jacobi)
+{
+  return dgeodr_(x, y, z__, re, f, jacobi);
+}
+
+int conversion_coordinates::drdcyl_(doublereal *r__, doublereal *long__, doublereal *z__, doublereal *jacobi)
+{
+  return drdcyl_(r__, long__, z__, jacobi);
+}
+
+int conversion_coordinates::dcyldr_(doublereal *x, doublereal *y, doublereal *z__, doublereal *jacobi)
+{
+  return dcyldr_(x, y, z__, jacobi);
+}
+
+int conversion_coordinates::drdsph_(doublereal *r__, doublereal *colat, doublereal *long__, doublereal *jacobi)
+{
+  return drdsph_(r__, colat, long__, jacobi);
+}
+
+int conversion_coordinates::dsphdr_(doublereal *x, doublereal *y, doublereal *z__, doublereal *jacobi)
+{
+  return dsphdr_(x, y, z__, jacobi);
+}

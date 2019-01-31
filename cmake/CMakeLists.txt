@@ -60,5 +60,36 @@ if(ENABLE_WORHP)
     include_directories("${WORHP_INCLUDE_DIR}")
 endif()
 
+#UI
+
+cmake_minimum_required(VERSION 2.6)
+project (SMART-ASTRO_GUI)
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+
+set(CMAKE_PREFIX_PATH /home/strazol/anaconda2/lib/cmake/Qt5Widgets)
+
+find_package(Qt5Widgets)
+
+set(SMART-ASTRO_GUI_SRCS
+    src/SMART-ASTRO_GUI/main.cpp
+    src/SMART-ASTRO_GUI/mainwindow.cpp
+    src/SMART-ASTRO_GUI/genericfunctiondialog.cpp
+    src/SMART-ASTRO_GUI/parameterinputdialog.cpp
+    src/SMART-ASTRO_GUI/Controller/parameterinputcontroller.cpp
+    src/SMART-ASTRO_GUI/mainwindow.h
+    src/SMART-ASTRO_GUI/genericfunctiondialog.h
+    src/SMART-ASTRO_GUI/parameterinputdialog.h
+    src/SMART-ASTRO_GUI/Controller/parameterinputcontroller.h
+    src/SMART-ASTRO_GUI/mainwindow.ui
+    src/SMART-ASTRO_GUI/genericfunctiondialog.ui
+    src/SMART-ASTRO_GUI/parameterinputdialog.ui
+)
+
+add_executable(SMART-ASTRO_GUI WIN32 ${SMART-ASTRO_GUI_SRCS})
+
+target_link_libraries(SMART-ASTRO_GUI Qt5::Widgets)
 
 
