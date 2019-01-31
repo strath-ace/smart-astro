@@ -120,7 +120,7 @@ namespace smartastro{
                     const std::vector<double> &s_car,
                     const std::vector<double> &vp_car,
                     std::vector<double> &x_bpl
-                    );
+            );
 
             /**
              * @brief Function to transform  from Cartesian reference frame to Radial-Trasversal-h reference frame.
@@ -558,7 +558,7 @@ namespace smartastro{
              *
              * @author Romain Serra 2017
              */
-            static bool kep2delaunay(const std::vector<double> &kep, const double &mu, std::vector<double> &delaunay); 
+            static bool kep2delaunay(const std::vector<double> &kep, const double &mu, std::vector<double> &delaunay);
 
             /**
              * @brief Function converting osculating Keplerian elements into mean-J2 Keplerian elements 
@@ -590,50 +590,113 @@ namespace smartastro{
              *
              * @author Romain Serra 2017
              */
-            static bool mean2oscul(const std::vector<double> &mean, const double &mu, const double & Re, std::vector<double> &oscul); 
+            static bool mean2oscul(const std::vector<double> &mean, const double &mu, const double & Re, std::vector<double> &oscul);
 
-                /*  EULER_AXIS_ANGLE - Rotates a vector about an axis of a given angle
-                 *                     (Euler axis and angle rotation).
-                 *
-                 *  This function uses the right-hand rule.
-                 *
-                 *  PROTOTYPE
-                 *      int euler_axis_angle(const double v[3],const double n[3],
-                 *                           const double theta, double v1[3])
-                 *
-                 *  INPUTS
-                 *      (double *) v            Pointer to a vector of 3 doubles containing
-                 *                              the coordinates of the vector to be rotated.
-                 *      (double *) n            Pointer to a vector of 3 doubles containing
-                 *                              the coordinates of the axis of rotation.
-                 *      (double) theta          Angle of rotation in radians.
-                 *
-                 *  OUTPUTS
-                 *      (double *) vi           Pointer to a vector of 3 doubles containing
-                 *                              the coordinates of the rotated vector.
-                 *      (int) euler_axis_angle  Error code: 1 if the norm of n is null
-                 *                                          0 otherwise.
-                 *
-                 *  NON-STANDARD LIBRARIES
-                 *      math_utils
-                 *
-                 *  REFERENCES
-                 *      (none)
-                 *
-                 *  ORIGINAL VERSION
-                 *      Matteo Ceriotti, 11/01/2007, MATLAB, euler_axis_angle.m
-                 *
-                 *  AUTHOR
-                 *      Nicolas Croisard, 19/09/2008
-                 * 
-                 *  CHANGELOG
-                 *      14/05/2007, Revised by Camilla Colombo
-                 *      19/09/2008, Nicolas Croisard: Conversion of the M-file into C
-                 *
-                 * ------------------------ - SpaceART Toolbox - ------------------------ */            
+            /*  EULER_AXIS_ANGLE - Rotates a vector about an axis of a given angle
+             *                     (Euler axis and angle rotation).
+             *
+             *  This function uses the right-hand rule.
+             *
+             *  PROTOTYPE
+             *      int euler_axis_angle(const double v[3],const double n[3],
+             *                           const double theta, double v1[3])
+             *
+             *  INPUTS
+             *      (double *) v            Pointer to a vector of 3 doubles containing
+             *                              the coordinates of the vector to be rotated.
+             *      (double *) n            Pointer to a vector of 3 doubles containing
+             *                              the coordinates of the axis of rotation.
+             *      (double) theta          Angle of rotation in radians.
+             *
+             *  OUTPUTS
+             *      (double *) vi           Pointer to a vector of 3 doubles containing
+             *                              the coordinates of the rotated vector.
+             *      (int) euler_axis_angle  Error code: 1 if the norm of n is null
+             *                                          0 otherwise.
+             *
+             *  NON-STANDARD LIBRARIES
+             *      math_utils
+             *
+             *  REFERENCES
+             *      (none)
+             *
+             *  ORIGINAL VERSION
+             *      Matteo Ceriotti, 11/01/2007, MATLAB, euler_axis_angle.m
+             *
+             *  AUTHOR
+             *      Nicolas Croisard, 19/09/2008
+             *
+             *  CHANGELOG
+             *      14/05/2007, Revised by Camilla Colombo
+             *      19/09/2008, Nicolas Croisard: Conversion of the M-file into C
+             *
+             * ------------------------ - SpaceART Toolbox - ------------------------ */
             static bool euler_axis_angle(const std::vector<double> &v, const std::vector<double> &n, const double &theta, std::vector<double> &v1);
 
-            };
+
+
+            /**
+             * @brief Function converting equinoctial elements into Keplerian coordinates
+             *
+             * Function converting modified equinoctial elements into Keplerian coordinates (scaling must be consistent)
+             *
+             * @param[in] vector of equinoctial elements [a,p1,p2,q1,q2,L]
+             * @param[out] vector of Keplerian coordinates [a,e,i,RAAN,w,true anomaly]
+             *
+             * @return Error code
+             *
+             * @author Cristian Greco 2018
+             */
+            static bool eq2kep(const std::vector<double> &eq, std::vector<double> &kep);
+
+
+            /**
+             * @brief Function converting Keplerian coordinates into equinoctial elements
+             *
+             * Function converting Keplerian coordinates into equinoctial elements (scaling must be consistent)
+             *
+             * @param[in] vector of Keplerian coordinates [a,e,i,RAAN,w,true anomaly]
+             * @param[out] vector of equinoctial elements [a,p1,p2,q1,q2,L]
+             *
+             * @return Error code
+             *
+             * @author Cristian Greco 2018
+             */
+            static bool kep2eq(const std::vector<double> &kep, std::vector<double> &eq);
+
+
+            /**
+             * @brief Function converting equinoctial elements into Cartesian coordinates
+             *
+             * Function converting equinoctial elements into Cartesian coordinates (scaling must be consistent)
+             *
+             * @param[in] vector of equinoctial elements         [a,p1,p2,q1,q2,L]
+             * @param[in] gravitational constant of central body [mu]
+             * @param[out] vector of Cartesian coordinates       [a,e,i,RAAN,w,true anomaly]
+             *
+             * @return Error code
+             *
+             * @author Cristian Greco 2018
+             */
+            static bool eq2car(const std::vector<double> &eq, const double &mu, std::vector<double> &car);
+
+            /**
+             * @brief Function converting Cartesian coordinates into equinoctial elements
+             *
+             * Function converting Cartesian coordinates into equinoctial elements (scaling must be consistent)
+             *
+             * @param[out] vector of Cartesian coordinates       [a,e,i,RAAN,w,true anomaly]
+             * @param[in] gravitational constant of central body [mu]
+             * @param[in] vector of equinoctial elements         [a,p1,p2,q1,q2,L]
+             *
+             * @return Error code
+             *
+             * @author Cristian Greco 2018
+             */
+            static bool car2eq(const std::vector<double> &car, const double &mu, std::vector<double> &eq);
+
+
+        };
 
     }
 }

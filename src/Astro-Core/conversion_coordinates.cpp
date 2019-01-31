@@ -1325,3 +1325,204 @@ bool conversion_coordinates::euler_axis_angle(const std::vector<double> &v, cons
       
     return 0;
 }
+
+
+
+
+/**
+ * @brief Function converting equinoctial elements into Keplerian coordinates
+ *
+ * Function converting modified equinoctial elements into Keplerian coordinates (scaling must be consistent)
+ *
+ * @param[in] vector of equinoctial elements [a,p1,p2,q1,q2,L]
+ * @param[out] vector of Keplerian coordinates [a,e,i,RAAN,w,true anomaly]
+ *
+ * @return Error code
+ *
+ * @author Cristian Greco 2018
+ */
+bool conversion_coordinates::eq2kep(const std::vector<double> &eq, std::vector<double> &kep) {
+
+    /*Sanity check*/
+    if(eq.size()!=6){
+        smartastro_throw("Input orbital elements must be 6-dimensional");
+    }
+    if(kep.size()!=6){
+        smartastro_throw("Output Keplerian coordinates must be 6-dimensional");
+    }
+
+    double pi = constants::pi;
+
+    double a  = eq[0];
+    double P1 = eq[1];
+    double P2 = eq[2];
+    double Q1 = eq[3];
+    double Q2 = eq[4];
+    double L  = eq[5];
+
+    double e,i,RAAN,w,teta;
+
+    e = std::sqrt(P1*P1 + P2*P2);
+    i = 2.0 * std::atan(sqrt((Q1*Q1 + Q2*Q2)));
+    while (i<0.0)
+    {
+        i += 2.0*pi;
+    }
+    i = std::fmod(i,2.0*pi);
+    if (std::abs(i) <= 1.0e-6)
+    {
+        RAAN = 0.0;
+    }
+    else
+    {
+        double sin_RAAN = Q1 / sqrt(Q1*Q1 + Q2*Q2);
+        double cos_RAAN = Q2 / sqrt(Q1*Q1 + Q2*Q2);
+        RAAN  = std::atan2(sin_RAAN, cos_RAAN);
+        while (RAAN<0.0)
+        {
+            RAAN += 2.0*pi;
+        }
+        RAAN = std::fmod(RAAN,2.0*pi);
+    }
+
+    double sin_zeta = P1 / std::sqrt(P1*P1 + P2*P2);
+    double cos_zeta = P2 / std::sqrt(P1*P1 + P2*P2);
+    double zeta = std::fmod(std::atan2(sin_zeta, cos_zeta),2.0*pi);
+    if (std::isnan(zeta))
+    {
+        zeta = 0.0;
+    }
+
+    w = zeta-RAAN;
+    while (w<0.0)
+    {
+        w += 2.0*pi;
+    }
+    w = std::fmod(w,2.0*pi);
+
+    teta = L-RAAN-w;
+    while (teta<0.0)
+    {
+        teta += 2.0*pi;
+    }
+    teta = std::fmod(teta,2.0*pi);
+
+    kep[0] = a;
+    kep[1] = e;
+    kep[2] = i;
+    kep[3] = RAAN;
+    kep[4] = w;
+    kep[5] = teta;
+
+    return true;
+
+}
+
+
+/**
+ * @brief Function converting Keplerian coordinates into equinoctial elements
+ *
+ * Function converting Keplerian coordinates into equinoctial elements (scaling must be consistent)
+ *
+ * @param[in] vector of Keplerian coordinates [a,e,i,RAAN,w,true anomaly]
+ * @param[out] vector of equinoctial elements [a,p1,p2,q1,q2,L]
+ *
+ * @return Error code
+ *
+ * @author Cristian Greco 2018
+ */
+bool conversion_coordinates::kep2eq(const std::vector<double> &kep, std::vector<double> &eq) {
+
+    /*Sanity check*/
+    if(eq.size()!=6){
+        smartastro_throw("Input orbital elements must be 6-dimensional");
+    }
+    if(kep.size()!=6){
+        smartastro_throw("Output Keplerian coordinates must be 6-dimensional");
+    }
+
+    double pi = constants::pi;
+
+    // List Keplerian elements
+    double a    = kep[0];
+    double e    = kep[1];
+    double i    = kep[2];
+    double RAAN = kep[3];
+    double w    = kep[4];
+    double teta = kep[5];
+
+    // Equinoctial elements
+    double P1 = e*std::sin(w+RAAN);
+    double P2 = e*std::cos(w+RAAN);
+    double Q1 = std::tan(i/2.0)*std::sin(RAAN);
+    double Q2 = std::tan(i/2.0)*std::cos(RAAN);
+    double L  = teta+w+RAAN;
+    while (L<0.0)
+    {
+        L += 2.0*pi;
+    }
+    L = std::fmod(L,2.0*pi);
+
+    // Set output vector
+    eq[0] = a;
+    eq[1] = P1;
+    eq[2] = P2;
+    eq[3] = Q1;
+    eq[4] = Q2;
+    eq[5] = L;
+
+    return true;
+
+}
+
+
+
+/**
+ * @brief Function converting equinoctial elements into Cartesian coordinates
+ *
+ * Function converting equinoctial elements into Cartesian coordinates (scaling must be consistent)
+ *
+ * @param[in] vector of equinoctial elements         [a,p1,p2,q1,q2,L]
+ * @param[in] gravitational constant of central body [mu]
+ * @param[out] vector of Cartesian coordinates       [a,e,i,RAAN,w,true anomaly]
+ *
+ * @return Error code
+ *
+ * @author Cristian Greco 2018
+ */
+bool conversion_coordinates::eq2car(const std::vector<double> &eq, const double &mu, std::vector<double> &car)
+{
+    // Middle passage through keplerian
+    std::vector<double> kep(6);
+    eq2kep(eq,kep);
+
+    // Convert kepler to cartesian
+    kep2car(kep,mu,car);
+
+    return true;
+}
+
+/**
+ * @brief Function converting Cartesian coordinates into equinoctial elements
+ *
+ * Function converting Cartesian coordinates into equinoctial elements (scaling must be consistent)
+ *
+ * @param[out] vector of Cartesian coordinates       [a,e,i,RAAN,w,true anomaly]
+ * @param[in] gravitational constant of central body [mu]
+ * @param[in] vector of equinoctial elements         [a,p1,p2,q1,q2,L]
+ *
+ * @return Error code
+ *
+ * @author Cristian Greco 2018
+ */
+bool conversion_coordinates::car2eq(const std::vector<double> &car, const double &mu, std::vector<double> &eq)
+{
+    // Middle passage through Keplerian
+    std::vector<double> kep(6);
+    car2kep(car,mu,kep);
+
+    // Convert kepler to equinoctial
+    kep2eq(kep,eq);
+
+    return true;
+}
