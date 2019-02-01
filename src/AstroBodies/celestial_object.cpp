@@ -3,7 +3,8 @@
 using namespace smartastro;
 using namespace smartastro::astrobodies;
 
-Celestial_Object::Celestial_Object()
+Celestial_Object::Celestial_Object() :
+  Astro_Body()
 {
 }
 
