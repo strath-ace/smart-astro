@@ -10,6 +10,8 @@
 #ifndef SMARTASTRO_SMART_MATRIX_H
 #define SMARTASTRO_SMART_MATRIX_H
 
+#include <vector>
+
 #include "../exception.h"
 #include "LinearAlgebra/Eigen/Core"
 
