@@ -44,26 +44,23 @@ spiceEphemeris::~spiceEphemeris()
 /**
  * getCartesianState: Function that returns object position-velocity for time t
  *
- * @param jd: time at which the Cartesian State is desired in jd (time system is defined in derived classes)
- * @return Cartesian state at time jd
+ * @param e t: time at which the Cartesian State is desired in et (time system is defined in derived classes)
+ * @return Cartesian state at time et
  *
  */
 
-std::vector<double> spiceEphemeris::getCartesianState( const double& jd )
+std::vector<double> spiceEphemeris::getCartesianState( const double& et )
 {
 
 #ifdef __USE_CSPICE
     // Variables
-    SpiceDouble et, lt, state[6];
+    SpiceDouble lt, state[6];
     std::vector<double> car(6);
 
     // Load kernels
-    furnsh_c(spiceKernels::leap.c_str()); // Time leap
+//    furnsh_c(spiceKernels::leap.c_str()); // Time leap
     for (unsigned int i = 0 ; i < m_pParams->kernelToLoad.size(); i++)
         furnsh_c(m_pParams->kernelToLoad[i].c_str());
-
-    // Convert jd in seconds after 2000-01-01 noon
-    et = unitim_c(jd,"JED","ET");
 
     // Get Cartesian state
     spkezr_c( m_pParams->target.c_str(), et,

@@ -19,6 +19,7 @@
 #include "AstroData/SpiceKernels/spiceKernelNames.h"
 #include "Ephemerides/spiceEphemeris.h"
 #include "Observations/smartastro_observations.h"
+#include "Astro-Core/conversion_coordinates.h"
 
 
 #include <cspice/SpiceUsr.h>
@@ -43,7 +44,7 @@ int moonFromEarth()
     SpiceDouble    et = 0.0;
     SpiceDouble    lt;
     SpiceDouble    state [6];
-
+    vector<double> car(6), kep(6);
 
     /*
      * Load the spk file.
@@ -52,15 +53,25 @@ int moonFromEarth()
     furnsh_c ( smartastro::spiceKernels::leap.c_str() );
 
     // Convert time
-    str2et_c("2000 Jan 01 12:00:00",&et);
+    str2et_c("A.D. 2000-Jan-01, 12:00:00.000 TDB",&et);
 
     // find position
-    spkezr_c ( "moon",    et,     "J2000",  "NONE",
-               "earth",  state,  &lt             );
+    spkezr_c ( "301",    et,     "J2000",  "NONE",
+               "500",  state,  &lt             );
 
-    cout << "state = ";
+    for (auto i = 0 ; i < 6; i++)
+        car[i] = state[i];
+    astrocore::conversion_coordinates::car2kep(car,constants::mu_earth/pow(1.0e3,3.0),kep);
+
+    cout << "cartesian state = ";
     for (unsigned int i = 0 ; i < 6 ; i++)
-        cout << state[i] << " ";
+        cout << car[i] << " ";
+    cout << endl;
+
+    cout << "keplerian state = ";
+    cout << kep[0]/constants::au << " ";
+    for (unsigned int i = 1 ; i < 6 ; i++)
+        cout << kep[i] << " ";
     cout << endl;
 
     /**
@@ -75,8 +86,81 @@ int moonFromEarth()
 
     smartastro::ephemerides::spiceEphemeris spiceEp (&epParams);
 
-    double mjd2000 = 0.0;
-    vector<double> epState = spiceEp.getCartesianState(mjd2000);
+    vector<double> epState = spiceEp.getCartesianState(et);
+
+    cout << "state = ";
+    for (unsigned int i = 0 ; i < 6 ; i++)
+        cout << epState[i] << " ";
+    cout << endl;
+
+
+    return 0;
+}
+
+int apophisFromSun()
+{
+
+    string  SPK ("SpiceKernels/spk/Comets/2099942.bsp");
+//    string  SPK ("SpiceKernels/spk/Comets/wld50400.15");
+
+    /*
+    Local variables
+    */
+    SpiceDouble    et = 0.0;
+    SpiceDouble    lt;
+    SpiceDouble    state [6];
+    vector<double> car(6), kep(6);
+
+
+    /*
+     * Load the spk file.
+     */
+    furnsh_c ( SPK.c_str() );
+    furnsh_c ( smartastro::spiceKernels::leap.c_str() );
+
+    // Convert time
+    str2et_c("2026 Oct 10 12:00:00",&et);
+    double jd = unitim_c(et,"ET","JED")+0.0;
+//    double mjd = unitim_c(et,"ET","JED")+0.0;
+//    et = unitim_c(jd,"JED","ET");
+    cout << "jd = " << jd << endl;
+    cout << "et = " << et << endl;
+
+    //  Find position
+    spkezr_c ( "2099942",    et,     "J2000",  "XCN+S",
+               "SSB",  state,  &lt             );
+
+    for (auto i = 0 ; i < 6; i++)
+        car[i] = state[i];
+    astrocore::conversion_coordinates::car2kep(car,constants::mu_sun/pow(1.0e3,3.0),kep);
+
+
+    cout << "cartesian state = ";
+    for (unsigned int i = 0 ; i < 6 ; i++)
+        cout << car[i] << " ";
+    cout << endl;
+
+    cout << "keplerian state = ";
+    cout << kep[0]/constants::au << " ";
+    for (unsigned int i = 1 ; i < 6 ; i++)
+        cout << kep[i] << " ";
+    cout << endl;
+
+
+
+    /**
+     * Now try with ephemerides
+     */
+    smartastro::ephemerides::spiceEphemeris::spiceEphemerisParams epParams;
+    epParams.observer = "SSB";
+    epParams.target   = "2099942";
+    epParams.abberrationCorrection = "NONE";
+    epParams.referenceFrame = "J2000";
+    epParams.kernelToLoad = vector<string>(1,SPK);
+
+    smartastro::ephemerides::spiceEphemeris spiceEp (&epParams);
+
+    vector<double> epState = spiceEp.getCartesianState(et);
 
     cout << "state = ";
     for (unsigned int i = 0 ; i < 6 ; i++)
@@ -558,11 +642,14 @@ int main()
     // Compute Moon position from Earth using ephemerides
 //    moonFromEarth();
 
+    // Compute Apophis state from Sun using ephemerides
+    apophisFromSun();
+
 
     // Compute Sun azimuth and elevation from spice routine
 //    sunAzimuthElevationFromStation();
 
-    sunAzimuthElevationFromObservation();
+//    sunAzimuthElevationFromObservation();
 
     return 0;
 }

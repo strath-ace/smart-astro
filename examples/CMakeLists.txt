@@ -6,8 +6,8 @@ if(ENABLE_CSPICE)
     file(COPY "${SRC_PATH}/AstroData/SpiceKernels/pck/" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/SpiceKernels/pck/")
 endif()
 
-#add_executable(example_cspice example_cspice.cpp)
-#target_link_libraries(example_cspice ${LIB_NAME} ${MANDATORY_LIBRARIES})
+add_executable(example_cspice example_cspice.cpp)
+target_link_libraries(example_cspice ${LIB_NAME} ${MANDATORY_LIBRARIES})
 #
 #add_executable(example_OPPED_IPA_3dof example_OPPED_IPA_3dof.cpp)
 #target_link_libraries(example_OPPED_IPA_3dof ${LIB_NAME} ${MANDATORY_LIBRARIES})
