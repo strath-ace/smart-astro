@@ -1,10 +1,21 @@
+/* Thi Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+/*
+-------Copyright (C) 2019 University of Strathclyde and Authors-------
+--------- Author: Scott Hurley (GitHub: Scott_James_Hurley)-----------
+-------- e-mail: scott.james.hurley.97@gmail.com ---------------------
+*/
+
 #ifndef SMARTASTRO_SPICE_GENERAL_FUNCTIONS_H
 #define SMARTASTRO_SPICE_GENERAL_FUNCTIONS_H
 
 extern "C" {
-#include "../../../CSpice/cspice/include/SpiceUsr.h"
-#include "../../../CSpice/cspice/include/SpiceZfc.h"
+#include <cspice/SpiceUsr.h>
+#include <cspice/SpiceZfc.h>
 }
+
+#include <vector>
 
 namespace smartastro
 {
@@ -15,73 +26,59 @@ namespace smartastro
 		{
 			public:
 
-				static int subslr_(char *method, char *target, doublereal *et, char *fixref, char *abcorr, char *obsrvr, doublereal *spoint, doublereal *trgepc, doublereal *srfvec, ftnlen method_len, ftnlen target_len, ftnlen fixref_len, ftnlen abcorr_len, ftnlen obsrvr_len);
+/**
+			     * @brief  Function to convert from Cartesian reference frame to B-plane reference frame.
+			     *
+			     * Function to convert from Cartesian reference frame to B-plane reference frame.\n
+			     * Cartesian reference frame: {x,y,z} inertial reference frame.
+			     * The b-plane is the plane perpendicular to the incoming relative velocity
+			     * of the small body at the planet arrival, containing the planet.
+			     * b-plane reference frame: {xi,eta,zeta} where
+			     * - eta-axis: as the incoming relative velocity of the small body on its
+			     *   arrival.
+			     * - zeta-axis: in the b-plane, direction opposite to the projection of
+			     *   the heliocentric velocity of the planet on the b-plane.
+			     * - xi-axis: in the b-plane, completes the reference frame.
+			     *
+			     * @param[in] x_car vector of 3 doubles containing the
+			     *                  coordinates of the vector to be transformed,
+			     *                  expressed in {x,y,z}.
+			     * @param[in] u_car vector of 3 doubles containing the
+			     *                  velocity of the small body relative to the
+			     *                  planet, expressed in {x,y,z}.
+			     * @param[in] vp_car vector of 3 doubles containing the
+			     *                   velocity of the planet, expressed in {x,y,z}.
+			     * @param[out] x_bpl vector of 3 doubles containing the
+			     *                   coordinates of the vector x_car expressed in
+			     *                   {xi,eta,zeta}.
+			     * @return Error code
+			     *
+			     * @author Massimiliano Vasile 2007, Luca Masi 2008,
+			     */
 
-				static int subpnt_(char *method, char *target, doublereal *et, char *fixref, char *abcorr, char *obsrvr, doublereal *spoint, doublereal *trgepc, doublereal *srfvec, ftnlen method_len, ftnlen target_len, ftnlen fixref_len, ftnlen abcorr_len, ftnlen obsrvr_len);
+				static std::vector<int> intArrayToVector(int array[]);
 
-				static doublereal lspcn_(char *body, doublereal *et, char *abcorr, ftnlen body_len, ftnlen abcorr_len);
+				static int* intVectorToArray(std::vector<int> vector);
 
-				static int radrec_(doublereal *range, doublereal *ra, doublereal *dec, doublereal *rectan);
+				static std::vector<char> charArrayToVector(char array[]);
 
-				static int recrad_(doublereal *rectan, doublereal *range, doublereal *ra, doublereal *dec);
+				static char* charVectorToArray(std::vector<char> vector);
 
-				static int cylrec_(doublereal *r__, doublereal *long__, doublereal *z__, doublereal *rectan);
+				static std::vector<double> doubleArrayToVector(double array[]);
 
-				static int reccyl_(doublereal *rectan, doublereal *r__, doublereal *long__, doublereal *z__);
+				static double* doubleVectorToArray(std::vector<double> vector);
 
-				static int sphrec_(doublereal *r__, doublereal *colat, doublereal *long__, doublereal *rectan);
+				static char* stringToCharArray(std::string string);
 
-				static int recsph_(doublereal *rectan, doublereal *r__, doublereal *colat, doublereal *long__);
+				static int subslr_( std::string &method,  std::string &target,  std::vector<double> &et,  std::string &fixref,  std::string &abcorr,  std::string &obsrvr,  std::vector<double> &spoint,  std::vector<double> &trgepc,  std::vector<double> &srfvec, int method_len, int target_len, int fixref_len, int abcorr_len, int obsrvr_len);
 
-				static int sphcyl_(doublereal *radius, doublereal *colat, doublereal *slong, doublereal *r__, doublereal *long__, doublereal *z__);
+				static int subpnt_( std::string &method,  std::string &target,  std::vector<double> &et,  std::string &fixref,  std::string &abcorr,  std::string &obsrvr,  std::vector<double> &spoint,  std::vector<double> &trgepc,  std::vector<double> &srfvec, int method_len, int target_len, int fixref_len, int abcorr_len, int obsrvr_len);
 
-				static int cylsph_(doublereal *r__, doublereal *longc, doublereal *z__, doublereal *radius, doublereal *colat, doublereal *long__);
+				static double lspcn_( std::string &body,  std::vector<double> &et,  std::string &abcorr, int body_len, int abcorr_len);
 
-				static int sphlat_(doublereal *r__, doublereal *colat, doublereal *longs, doublereal *radius, doublereal *long__, doublereal *lat);
+				static int furnsh_( std::string &file, int file_len);
 
-				static int latsph_(doublereal *radius, doublereal *long__, doublereal *lat, doublereal *rho, doublereal *colat, doublereal *longs);
-
-				static int latcyl_(doublereal *radius, doublereal *long__, doublereal *lat, doublereal *r__, doublereal *longc, doublereal *z__);
-
-				static int cyllat_(doublereal *r__, doublereal *longc, doublereal *z__, doublereal *radius, doublereal *long__, doublereal *lat);
-
-				static int furnsh_(char *file, ftnlen file_len);
-
-				static int unload_(char *file, ftnlen file_len);
-
-				static int reclat_(doublereal *rectan, doublereal *radius, doublereal *long__, doublereal *lat);
-
-				static int latrec_(doublereal *radius, doublereal *long__, doublereal *lat, doublereal *rectan);
-
-				static int recgeo_(doublereal *rectan, doublereal *re, doublereal *f, doublereal *long__, doublereal *lat, doublereal *alt);
-
-				static int georec_(doublereal *long__, doublereal *lat, doublereal *alt, doublereal *re, doublereal *f, doublereal *rectan);
-
-				static int recpgr_(char *body, doublereal *rectan, doublereal *re, doublereal *f, doublereal *lon, doublereal *lat, doublereal *alt, ftnlen body_len);
-
-				static int pgrrec_(char *body, doublereal *lon, doublereal *lat, doublereal *alt, doublereal *re, doublereal *f, doublereal *rectan, ftnlen body_len);
-
-				static int xfmsta_(doublereal *istate, char *icosys, char *ocosys, char *body, doublereal *ostate, ftnlen icosys_len, ftnlen ocosys_len, ftnlen body_len);
-
-				static int drdlat_(doublereal *r__, doublereal *long__, doublereal *lat, doublereal *jacobi);
-
-				static int dlatdr_(doublereal *x, doublereal *y, doublereal *z__, doublereal *jacobi);
-
-				static int drdpgr_(char *body, doublereal *lon, doublereal *lat, doublereal *alt, doublereal *re, doublereal *f, doublereal *jacobi, ftnlen body_len);
-
-				static int dpgrdr_(char *body, doublereal *x, doublereal *y, doublereal *z__, doublereal *re, doublereal *f, doublereal *jacobi, ftnlen body_len);
-
-				static int drdgeo_(doublereal *long__, doublereal *lat, doublereal *alt, doublereal *re, doublereal *f, doublereal *jacobi);
-
-				static int dgeodr_(doublereal *x, doublereal *y, doublereal *z__, doublereal *re, doublereal *f, doublereal *jacobi);
-
-				static int drdcyl_(doublereal *r__, doublereal *long__, doublereal *z__, doublereal *jacobi);
-
-				static int dcyldr_(doublereal *x, doublereal *y, doublereal *z__, doublereal *jacobi);
-
-				static int drdsph_(doublereal *r__, doublereal *colat, doublereal *long__, doublereal *jacobi);
-
-				static int dsphdr_(doublereal *x, doublereal *y, doublereal *z__, doublereal *jacobi);
+				static int unload_( std::string &file, int file_len);
 
 		};
 	}
