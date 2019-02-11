@@ -10,11 +10,6 @@
 #ifndef PLANET_H
 #define PLANET_H
 
-extern "C" {
-#include <cspice/SpiceUsr.h>
-#include <cspice/SpiceZfc.h>
-}
-
 #include "celestial_object.h"
 
 namespace smartastro
@@ -25,7 +20,7 @@ namespace smartastro
 		class Planet : public Celestial_Object
 		{
 			public:
-				Planet(std::string givenName, int givenId, std::vector<double> &Givenpositn, std::vector<double> &givenMu);
+				Planet(std::string givenName, int givenId, std::vector<double> &Givenpositn, double givenMu);
 
 				~Planet();
 		};

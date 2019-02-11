@@ -14,8 +14,7 @@ using namespace smartastro::astrobodies;
 
 Astro_Body::Astro_Body( std::string givenName, int givenId)
 {
-  std::vector<char> name(givenName.begin(), givenName.end());
-  name.push_back('\0');
+  name = givenName;
   id = givenId;
 }
 				 

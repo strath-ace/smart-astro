@@ -10,11 +10,6 @@
 #ifndef SMARTASTO_CELESTIAL_OBJECT_H
 #define SMARTASTO_CELESTIAL_OBJECT_H
 
-extern "C" {
-#include <cspice/SpiceUsr.h>
-#include <cspice/SpiceZfc.h>
-}
-
 #include "astro_body.h"
 
 namespace smartastro
@@ -24,82 +19,74 @@ namespace smartastro
 		class Celestial_Object : public Astro_Body
 		{
 			public:
-				Celestial_Object( std::string givenName, int givenId,  std::vector<double> &Givenpositn,  std::vector<double> &givenMu);
+				Celestial_Object( std::string givenName, int givenId,  std::vector<double> &Givenpositn,  double givenMu);
 
 				~Celestial_Object();
 
-				int latsrf_( std::string &method,  std::string &target,  std::vector<double> &et,  std::string &fixref,  std::vector<int> &npts,  std::vector<double> &lonlat,  std::vector<double> &srfpts, int method_len, int target_len, int fixref_len);
+				/*void latsrf_(const std::string &method, const std::string &target, double &et, const std::string &fixref, int &npts, const std::vector<std::vector::<double>> &lonlat, std::vector<std::vector::<double>> &srfpts);
 
-				int srfnrm_( std::string &method,  std::string &target,  std::vector<double> &et,  std::string &fixref,  std::vector<int> &npts,  std::vector<double> &srfpts,  std::vector<double> &normls, int method_len, int target_len, int fixref_len);
+				int srfnrm_( std::string &method,  std::string &target,  std::vector<double> &et,  std::string &fixref,  std::vector<int> &npts,  std::vector<double> &srfpts,  std::vector<double> &normls, int method_len, int target_len, int fixref_len);*/
 
-				int nearpt_( std::vector<double> &positn,  std::vector<double> &a,  std::vector<double> &b,  std::vector<double> &c__,  std::vector<double> &npoint,  std::vector<double> &alt);
+				void nearpt(double &a, double &b, double &c, std::vector<double> &npoint, double &alt);
 
-				int dnearp_( std::vector<double> &state,  std::vector<double> &a,  std::vector<double> &b,  std::vector<double> &c__,  std::vector<double> &dnear,  std::vector<double> &dalt,  std::vector<int> &found);
+				void surfpt(const std::vector<double> &u, double &a, double &b, double &c,  std::vector<double> &point, int &found);
 
-				int surfpt_( std::vector<double> &positn,  std::vector<double> &u,  std::vector<double> &a,  std::vector<double> &b,  std::vector<double> &c__,  std::vector<double> &point,  std::vector<int> &found);
+				void surfnm(double &a, double &b, double &c, const std::vector<double> &point,  std::vector<double> &normal);
 
-				int surfnm_( std::vector<double> &a,  std::vector<double> &b,  std::vector<double> &c__,  std::vector<double> &point,  std::vector<double> &normal);
+				/*int edlimb_( std::vector<double> &a,  std::vector<double> &b,  std::vector<double> &c__,  std::vector<double> &viewpt,  std::vector<double> &limb);
 
-				int ednmpt_( std::vector<double> &a,  std::vector<double> &b,  std::vector<double> &c__,  std::vector<double> &normal,  std::vector<double> &point);
+				int inelpl_( std::vector<double> &ellips,  std::vector<double> &plane,  std::vector<int> &nxpts,  std::vector<double> &xpt1,  std::vector<double> &xpt2);*/
 
-				int edpnt_( std::vector<double> &p,  std::vector<double> &a,  std::vector<double> &b,  std::vector<double> &c__,  std::vector<double> &ep);
+				void npedln(double &a, double &b, double &c, const std::vector<double> &linept, const std::vector<double> &linedr, std::vector<double> &pnear, double &dist);
 
-				int edlimb_( std::vector<double> &a,  std::vector<double> &b,  std::vector<double> &c__,  std::vector<double> &viewpt,  std::vector<double> &limb);
+				/*int inrypl_( std::vector<double> &vertex,  std::vector<double> &dir,  std::vector<double> &plane,  std::vector<int> &nxpts,  std::vector<double> &xpt);
 
-				int inelpl_( std::vector<double> &ellips,  std::vector<double> &plane,  std::vector<int> &nxpts,  std::vector<double> &xpt1,  std::vector<double> &xpt2);
+				int pjelpl_( std::vector<double> &elin,  std::vector<double> &plane,  std::vector<double> &elout);*/
 
-				int npedln_( std::vector<double> &a,  std::vector<double> &b,  std::vector<double> &c__,  std::vector<double> &linept,  std::vector<double> &linedr,  std::vector<double> &pnear,  std::vector<double> &dist);
+				void saelgv(const std::vector<double> &vec1, const std::vector<double> &vec2,  std::vector<double> &smajor,  std::vector<double> &sminor);
 
-				int inrypl_( std::vector<double> &vertex,  std::vector<double> &dir,  std::vector<double> &plane,  std::vector<int> &nxpts,  std::vector<double> &xpt);
+				void nplnpt(const std::vector<double> &linpt, const std::vector<double> &lindir, const std::vector<double> &point,  std::vector<double> &pnear, double &dist);
 
-				int pjelpl_( std::vector<double> &elin,  std::vector<double> &plane,  std::vector<double> &elout);
+				void sincpt(const std::string &method, const std::string &target, double &et, const std::string &fixref, const std::string &abcorr, const std::string &dref, const std::vector<double> &dvec,  std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, int &found);
 
-				int saelgv_( std::vector<double> &vec1,  std::vector<double> &vec2,  std::vector<double> &smajor,  std::vector<double> &sminor);
+				/*int dskxv_( std::vector<int> &pri,  std::string &target,  std::vector<int> &nsurf,  std::vector<int> &srflst,  std::vector<double> &et,  std::string &fixref,  std::vector<int> &nrays,  std::vector<double> &vtxarr,  std::vector<double> &dirarr,  std::vector<double> &xptarr,  std::vector<int> &fndarr, int target_len, int fixref_len);
 
-				int nplnpt_( std::vector<double> &linpt,  std::vector<double> &lindir,  std::vector<double> &point,  std::vector<double> &pnear,  std::vector<double> &dist);
+				int dskxsi_( std::vector<int> &pri,  std::string &target,  std::vector<int> &nsurf,  std::vector<int> &srflst,  std::vector<double> &et,  std::string &fixref,  std::vector<double> &vertex,  std::vector<double> &raydir,  std::vector<int> &maxd,  std::vector<int> &maxi,  std::vector<double> &xpt,  std::vector<int> &handle,  std::vector<int> &dladsc,  std::vector<double> &dskdsc,  std::vector<double> &dc,  std::vector<int> &ic,  std::vector<int> &found, int target_len, int fixref_len);*/
 
-				int npsgpt_( std::vector<double> &ep1,  std::vector<double> &ep2,  std::vector<double> &point,  std::vector<double> &pnear,  std::vector<double> &dist);
+				void ilumin(const std::string &method, const std::string &target, double &et, const std::string &fixref, const std::string &abcorr, const std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn);
 
-				int sincpt_( std::string &method,  std::string &target,  std::vector<double> &et,  std::string &fixref,  std::string &abcorr,  std::string &obsrvr,  std::string &dref,  std::vector<double> &dvec,  std::vector<double> &spoint,  std::vector<double> &trgepc,  std::vector<double> &srfvec,  std::vector<int> &found, int method_len, int target_len, int fixref_len, int abcorr_len, int obsrvr_len, int dref_len);
+				void illumg(const std::string &method, const std::string &target, const std::string &ilusrc, double &et, const std::string &fixref, const std::string &abcorr, std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn);
 
-				int dskxv_( std::vector<int> &pri,  std::string &target,  std::vector<int> &nsurf,  std::vector<int> &srflst,  std::vector<double> &et,  std::string &fixref,  std::vector<int> &nrays,  std::vector<double> &vtxarr,  std::vector<double> &dirarr,  std::vector<double> &xptarr,  std::vector<int> &fndarr, int target_len, int fixref_len);
+				void illumf(const std::string &method, const std::string &target, const std::string &ilusrc, double &et, const std::string &fixref, const std::string &abcorr, std::vector<double> &spoint, double &trgepc, std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn, int &visibl, int &lit);
 
-				int dskxsi_( std::vector<int> &pri,  std::string &target,  std::vector<int> &nsurf,  std::vector<int> &srflst,  std::vector<double> &et,  std::string &fixref,  std::vector<double> &vertex,  std::vector<double> &raydir,  std::vector<int> &maxd,  std::vector<int> &maxi,  std::vector<double> &xpt,  std::vector<int> &handle,  std::vector<int> &dladsc,  std::vector<double> &dskdsc,  std::vector<double> &dc,  std::vector<int> &ic,  std::vector<int> &found, int target_len, int fixref_len);
+				/*int limbpt_( std::string &method,  std::string &target,  std::vector<double> &et,  std::string &fixref,  std::string &abcorr,  std::string &corloc,    std::vector<double> &refvec,  std::vector<double> &rolstp,  std::vector<int> &ncuts,  std::vector<double> &schstp,  std::vector<double> &soltol,  std::vector<int> &maxn,  std::vector<int> &npts,  std::vector<double> &points,  std::vector<double> &epochs,  std::vector<double> &tangts, int method_len, int target_len, int fixref_len, int abcorr_len, int corloc_len, int obsrvr_len);
 
-				int ilumin_( std::string &method,  std::string &target,  std::vector<double> &et,  std::string &fixref,  std::string &abcorr,  std::string &obsrvr,  std::vector<double> &spoint,  std::vector<double> &trgepc,  std::vector<double> &srfvec,  std::vector<double> &phase,  std::vector<double> &solar,  std::vector<double> &emissn, int method_len, int target_len, int fixref_len, int abcorr_len, int obsrvr_len);
+				int termpt_( std::string &method,  std::string &ilusrc,  std::string &target,  std::vector<double> &et,  std::string &fixref,  std::string &abcorr,  std::string &corloc,    std::vector<double> &refvec,  std::vector<double> &rolstp,  std::vector<int> &ncuts,  std::vector<double> &schstp,  std::vector<double> &soltol,  std::vector<int> &maxn,  std::vector<int> &npts,  std::vector<double> &points,  std::vector<double> &epochs,  std::vector<double> &trmvcs, int method_len, int ilusrc_len, int target_len, int fixref_len, int abcorr_len, int corloc_len, int obsrvr_len);*/
 
-				int illumg_( std::string &method,  std::string &target,  std::string &ilusrc,  std::vector<double> &et,  std::string &fixref,  std::string &abcorr,  std::string &obsrvr,  std::vector<double> &spoint,  std::vector<double> &trgepc,  std::vector<double> &srfvec,  std::vector<double> &phase,  std::vector<double> &incdnc,  std::vector<double> &emissn, int method_len, int target_len, int ilusrc_len, int fixref_len, int abcorr_len, int obsrvr_len);
+				void conics(const std::vector<double> &elts, double &et,  std::vector<double> &state);
 
-				int illumf_( std::string &method,  std::string &target,  std::string &ilusrc,  std::vector<double> &et,  std::string &fixref,  std::string &abcorr,  std::string &obsrvr,  std::vector<double> &spoint,  std::vector<double> &trgepc,  std::vector<double> &srfvec,  std::vector<double> &phase,  std::vector<double> &incdnc,  std::vector<double> &emissn,  std::vector<int> &visibl,  std::vector<int> &lit, int method_len, int target_len, int ilusrc_len, int fixref_len, int abcorr_len, int obsrvr_len);
+				void oscelt(const std::vector<double> &state, double &et, std::vector<double> &elts);
 
-				int limbpt_( std::string &method,  std::string &target,  std::vector<double> &et,  std::string &fixref,  std::string &abcorr,  std::string &corloc,  std::string &obsrvr,  std::vector<double> &refvec,  std::vector<double> &rolstp,  std::vector<int> &ncuts,  std::vector<double> &schstp,  std::vector<double> &soltol,  std::vector<int> &maxn,  std::vector<int> &npts,  std::vector<double> &points,  std::vector<double> &epochs,  std::vector<double> &tangts, int method_len, int target_len, int fixref_len, int abcorr_len, int corloc_len, int obsrvr_len);
+				void occult(const std::string &targ1, const std::string &shape1, const std::string &frame1, const std::string &targ2, const std::string &shape2, const std::string &frame2, const std::string &abcorr, double &et, int &ocltid);
 
-				int termpt_( std::string &method,  std::string &ilusrc,  std::string &target,  std::vector<double> &et,  std::string &fixref,  std::string &abcorr,  std::string &corloc,  std::string &obsrvr,  std::vector<double> &refvec,  std::vector<double> &rolstp,  std::vector<int> &ncuts,  std::vector<double> &schstp,  std::vector<double> &soltol,  std::vector<int> &maxn,  std::vector<int> &npts,  std::vector<double> &points,  std::vector<double> &epochs,  std::vector<double> &trmvcs, int method_len, int ilusrc_len, int target_len, int fixref_len, int abcorr_len, int corloc_len, int obsrvr_len);
+				/*int gfoclt_( std::string &occtyp,  std::string &front,  std::string &fshape,  std::string &fframe,  std::string &back,  std::string &bshape,  std::string &bframe,  std::string &abcorr,    std::vector<double> &step,  std::vector<double> &cnfine,  std::vector<double> &result, int occtyp_len, int front_len, int fshape_len, int fframe_len, int back_len, int bshape_len, int bframe_len, int abcorr_len, int obsrvr_len);*/
 
-				int conics_( std::vector<double> &elts,  std::vector<double> &et,  std::vector<double> &state);
+				void srfcss(int &code, int srflen, std::string &srfstr, int &isname);
 
-				int oscelt_( std::vector<double> &state,  std::vector<double> &et,  std::vector<double> &mu,  std::vector<double> &elts);
+				void srfs2c(const std::string &srfstr, int &code, int &found);
 
-				int occult_( std::string &targ1,  std::string &shape1,  std::string &frame1,  std::string &targ2,  std::string &shape2,  std::string &frame2,  std::string &abcorr,  std::string &obsrvr,  std::vector<double> &et,  std::vector<int> &ocltid, int targ1_len, int shape1_len, int frame1_len, int targ2_len, int shape2_len, int frame2_len, int abcorr_len, int obsrvr_len);
+				void srfc2s(int &code, int srflen, std::string &srfstr, int &isname);
 
-				int gfoclt_( std::string &occtyp,  std::string &front,  std::string &fshape,  std::string &fframe,  std::string &back,  std::string &bshape,  std::string &bframe,  std::string &abcorr,  std::string &obsrvr,  std::vector<double> &step,  std::vector<double> &cnfine,  std::vector<double> &result, int occtyp_len, int front_len, int fshape_len, int fframe_len, int back_len, int bshape_len, int bframe_len, int abcorr_len, int obsrvr_len);
+				void srfscc(const std::string &srfstr, int &code, int &found);
 
-				int srfcss_( std::vector<int> &code,  std::string &bodstr,  std::string &srfstr,  std::vector<int> &isname, int bodstr_len, int srfstr_len);
+				void bodc2n(int &lenout, int &found);
 
-				int srfs2c_( std::string &srfstr,  std::string &bodstr,  std::vector<int> &code,  std::vector<int> &found, int srfstr_len, int bodstr_len);
-
-				int srfc2s_( std::vector<int> &code,  std::vector<int> &bodyid,  std::string &srfstr,  std::vector<int> &isname, int srfstr_len);
-
-				int srfscc_( std::string &srfstr,  std::vector<int> &bodyid,  std::vector<int> &code,  std::vector<int> &found, int srfstr_len);
-
-				int bodc2n_( std::vector<int> &code,  std::string &name__,  std::vector<int> &found, int name_len);
-
-				int srfrec_( std::vector<int> &body,  std::vector<double> &long__,  std::vector<double> &lat,  std::vector<double> &rectan);
+				void srfrec(double &longitude, double &latitude,  std::vector<double> &rectan);
 
 			protected:
-				std:vector<double> positn;
+				std::vector<double> positn;
 
-				std:vector<double> mu;
+				double mu;
 		};
 	}
 }

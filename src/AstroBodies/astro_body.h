@@ -10,12 +10,8 @@
 #ifndef SMARTASTO_ASTRO_BODY_H
 #define SMARTASTO_ASTRO_BODY_H
 
-extern "C" {
-#include <cspice/SpiceUsr.h>
-#include <cspice/SpiceZfc.h>
-}
-
 #include <vector>
+#include <cspice/SpiceUsr.h>
 #include "../Astro-Core/spice_general_functions.h"
 
 namespace smartastro
@@ -25,12 +21,12 @@ namespace smartastro
 		class Astro_Body
 		{
 			public:
-				Astro_Body( std::string givenName, int givenId);
+				Astro_Body(std::string givenName, int givenId);
 
 				~Astro_Body();
 
 			protected:
-				std::vector<char> name;
+				std::string name;
 				int id;
 		};
 	}

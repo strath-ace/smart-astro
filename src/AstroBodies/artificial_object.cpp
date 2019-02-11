@@ -12,93 +12,53 @@
 using namespace smartastro;
 using namespace smartastro::astrobodies;
 
-Artificial_Object::Artificial_Object( std::string givenName, int givenId)
+Artificial_Object::Artificial_Object(std::string givenName, int givenId) : Astro_Body(givenName, givenId)
 {
-  Astro_Body(givenName, givenId);
+
 }
 
 Artificial_Object::~Artificial_Object()
 {
 }
 
-int Artificial_Object::gfrfov_( std::string &inst,  std::vector<double> &raydir,  std::string &rframe,  std::string &abcorr,  std::vector<double> &step,  std::vector<double> &cnfine,  std::vector<double> &result, int inst_len, int rframe_len, int abcorr_len, int obsrvr_len)
-{
-  char *instA = smartastro::astrcore::spice_general_functions::stringToCharArray(inst);
-  double *raydirA = smartastro::astrcore::spice_general_functions::doubleVectorToArray(raydir);
-  char *rframeA = smartastro::astrcore::spice_general_functions::stringToCharArray(rframe);
-  char *abcorrA = smartastro::astrcore::spice_general_functions::stringToCharArray(abcorr);
-  double *stepA = smartastro::astrcore::spice_general_functions::doubleVectorToArray(step);
-  double *cnfineA = smartastro::astrcore::spice_general_functions::doubleVectorToArray(cnfine);
-  double *resultA = smartastro::astrcore::spice_general_functions::doubleVectorToArray(result);
-  
-  return gfrfov_(instA, raydirA, rframeA, abcorrA, name, stepA, cnfineA, resultA, inst_len, rframe_len, abcorr_len, obsrvr_len);
+void Artificial_Object::gfrfov(const std::string &inst,  std::vector<double> &raydir, const std::string &rframe, const std::string &abcorr, double &step, SpiceCell  &cnfine,  SpiceCell &result)
+{  
+  return gfrfov_c(&inst.at(0), &raydir[0], &rframe.at(0), &abcorr.at(0), &name.at(0), step, &cnfine, &result);
 }
 
-int Artificial_Object::gftfov_( std::string &inst,  std::string &target,  std::string &tshape,  std::string &tframe,  std::string &abcorr,  std::vector<double> &step,  std::vector<double> &cnfine,  std::vector<double> &result, int inst_len, int target_len, int tshape_len, int tframe_len, int abcorr_len, int obsrvr_len)
+void Artificial_Object::gftfov(const std::string &inst, const std::string &target, const std::string &tshape, const std::string &tframe, const std::string &abcorr, double &step,  SpiceCell &cnfine,  SpiceCell &result)
 {
-  char *instA = smartastro::astrcore::spice_general_functions::stringToCharArray(inst);
-  char *targetA = smartastro::astrcore::spice_general_functions::stringToCharArray(target);
-  char *tshapeA = smartastro::astrcore::spice_general_functions::stringToCharArray(tshape);
-  char *tframeA = smartastro::astrcore::spice_general_functions::stringToCharArray(tframe);
-  char *abcorrA = smartastro::astrcore::spice_general_functions::stringToCharArray(abcorr);
-  double *stepA = smartastro::astrcore::spice_general_functions::doubleVectorToArray(step);
-  double *cnfineA = smartastro::astrcore::spice_general_functions::doubleVectorToArray(cnfine);
-  double *resultA = smartastro::astrcore::spice_general_functions::doubleVectorToArray(result);
-  
-  return gftfov_(instA, targetA, tshapeA, tframeA, abcorrA, nameA, stepA, cnfineA, resultA, inst_len, target_len, tshape_len, tframe_len, abcorr_len, obsrvr_len);
+  return gftfov_c(&inst.at(0), &target.at(0), &tshape.at(0), &tframe.at(0), &abcorr.at(0), &name.at(0), step, &cnfine, &result);
 }
 
-int Artificial_Object::fovray_( std::string &inst,  std::vector<double> &raydir,  std::string &rframe,  std::string &abcorr,  std::vector<double> &et,  std::vector<int> &visibl, int inst_len, int rframe_len, int abcorr_len, int obsrvr_len)
+void Artificial_Object::fovray(const std::string &inst,  std::vector<double> &raydir, const std::string &rframe, const std::string &abcorr, double &et,  int &visibl)
 {
-  char *instA = smartastro::astrcore::spice_general_functions::stringToCharArray(inst);
-  double *raydirA = smartastro::astrcore::spice_general_functions::doubleVectorToArray(raydir);
-  char *rframeA = smartastro::astrcore::spice_general_functions::stringToCharArray(rframe);
-  char *abcorrA = smartastro::astrcore::spice_general_functions::stringToCharArray(abcorr);
-  double *etA = smartastro::astrcore::spice_general_functions::doubleVectorToArray(et);
-  int *visiblA = smartastro::astrcore::spice_general_functions::intVectorToArray(visibl);
-  
-  return fovray_(instA, raydirA, rframeA, abcorrA, name, etA, visiblA, inst_len, rframe_len, abcorr_len, obsrvr_len);
+  return fovray_c(&inst.at(0), &raydir[0], &rframe.at(0), &abcorr.at(0), &name.at(0), &et, &visibl);
 }
 
-int Artificial_Object::fovtrg_( std::string &inst,  std::string &target,  std::string &tshape,  std::string &tframe,  std::string &abcorr,  std::vector<double> &et,  std::vector<int> &visibl, int inst_len, int target_len, int tshape_len, int tframe_len, int abcorr_len, int obsrvr_len)
+void Artificial_Object::fovtrg( const std::string &inst, const std::string &target, const std::string &tshape, const std::string &tframe, const std::string &abcorr, double &et, int &visibl)
 {
-  char *instA = smartastro::astrcore::spice_general_functions::stringToCharArray(inst);
-  char *targetA = smartastro::astrcore::spice_general_functions::stringToCharArray(target);
-  char *tshapeA = smartastro::astrcore::spice_general_functions::stringToCharArray(tshape);
-  char *tframeA = smartastro::astrcore::spice_general_functions::stringToCharArray(tframe);
-  char *abcorrA = smartastro::astrcore::spice_general_functions::stringToCharArray(abcorr);
-  double *etA = smartastro::astrcore::spice_general_functions::doubleVectorToArray(et);
-  int *visiblA = smartastro::astrcore::spice_general_functions::intVectorToArray(visibl);
-  
-  return fovtrg_(instA, targetA, tshapeA, tframeA, abcorrA, nameA, etA, visiblA, inst_len, target_len, tshape_len, tframe_len, abcorr_len, obsrvr_len);
+  return fovtrg_c(&inst.at(0), &target.at(0), &tshape.at(0), &tframe.at(0), &abcorr.at(0), &name.at(0), &et, &visibl);
 }
 
-int Artificial_Object::getfov_( std::vector<int> &instid,  std::vector<int> &room,  std::string &shape,  std::string &frame,  std::vector<double> &bsight,  std::vector<int> &n,  std::vector<double> &bounds, int shape_len, int frame_len)
+/*void Artificial_Object::getfov(int &instid, int &room, int &shapelen, int &framelen, const std::string &shape, const std::string &frame,  std::vector<double> &bsight,  std::vector<int> &n,  std::vector<vector<double>> &bounds)
 {
-  int *instidA = smartastro::astrcore::spice_general_functions::intVectorToArray(instid);
-  int *roomA = smartastro::astrcore::spice_general_functions::intVectorToArray(room);
-  char *shapeA = smartastro::astrcore::spice_general_functions::stringToCharArray(shape);
-  char *frameA = smartastro::astrcore::spice_general_functions::stringToCharArray(frame);
-  double *bsightA = smartastro::astrcore::spice_general_functions::doubleVectorToArray(bsight);
-  int *nA = smartastro::astrcore::spice_general_functions::intVectorToArray(n);
-  double *etA = smartastro::astrcore::spice_general_functions::doubleVectorToArray(bounds);
-  
-  return getfov_(instidA, roomA, shapeA, frameA, bsightA, nA, boundsA, shape_len, frame_len);
-}
+  return getfov_c(instid, room, shapelen, framelen, &shape.at(0), &frame.at(0), &bsight[0], &n, &bounds[0][0]);
+  }*/
 
-int Artificial_Object::gffove_( std::string &inst,  std::string &tshape,  std::vector<double> &raydir,  std::string &target,  std::string &tframe,  std::string &abcorr,  std::vector<double> &tol, int udstep, int udrefn,  std::vector<int> &rpt, int udrepi, int udrepu, int udrepf,  std::vector<int> &bail, L_fp udbail,  std::vector<double> &cnfine,  std::vector<double> &result, int inst_len, int tshape_len, int target_len, int tframe_len, int abcorr_len, int obsrvr_len)
+/*int Artificial_Object::gffove_( std::string &inst,  std::string &tshape,  std::vector<double> &raydir,  std::string &target,  std::string &tframe,  std::string &abcorr,  std::vector<double> &tol, int udstep, int udrefn,  std::vector<int> &rpt, int udrepi, int udrepu, int udrepf,  std::vector<int> &bail, L_fp udbail,  std::vector<double> &cnfine,  std::vector<double> &result, int inst_len, int tshape_len, int target_len, int tframe_len, int abcorr_len, int obsrvr_len)
 {
-  char *instA = smartastro::astrcore::spice_general_functions::stringToCharArray(inst);
-  char *tshapeA = smartastro::astrcore::spice_general_functions::stringToCharArray(tshape);
-  double *raydirA = smartastro::astrcore::spice_general_functions::doubleVectorToArray(raydir);
-  char *targetA = smartastro::astrcore::spice_general_functions::stringToCharArray(target);
-  char *tframeA = smartastro::astrcore::spice_general_functions::stringToCharArray(tframe);
-  char *abcorrA = smartastro::astrcore::spice_general_functions::stringToCharArray(abcorr);
-  double *tolA = smartastro::astrcore::spice_general_functions::doubleVectorToArray(tol);
-  int *rptA = smartastro::astrcore::spice_general_functions::intVectorToArray(rpt);
-  int *bailA = smartastro::astrcore::spice_general_functions::intVectorToArray(bail);
-  double *cnfineA = smartastro::astrcore::spice_general_functions::doubleVectorToArray(cnfine);
-  double *resultA = smartastro::astrcore::spice_general_functions::doubleVectorToArray(result);
+  char *instA = smartastro::astrocore::spice_general_functions::stringToCharArray(inst);
+  char *tshapeA = smartastro::astrocore::spice_general_functions::stringToCharArray(tshape);
+  double *raydirA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(raydir);
+  char *targetA = smartastro::astrocore::spice_general_functions::stringToCharArray(target);
+  char *tframeA = smartastro::astrocore::spice_general_functions::stringToCharArray(tframe);
+  char *abcorrA = smartastro::astrocore::spice_general_functions::stringToCharArray(abcorr);
+  double *tolA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(tol);
+  int *rptA = smartastro::astrocore::spice_general_functions::intVectorToArray(rpt);
+  int *bailA = smartastro::astrocore::spice_general_functions::intVectorToArray(bail);
+  double *cnfineA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(cnfine);
+  double *resultA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(result);
   
-  return gffove_(instA, tshapeA, raydirA, targetA, tframeA, abcorrA, name, tolA, udstep, udrefn, rptA, udrepi, udrepu, udrepf, bailA, udbail, cnfineA, resultA, inst_len, tshape_len, target_len, tframe_len, abcorr_len, obsrvr_len);
-}
+  return gffove_(instA, tshapeA, raydirA, targetA, tframeA, abcorrA, nameA, tolA, udstep, udrefn, rptA, udrepi, udrepu, udrepf, bailA, udbail, cnfineA, resultA, inst_len, tshape_len, target_len, tframe_len, abcorr_len, obsrvr_len);
+  }*/

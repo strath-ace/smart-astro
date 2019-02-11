@@ -12,69 +12,27 @@
 using namespace smartastro;
 using namespace smartastro::astrocore;
 
-char* stringToCharArray(std::string string)
+void spice_general_functions::subslr(const std::string &method, const std::string &target, double &et, const std::string &fixref, const std::string &abcorr, const std::string &obsrvr, std::vector<double> &spoint, double &trgepc, std::vector<double> &srfvec)
 {
-   char *charArray = string.c_string();
-  return charArray;
+  return subslr_c(&method.at(0), &target.at(0), et, &fixref.at(0), &abcorr.at(0), &obsrvr.at(0), &spoint[0], &trgepc, &srfvec[0]);
 }
 
-std::vector<int> intArrayToVector(int array[])
+void spice_general_functions::subpnt(const std::string &method, const std::string &target, double &et, const std::string &fixref, const std::string &abcorr, const std::string &obsrvr,  std::vector<double> &spoint, double &trgepc,  std::vector<double> srfvec)
 {
-  std::vector<int> vector(array, array + sizeof array / sizeof array[0]);
-  return vector;
+  return subpnt_c(&method.at(0), &target.at(0), et, &fixref.at(0), &abcorr.at(0), &obsrvr.at(0), &spoint[0], &trgepc, &srfvec[0]);
 }
 
-int* intVectorToArray(std::vector<int> vector)
+double spice_general_functions::lspcn(const std::string &body, double &et, const std::string &abcorr)
 {
-  int* arrayPointer = &vector[0];
-  return arrayPointer;
+  return lspcn_c(&body.at(0), et, &abcorr.at(0));
 }
 
-std::vector<char> charArrayToVector(char array[])
+void spice_general_functions::furnsh(const std::string &file)
 {
-  std::vector<char> vector(array, array + sizeof array / sizeof array[0]);
-  return vector;
+  return furnsh_c(&file.at(0));
 }
 
-char* charVectorToArray(std::vector<char> vector)
+void spice_general_functions::unload(const std::string &file)
 {
-  char* arrayPointer = &vector[0];
-  return arrayPointer;
-}
-
-std::vector<double> doubleArrayToVector(double array[])
-{
-  std::vector<double> vector(array, array + sizeof array / sizeof array[0]);
-  return vector;
-}
-
-double* intVectorToArray(std::vector<double> vector)
-{
-  double* arrayPointer = &vector[0];
-  return arrayPointer;
-}
-
-int spice_general_functions::subslr_( std::string &method,  std::string &target,  std::vector<double> &et,  std::string &fixref,  std::string &abcorr,  std::string &obsrvr,  std::vector<double> &spoint,  std::vector<double> &trgepc,  std::vector<double> &srfvec, int method_len, int target_len, int fixref_len, int abcorr_len, int obsrvr_len)
-{
-	return subslr_(method, target, et, fixref, abcorr, obsrvr, spoint, trgepc, srfvec, method_len, target_len, fixref_len, abcorr_len, obsrvr_len);
-}
-
-int spice_general_functions::subpnt_( std::string &method,  std::string &target,  std::vector<double> &et,  std::string &fixref,  std::string &abcorr,  std::string &obsrvr,  std::vector<double> &spoint,  std::vector<double> &trgepc,  std::vector<double> &srfvec, int method_len, int target_len, int fixref_len, int abcorr_len, int obsrvr_len)
-{
-	return subpnt_(method, target, et, fixref, abcorr, obsrvr, spoint, trgepc, srfvec, method_len, target_len, fixref_len, abcorr_len, obsrvr_len);
-}
-
-double spice_general_functions::lspcn_( std::string &body,  std::vector<double> &et,  std::string &abcorr, int body_len, int abcorr_len)
-{
-	return lspcn_(body, et, abcorr, body_len, abcorr_len);
-}
-
-int spice_general_functions::furnsh_( std::string &file, int file_len)
-{
-	return furnsh_(file, file_len);
-}
-
-int spice_general_functions::unload_( std::string &file, int file_len)
-{
-	return unload_(file, file_len);
+  return unload_c(&file.at(0));
 }

@@ -6,17 +6,14 @@
 #ifndef SMARTASTRO_CONVERSION_COORDINATES_H
 #define SMARTASTRO_CONVERSION_COORDINATES_H
 
-extern "C" {
-#include <cspice/SpiceUsr.h>
-#include <cspice/SpiceZfc.h>
-}
-
 #include <vector>
 #include <cmath>
+#include <cspice/SpiceUsr.h>
 #include "LinearAlgebra/Eigen/Dense"
 #include "../exception.h"
 #include "../constants.h"
 #include "conversion_time.h"
+
 
 namespace smartastro{
     namespace astrocore{
@@ -643,95 +640,65 @@ namespace smartastro{
 --------- SPICE functions implemented by: Scott Hurley (GitHub: Scott_James_Hurley)----
 --------- e-mail: scott.james.hurley.97@gmail.com -------------------------------------
 */
+	    static double** twodVectorToArray(std::vector<std::vector<double>> &vals, int &N, int &M);
 
-/**
-             * @brief  Function to convert from Cartesian reference frame to B-plane reference frame.
-             *
-             * Function to convert from Cartesian reference frame to B-plane reference frame.\n
-             * Cartesian reference frame: {x,y,z} inertial reference frame.
-             * The b-plane is the plane perpendicular to the incoming relative velocity
-             * of the small body at the planet arrival, containing the planet.
-             * b-plane reference frame: {xi,eta,zeta} where
-             * - eta-axis: as the incoming relative velocity of the small body on its
-             *   arrival.
-             * - zeta-axis: in the b-plane, direction opposite to the projection of
-             *   the heliocentric velocity of the planet on the b-plane.
-             * - xi-axis: in the b-plane, completes the reference frame.
-             *
-             * @param[in] x_car vector of 3 doubles containing the
-             *                  coordinates of the vector to be transformed,
-             *                  expressed in {x,y,z}.
-             * @param[in] u_car vector of 3 doubles containing the
-             *                  velocity of the small body relative to the
-             *                  planet, expressed in {x,y,z}.
-             * @param[in] vp_car vector of 3 doubles containing the
-             *                   velocity of the planet, expressed in {x,y,z}.
-             * @param[out] x_bpl vector of 3 doubles containing the
-             *                   coordinates of the vector x_car expressed in
-             *                   {xi,eta,zeta}.
-             * @return Error code
-             *
-             * @author Massimiliano Vasile 2007, Luca Masi 2008,
-             */
+	    static void radrec(double &range, double &ra, double &dec, std::vector<double> &rectan);
 
-	    static int radrec_( std::vector<double> &range,  std::vector<double> &ra,  std::vector<double> &dec,  std::vector<double> &rectan);
+	    static void recrad(std::vector<double> &rectan, double &range, double &ra, double &dec);
 
-	    static int recrad_( std::vector<double> &rectan,  std::vector<double> &range,  std::vector<double> &ra,  std::vector<double> &dec);
+	    static void cylrec(double &r, double &lon, double &z, std::vector<double> &rectan);
 
-	    static int cylrec_( std::vector<double> &r__,  std::vector<double> &long__,  std::vector<double> &z__,  std::vector<double> &rectan);
+	    static void reccyl(std::vector<double> &rectan, double &r,  double &lon, double &z);
 
-	    static int reccyl_( std::vector<double> &rectan,  std::vector<double> &r__,  std::vector<double> &long__,  std::vector<double> &z__);
+	    static void sphrec(double &r, double &colat, double &lon,  std::vector<double> &rectan);
 
-	    static int sphrec_( std::vector<double> &r__,  std::vector<double> &colat,  std::vector<double> &long__,  std::vector<double> &rectan);
+	    static void recsph(std::vector<double> &rectan, double &r, double &colat, double &lon);
 
-	    static int recsph_( std::vector<double> &rectan,  std::vector<double> &r__,  std::vector<double> &colat,  std::vector<double> &long__);
+	    static void sphcyl(double &radius, double &colat, double &slon, double &r,  double lon, double &z);
 
-	    static int sphcyl_( std::vector<double> &radius,  std::vector<double> &colat,  std::vector<double> &slong,  std::vector<double> &r__,  std::vector<double> &long__,  std::vector<double> &z__);
+	    static void cylsph(double &r, double &lonc, double &z, double &radius, double &colat, double &lon);
 
-	    static int cylsph_( std::vector<double> &r__,  std::vector<double> &longc,  std::vector<double> &z__,  std::vector<double> &radius,  std::vector<double> &colat,  std::vector<double> &long__);
+	    static void sphlat(double &r, double &colat, double &lons, double &radius, double &lon, double &lat);
 
-	    static int sphlat_( std::vector<double> &r__,  std::vector<double> &colat,  std::vector<double> &longs,  std::vector<double> &radius,  std::vector<double> &long__,  std::vector<double> &lat);
+	    static void latsph(double &radius, double &lon, double &lat, double &rho, double &colat, double &lons);
 
-	    static int latsph_( std::vector<double> &radius,  std::vector<double> &long__,  std::vector<double> &lat,  std::vector<double> &rho,  std::vector<double> &colat,  std::vector<double> &longs);
+	    static void latcyl(double &radius, double &lon, double &lat, double &r, double &lonc, double &z);
 
-	    static int latcyl_( std::vector<double> &radius,  std::vector<double> &long__,  std::vector<double> &lat,  std::vector<double> &r__,  std::vector<double> &longc,  std::vector<double> &z__);
-
-	    static int cyllat_( std::vector<double> &r__,  std::vector<double> &longc,  std::vector<double> &z__,  std::vector<double> &radius,  std::vector<double> &long__,  std::vector<double> &lat);
+	    static void cyllat(double &r, double &lonc, double &z, double &radius, double &lon, double &lat);
 	
-	    static int reclat_( std::vector<double> &rectan,  std::vector<double> &radius,  std::vector<double> &long__,  std::vector<double> &lat);
+	    static void reclat(std::vector<double> &rectan, double &radius, double &longitude, double &latitiude);
 
-	    static int latrec_( std::vector<double> &radius,  std::vector<double> &long__,  std::vector<double> &lat,  std::vector<double> &rectan);
+	    static void latrec(double &radius, double &longitude, double &latitiude, std::vector<double> &rectan);
 
-	    static int recgeo_( std::vector<double> &rectan,  std::vector<double> &re,  std::vector<double> &f,  std::vector<double> &long__,  std::vector<double> &lat,  std::vector<double> &alt);
+	    static void recgeo(std::vector<double> &rectan, double &re, double &f, double &lon, double &lat, double &alt);
 
-	    static int georec_( std::vector<double> &long__,  std::vector<double> &lat,  std::vector<double> &alt,  std::vector<double> &re,  std::vector<double> &f,  std::vector<double> &rectan);
+	    static void georec(double &lon, double &lat, double &alt, double &re, double &f, std::vector<double> &rectan);
 
-	    static int recpgr_( std::string &body,  std::vector<double> &rectan,  std::vector<double> &re,  std::vector<double> &f,  std::vector<double> &lon,  std::vector<double> &lat,  std::vector<double> &alt, int body_len);
+	    static void recpgr(const std::string &body,  std::vector<double> &rectan, double &re, double &f, double &lon, double &lat, double &alt);
 
-	    static int pgrrec_( std::string &body,  std::vector<double> &lon,  std::vector<double> &lat,  std::vector<double> &alt,  std::vector<double> &re,  std::vector<double> &f,  std::vector<double> &rectan, int body_len);
+	    static void pgrrec(const std::string &body, double &lon, double &lat, double &alt, double &re, double &f,  std::vector<double> &rectan);
 
-	    static int xfmsta_( std::vector<double> &istate,  std::string &icosys,  std::string &ocosys,  std::string &body,  std::vector<double> &ostate, int icosys_len, int ocosys_len, int body_len);
+	    static void xfmsta(const std::vector<double> &input_state,  const std::string &input_coord_sys, const std::string &output_coord_sys, const std::string &body,  std::vector<double> &output_state);
 	
-	    static int drdlat_( std::vector<double> &r__,  std::vector<double> &long__,  std::vector<double> &lat,  std::vector<double> &jacobi);
+/*	    static void drdlat(double &r, double &lon, double &lat, double (*)[3] jacobi);
 
-	    static int dlatdr_( std::vector<double> &x,  std::vector<double> &y,  std::vector<double> &z__,  std::vector<double> &jacobi);
+	    static void dlatdr(double &x, double &y, double &z, double **jacobi);
 
-	    static int drdpgr_( std::string &body,  std::vector<double> &lon,  std::vector<double> &lat,  std::vector<double> &alt,  std::vector<double> &re,  std::vector<double> &f,  std::vector<double> &jacobi, int body_len);
+	    static void drdpgr(const std::string &body, double &lon, double &lat, double &alt, double &re, double &f, &jacobi[][]);
 
-	    static int dpgrdr_( std::string &body,  std::vector<double> &x,  std::vector<double> &y,  std::vector<double> &z__,  std::vector<double> &re,  std::vector<double> &f,  std::vector<double> &jacobi, int body_len);
+	    static void dpgrdr_(const std::string &body, double &x, double &y, double &z, double &re, double &f, double **jacobi);
 
-	    static int drdgeo_( std::vector<double> &long__,  std::vector<double> &lat,  std::vector<double> &alt,  std::vector<double> &re,  std::vector<double> &f,  std::vector<double> &jacobi);
+	    static void drdgeo(double &lon, double &lat, double &alt, double &re, double &f, double **jacobi);
 
-	    static int dgeodr_( std::vector<double> &x,  std::vector<double> &y,  std::vector<double> &z__,  std::vector<double> &re,  std::vector<double> &f,  std::vector<double> &jacobi);
+	    static void dgeodr(double &x, double &y, double &z, double &re, double &f, double **jacobi);
 
-	    static int drdcyl_( std::vector<double> &r__,  std::vector<double> &long__,  std::vector<double> &z__,  std::vector<double> &jacobi);
+	    static void drdcyl(double &r__, double &lon, double &z, double **jacobi);
 
-	    static int dcyldr_( std::vector<double> &x,  std::vector<double> &y,  std::vector<double> &z__,  std::vector<double> &jacobi);
+	    static void dcyldr(double &x, double &y, double &z, double **jacobi);
 
-	    static int drdsph_( std::vector<double> &r__,  std::vector<double> &colat,  std::vector<double> &long__,  std::vector<double> &jacobi);
+	    static void drdsph(double &r, double &colat, double &lon,  double ** &jacobi);
 
-	    static int dsphdr_( std::vector<double> &x,  std::vector<double> &y,  std::vector<double> &z__,  std::vector<double> &jacobi);
-
+	    static void dsphdr(double &x, double &y, double &z, double **jacobi);*/
 		};
 
     }
