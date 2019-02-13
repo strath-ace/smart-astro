@@ -262,9 +262,9 @@ void Celestial_Object::srfscc(const std::string &srfstr, int &code, int &found)
   return srfscc_c(&srfstr.at(0), id, &code, &found);
 }
 
-void Celestial_Object::bodc2n(int &lenout, int &found)
+void Celestial_Object::bodc2n(int &lenout, std::string commonName, int &found)
 {
-  return bodc2n_c(id, lenout, &name.at(0), &found);
+  return bodc2n_c(id, lenout, &commonName.at(0), &found);
 }
 
 void Celestial_Object::srfrec(double &longitude, double &latitude,  std::vector<double> &rectan)

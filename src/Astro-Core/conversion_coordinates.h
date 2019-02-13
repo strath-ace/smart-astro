@@ -642,63 +642,428 @@ namespace smartastro{
 */
 	    static double** twodVectorToArray(std::vector<std::vector<double>> &vals, int &N, int &M);
 
+	    	/**
+	    	* @brief Convert from range, right ascension, and declination to rectangular
+   		* coordinates.
+	    	*
+	    	* @param[in] range Distance of a point from the origin.
+	    	* @param[in] ra Right ascension of point in radians.
+	    	* @param[in] dec Declination of point in radians.
+	    	* @param[out] rectan Rectangular coordinates of the point.
+	    	* @return void
+	    	*
+	    	*/
+
 	    static void radrec(double &range, double &ra, double &dec, std::vector<double> &rectan);
+
+		/**
+	    	* @brief Convert from range, right ascension, and declination to rectangular
+   		* coordinates.
+	    	*
+	    	* @param[in] rectan Rectangular coordinates of a point. 
+	    	* @param[out] range Distance of the point from the origin.
+	    	* @param[out] ra Right ascension in radians. 
+	    	* @param[out] dec Declination in radians. 
+	    	* @return void
+	    	*
+	    	*/
 
 	    static void recrad(std::vector<double> &rectan, double &range, double &ra, double &dec);
 
+		/**
+	    	* @brief Convert from cylindrical to rectangular coordinates.
+	    	*
+	    	* @param[in] r Distance of a point from z axis. 
+	    	* @param[in] lon Angle (radians) of a point from xZ plane
+	    	* @param[in] z Height of a point above xY plane.
+	    	* @param[out] rectan Rectangular coordinates of the point.
+	    	* @return void
+	    	*
+	    	*/
+
 	    static void cylrec(double &r, double &lon, double &z, std::vector<double> &rectan);
+
+		/**
+	    	* @brief Convert from rectangular to cylindrical coordinates.
+	    	*
+	    	* @param[in] rectan Rectangular coordinates of a point. 
+	    	* @param[out] r Distance of the point from Z axis.
+	    	* @param[out] lon Angle (radians) of the point from XZ plane
+	    	* @param[out] z Height of the point above XY plane.
+	    	* @return void
+	    	*
+	    	*/
 
 	    static void reccyl(std::vector<double> &rectan, double &r,  double &lon, double &z);
 
+		/**
+	    	* @brief Convert from spherical coordinates to rectangular coordinates.
+	    	*
+	    	* @param[in] r Distance of a point from the origin. 
+	    	* @param[in] colat Angle of the point from the Z-axis in radians. 
+	    	* @param[in] lon Angle of the point from the XZ plane in radians. 
+	    	* @param[out] rectan Rectangular coordinates of the point. 
+	    	* @return void
+	    	*
+	    	*/
+
 	    static void sphrec(double &r, double &colat, double &lon,  std::vector<double> &rectan);
+
+		/**
+	    	* @brief Convert from rectangular coordinates to spherical coordinates.
+	    	*
+	    	* @param[in] rectan Rectangular coordinates of a point.
+	    	* @param[out] r Distance of the point from the origin. 
+	    	* @param[out] colat Angle of the point from the Z-axis in radians.
+	    	* @param[out] lon Longitude of the point in radians. 
+	    	* @return void
+	    	*
+	    	*/
 
 	    static void recsph(std::vector<double> &rectan, double &r, double &colat, double &lon);
 
+		/**
+	    	* @brief This routine converts from spherical coordinates to cylindrical 
+    		* coordinates.
+	    	*
+	    	* @param[in] radius Distance of point from origin. 
+	    	* @param[in] colat Polar angle (co-latitude in radians) of point. 
+	    	* @param[in] slon Azimuthal angle (longitude) of point (radians). 
+	    	* @param[out] r Distance of point from Z axis. 
+		* @param[out] lon angle (radians) of point from XZ plane.
+		* @param[out] z Height of point above XY plane. 
+	    	* @return void
+	    	*
+	    	*/
+
 	    static void sphcyl(double &radius, double &colat, double &slon, double &r,  double lon, double &z);
+
+		/**
+	    	* @brief Convert from cylindrical to spherical coordinates.
+	    	*
+	    	* @param[in] r Distance of point from z axis.
+	    	* @param[in] lonc Angle (radians) of point from XZ plane.
+	    	* @param[in] z Height of point above XY plane.
+	    	* @param[out] radius Distance of point from origin.
+		* @param[out] colat Polar angle (co-latitude in radians) of point.
+		* @param[out] lon Azimuthal angle (longitude) of point (radians).
+	    	* @return void
+	    	*
+	    	*/
 
 	    static void cylsph(double &r, double &lonc, double &z, double &radius, double &colat, double &lon);
 
+		/**
+	    	* @brief Convert from spherical coordinates to latitudinal coordinates.
+	    	*
+	    	* @param[in] r Distance of point from z axis.
+	    	* @param[in] colat Angle of the point from positive z axis (radians).
+	    	* @param[in] lons Angle of the point from the XZ plane (radians). 
+	    	* @param[out] radius Distance of point from origin.
+		* @param[out] lon Angle of the point from the XZ plane in radians. 
+		* @param[out] lat Angle of the point from the XY plane in radians. 
+	    	* @return void
+	    	*
+	    	*/
+
 	    static void sphlat(double &r, double &colat, double &lons, double &radius, double &lon, double &lat);
+
+		/**
+	    	* @brief Convert from latitudinal coordinates to spherical coordinates.
+	    	*
+	    	* @param[in] radius Distance of a point from the origin.
+	    	* @param[in] lon Angle of the point from the XZ plane in radians.
+	    	* @param[in] lat Angle of the point from the XY plane in radians.
+	    	* @param[out] r Distance of the point from the z axis.
+		* @param[out] lonc Angle of the point from the XZ plane in radians.
+		* @param[out] z Height of the point above the XY plane.
+	    	* @return void
+	    	*
+	    	*/
 
 	    static void latsph(double &radius, double &lon, double &lat, double &rho, double &colat, double &lons);
 
+		/**
+	    	* @brief Convert from latitudinal coordinates to cylindrical coordinates.
+	    	*
+	    	* @param[in] radius Distance of a point from the origin.
+	    	* @param[in] lon Angle of the point from the XZ plane in radians.
+	    	* @param[in] lat Angle of the point from the XY plane in radians.
+	    	* @param[out] rho Distance of the point from the origin.
+		* @param[out] colat Angle of the point from positive z axis (radians).
+		* @param[out] lons Angle of the point from the XZ plane (radians).
+	    	* @return void
+	    	*
+	    	*/
+
 	    static void latcyl(double &radius, double &lon, double &lat, double &r, double &lonc, double &z);
 
+		/**
+	    	* @brief Convert from cylindrical to latitudinal coordinates. 
+	    	*
+	    	* @param[in] r Distance of point from z axis.
+	    	* @param[in] lonc Cylindrical angle of point from XZ plane (radians). 
+	    	* @param[in] z Height of point above XY plane. 
+	    	* @param[out] radius Distance of point from origin. 
+		* @param[out] lon Longitude of point (radians). 
+		* @param[out] lat Latitude of point (radians). 
+	    	* @return void
+	    	*
+	    	*/
+
 	    static void cyllat(double &r, double &lonc, double &z, double &radius, double &lon, double &lat);
+
+		/**
+	    	* @brief Convert from rectangular coordinates to latitudinal coordinates.
+	    	*
+	    	* @param[in] rectan Rectangular coordinates of a point.
+	    	* @param[out] radius Distance of point from origin. 
+		* @param[out] lon Longitude of point (radians). 
+		* @param[out] lat Latitude of point (radians). 
+	    	* @return void
+	    	*
+	    	*/
 	
 	    static void reclat(std::vector<double> &rectan, double &radius, double &longitude, double &latitiude);
 
+		/**
+	    	* @brief Convert from latitudinal coordinates to rectangular coordinates.
+	    	*
+	    	* @param[in] radius Distance of a point from the origin.
+	    	* @param[in] longitude Longitude of point in radians.
+		* @param[in] latitude Latitude of point in radians.
+		* @param[out] rectan Rectangular coordinates of the point.
+	    	* @return void
+	    	*
+	    	*/
+
 	    static void latrec(double &radius, double &longitude, double &latitiude, std::vector<double> &rectan);
+
+		/**
+	    	* @brief Convert from rectangular coordinates to geodetic coordinates. 
+	    	*
+	    	* @param[in] rectan Rectangular coordinates of a point. 
+	    	* @param[in] re Equatorial radius of the reference spheroid. 
+	    	* @param[in] f Flattening coefficient. 
+	    	* @param[out] lon Geodetic longitude of the point (radians). 
+		* @param[out] lat Geodetic latitude  of the point (radians).
+		* @param[out] alt Altitude of the point above reference spheroid.
+	    	* @return void
+	    	*
+	    	*/
 
 	    static void recgeo(std::vector<double> &rectan, double &re, double &f, double &lon, double &lat, double &alt);
 
+		/**
+	    	* @brief Convert geodetic coordinates to rectangular coordinates.
+	    	*
+	    	* @param[in] lon Geodetic longitude of point (radians).
+	    	* @param[in] lat Geodetic latitude  of point (radians).
+	    	* @param[in] alt Altitude of point above the reference spheroid.
+	    	* @param[in] re Equatorial radius of the reference spheroid.
+		* @param[in] f Flattening coefficient.
+		* @param[out] rectan Rectangular coordinates of point.
+	    	* @return void
+	    	*
+	    	*/
+
 	    static void georec(double &lon, double &lat, double &alt, double &re, double &f, std::vector<double> &rectan);
+
+		/**
+	    	* @brief Convert rectangular coordinates to planetographic coordinates.
+	    	*
+	    	* @param[in] body Body with which coordinate system is associated. 
+	    	* @param[in] rectan Rectangular coordinates of a point. 
+	    	* @param[in] re Equatorial radius of the reference spheroid.
+	    	* @param[in] f Flattening coefficient. 
+		* @param[out] lon Planetographic longitude of the point (radians).
+		* @param[out] lat Planetographic latitude of the point (radians). 
+		* @param[out] alt Altitude of the point above reference spheroid.
+	    	* @return void
+	    	*
+	    	*/
 
 	    static void recpgr(const std::string &body,  std::vector<double> &rectan, double &re, double &f, double &lon, double &lat, double &alt);
 
+		/**
+	    	* @brief Convert planetographic coordinates to rectangular coordinates. 
+	    	*
+	    	* @param[in] body Body with which coordinate system is associated. 
+	    	* @param[in] lon Planetographic longitude of a point (radians). 
+	    	* @param[in] lat Planetographic latitude of a point (radians). 
+	    	* @param[in] alt Altitude of a point above reference spheroid. 
+		* @param[in] re Equatorial radius of the reference spheroid. 
+		* @param[in] f Flattening coefficient. 
+		* @param[out] rectan Rectangular coordinates of the point. 
+	    	* @return void
+	    	*
+	    	*/
+
 	    static void pgrrec(const std::string &body, double &lon, double &lat, double &alt, double &re, double &f,  std::vector<double> &rectan);
 
+		/**
+	    	* @brief Transform a state between coordinate systems. 
+	    	*
+	    	* @param[in] input_state Input state.
+	    	* @param[in] input_coord_sys Current (input) coordinate system.
+	    	* @param[in] output_coord_sys Desired (output) coordinate system.
+	    	* @param[in] body Name or NAIF ID of body with which coordinates are associated (if applicable).
+		* @param[out] output_state Converted output state.
+	    	* @return void
+	    	*
+	    	*/
+
 	    static void xfmsta(const std::vector<double> &input_state,  const std::string &input_coord_sys, const std::string &output_coord_sys, const std::string &body,  std::vector<double> &output_state);
+
+		/**
+	    	* @brief Compute the Jacobian of the transformation from latitudinal to 
+   		* rectangular coordinates.  
+	    	*
+	    	* @param[in] radius Distance of a point from the origin.
+	    	* @param[in] lon Angle of the point from the XZ plane in radians.
+	    	* @param[in] lat Angle of the point from the XY plane in radians.
+		* @param[out] jacobi Matrix of partial derivatives.
+	    	* @return void
+	    	*
+	    	*/
 	
-/*	    static void drdlat(double &r, double &lon, double &lat, double (*)[3] jacobi);
+/*	    static void drdlat(double &r, double &lon, double &lat, double (*)[3] jacobi);*/
 
-	    static void dlatdr(double &x, double &y, double &z, double **jacobi);
+		/**
+	    	* @brief This routine computes the Jacobian of the transformation from 
+   		* rectangular to latitudinal coordinates.  
+	    	*
+	    	* @param[in] x X-coordinate of point. 
+	    	* @param[in] y Y-coordinate of point. 
+	    	* @param[in] z Z-coordinate of point. 
+		* @param[out] jacobi Matrix of partial derivatives.
+	    	* @return void
+	    	*
+	    	*/
 
-	    static void drdpgr(const std::string &body, double &lon, double &lat, double &alt, double &re, double &f, &jacobi[][]);
+/*	    static void dlatdr(double &x, double &y, double &z, double **jacobi);*/
 
-	    static void dpgrdr_(const std::string &body, double &x, double &y, double &z, double &re, double &f, double **jacobi);
+		/**
+	    	* @brief This routine computes the Jacobian matrix of the transformation 
+   		* from planetographic to rectangular coordinates.
+	    	*
+	    	* @param[in] body Name of body with which coordinates are associated.
+	    	* @param[in] lon Planetographic longitude of a point (radians). 
+	    	* @param[in] lat Planetographic latitude of a point (radians). 
+	    	* @param[in] alt Altitude of a point above reference spheroid. 
+		* @param[in] re Equatorial radius of the reference spheroid. 
+		* @param[in] f Flattening coefficient. 
+		* @param[out] jacobi Matrix of partial derivatives. 
+	    	* @return void
+	    	*
+	    	*/
 
-	    static void drdgeo(double &lon, double &lat, double &alt, double &re, double &f, double **jacobi);
+/*	    static void drdpgr(const std::string &body, double &lon, double &lat, double &alt, double &re, double &f, &jacobi[][]);*/
 
-	    static void dgeodr(double &x, double &y, double &z, double &re, double &f, double **jacobi);
+		/**
+	    	* @brief This routine computes the Jacobian matrix of the transformation 
+   		* from rectangular to planetographic coordinates.
+	    	*
+	    	* @param[in] body Body with which coordinate system is associated. 
+	    	* @param[in] x X-coordinate of point.
+	    	* @param[in] y Y-coordinate of point.
+	    	* @param[in] z Z-coordinate of point.
+		* @param[in] re Equatorial radius of the reference spheroid.
+		* @param[in] f Flattening coefficient. 
+		* @param[out] jacobi Matrix of partial derivatives. 
+	    	* @return void
+	    	*
+	    	*/
 
-	    static void drdcyl(double &r__, double &lon, double &z, double **jacobi);
+/*	    static void dpgrdr_(const std::string &body, double &x, double &y, double &z, double &re, double &f, double **jacobi);*/
 
-	    static void dcyldr(double &x, double &y, double &z, double **jacobi);
+		/**
+	    	* @brief This routine computes the Jacobian of the transformation from 
+   		* geodetic to rectangular coordinates. 
+	    	*
+	    	* @param[in] lon Geodetic longitude of point (radians).
+	    	* @param[in] lat Geodetic latitude of point (radians).
+	    	* @param[in] alt Altitude of point above the reference spheroid.
+	    	* @param[in] re Equatorial radius of the reference spheroid. 
+		* @param[in] f Flattening coefficient.
+		* @param[out] jacobi Matrix of partial derivatives. 
+	    	* @return void
+	    	*
+	    	*/
 
-	    static void drdsph(double &r, double &colat, double &lon,  double ** &jacobi);
+/*	    static void drdgeo(double &lon, double &lat, double &alt, double &re, double &f, double **jacobi);*/
 
-	    static void dsphdr(double &x, double &y, double &z, double **jacobi);*/
+		/**
+	    	* @brief This routine computes the Jacobian of the transformation from 
+   		* rectangular to geodetic coordinates. 
+	    	*
+	    	* @param[in] x X-coordinate of point.
+	    	* @param[in] y Y-coordinate of point.
+	    	* @param[in] z Z-coordinate of point.
+		* @param[in] re Equatorial radius of the reference spheroid.
+		* @param[in] f Flattening coefficient. 
+		* @param[out] jacobi Matrix of partial derivatives. 
+	    	* @return void
+	    	*
+	    	*/
+
+/*	    static void dgeodr(double &x, double &y, double &z, double &re, double &f, double **jacobi);*/
+
+		/**
+	    	* @brief This routine computes the Jacobian of the transformation from 
+   		* cylindrical to rectangular coordinates.   
+	    	*
+	    	* @param[in] r Distance of a point from the origin.
+	    	* @param[in] lon Angle of the point from the xz plane in radians. 
+	    	* @param[in] z Height of the point above the xy plane. 
+		* @param[out] jacobi Matrix of partial derivatives.
+	    	* @return void
+	    	*
+	    	*/
+
+/*	    static void drdcyl(double &r__, double &lon, double &z, double **jacobi);*/
+
+		/**
+	    	* @brief This routine computes the Jacobian of the transformation from 
+   		* rectangular to cylindrical coordinates.   
+	    	*
+	    	* @param[in] x X-coordinate of point.
+	    	* @param[in] y Y-coordinate of point.
+	    	* @param[in] z Z-coordinate of point.
+		* @param[out] jacobi Matrix of partial derivatives.
+	    	* @return void
+	    	*
+	    	*/
+
+/*	    static void dcyldr(double &x, double &y, double &z, double **jacobi);*/
+		
+		/**
+	    	* @brief This routine computes the Jacobian of the transformation from 
+   		* spherical to rectangular coordinates.   
+	    	*
+	    	* @param[in] r Distance of a point from the origin.
+	    	* @param[in] colat Angle of the point from the positive z-axis.
+	    	* @param[in] lon Angle of the point from the xy plane. 
+		* @param[out] jacobi Matrix of partial derivatives.
+	    	* @return void
+	    	*
+	    	*/
+
+/*	    static void drdsph(double &r, double &colat, double &lon,  double ** &jacobi);*/
+
+		/**
+	    	* @brief This routine computes the Jacobian of the transformation from 
+   		* rectangular to spherical coordinates.  
+	    	*
+	    	* @param[in] x X-coordinate of point.
+	    	* @param[in] y Y-coordinate of point.
+	    	* @param[in] z Z-coordinate of point.
+		* @param[out] jacobi Matrix of partial derivatives.
+	    	* @return void
+	    	*
+	    	*/
+
+/*	    static void dsphdr(double &x, double &y, double &z, double **jacobi);*/
 		};
 
     }
