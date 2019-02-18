@@ -12,7 +12,12 @@
 using namespace smartastro;
 using namespace smartastro::astrobodies;
 
-Artificial_Object::Artificial_Object(std::string givenName, int givenId) : Astro_Body(givenName, givenId)
+Artificial_Object::Artificial_Object(std::string givenName) : Astro_Body(givenName)
+{
+
+}
+
+Artificial_Object::Artificial_Object(int givenId) : Astro_Body(givenId)
 {
 
 }
@@ -21,24 +26,72 @@ Artificial_Object::~Artificial_Object()
 {
 }
 
-void Artificial_Object::gfrfov(const std::string &inst,  std::vector<double> &raydir, const std::string &rframe, const std::string &abcorr, double &step, SpiceCell  &cnfine,  SpiceCell &result)
-{  
+void Artificial_Object::gfrfov(std::string &inst,  std::vector<double> &raydir, std::string &rframe, std::string &abcorr, double &step, SpiceCell  &cnfine,  SpiceCell &result)
+{
+  inst.push_back('\0');
+  rframe.push_back('\0');
+  abcorr.push_back('\0');
+  name.push_back('\0');
+
   return gfrfov_c(&inst.at(0), &raydir[0], &rframe.at(0), &abcorr.at(0), &name.at(0), step, &cnfine, &result);
+
+  inst.pop_back();
+  rframe.pop_back();
+  abcorr.pop_back();
+  name.pop_back();
 }
 
-void Artificial_Object::gftfov(const std::string &inst, const std::string &target, const std::string &tshape, const std::string &tframe, const std::string &abcorr, double &step,  SpiceCell &cnfine,  SpiceCell &result)
+void Artificial_Object::gftfov(std::string &inst, std::string &target, std::string &tshape, std::string &tframe, std::string &abcorr, double &step,  SpiceCell &cnfine,  SpiceCell &result)
 {
+  inst.push_back('\0');
+  target.push_back('\0');
+  tshape.push_back('\0');
+  tframe.push_back('\0');
+  abcorr.push_back('\0');
+  name.push_back('\0');
+  
   return gftfov_c(&inst.at(0), &target.at(0), &tshape.at(0), &tframe.at(0), &abcorr.at(0), &name.at(0), step, &cnfine, &result);
+
+  inst.pop_back();
+  target.pop_back();
+  tshape.pop_back();
+  tframe.pop_back();
+  abcorr.pop_back();
+  name.pop_back();
 }
 
-void Artificial_Object::fovray(const std::string &inst,  std::vector<double> &raydir, const std::string &rframe, const std::string &abcorr, double &et,  int &visibl)
+void Artificial_Object::fovray(std::string &inst,  std::vector<double> &raydir, std::string &rframe, std::string &abcorr, double &et,  int &visibl)
 {
+  inst.push_back('\0');
+  rframe.push_back('\0');
+  abcorr.push_back('\0');
+  name.push_back('\0');
+  
   return fovray_c(&inst.at(0), &raydir[0], &rframe.at(0), &abcorr.at(0), &name.at(0), &et, &visibl);
+
+  inst.pop_back();
+  rframe.pop_back();
+  abcorr.pop_back();
+  name.pop_back();
 }
 
-void Artificial_Object::fovtrg( const std::string &inst, const std::string &target, const std::string &tshape, const std::string &tframe, const std::string &abcorr, double &et, int &visibl)
+void Artificial_Object::fovtrg(std::string &inst, std::string &target, std::string &tshape, std::string &tframe, std::string &abcorr, double &et, int &visibl)
 {
+  inst.push_back('\0');
+  target.push_back('\0');
+  tshape.push_back('\0');
+  tframe.push_back('\0');
+  abcorr.push_back('\0');
+  name.push_back('\0');
+  
   return fovtrg_c(&inst.at(0), &target.at(0), &tshape.at(0), &tframe.at(0), &abcorr.at(0), &name.at(0), &et, &visibl);
+
+  inst.pop_back();
+  target.pop_back();
+  tshape.pop_back();
+  tframe.pop_back();
+  abcorr.pop_back();
+  name.pop_back();
 }
 
 /*void Artificial_Object::getfov(int &instid, int &room, int &shapelen, int &framelen, const std::string &shape, const std::string &frame,  std::vector<double> &bsight,  std::vector<int> &n,  std::vector<vector<double>> &bounds)

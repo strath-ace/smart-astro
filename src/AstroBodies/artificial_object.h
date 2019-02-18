@@ -19,7 +19,9 @@ namespace smartastro
 		class Artificial_Object : public Astro_Body
 		{
 			public:
-				Artificial_Object( std::string givenName, int givenId);
+				Artificial_Object(std::string givenName);
+
+				Artificial_Object(int givenId);
 
 				~Artificial_Object();
 
@@ -39,7 +41,7 @@ namespace smartastro
 				*
 				*/
 
-				void gfrfov(const std::string &inst,  std::vector<double> &raydir, const std::string &rframe, const std::string &abcorr, double &step, SpiceCell &cnfine, SpiceCell &result);
+				void gfrfov(std::string &inst,  std::vector<double> &raydir, std::string &rframe, std::string &abcorr, double &step, SpiceCell &cnfine, SpiceCell &result);
 
 				/**
 				* @brief Determine time intervals when a specified ephemeris object 
@@ -58,7 +60,7 @@ namespace smartastro
 				*
 				*/
 
-				void gftfov(const std::string &inst, const std::string &target, const std::string &tshape, const std::string &tframe, const std::string &abcorr, double &step, SpiceCell &cnfine, SpiceCell &result);
+				void gftfov(std::string &inst, std::string &target, std::string &tshape, std::string &tframe, std::string &abcorr, double &step, SpiceCell &cnfine, SpiceCell &result);
 
 				/**
 				* @brief Determine time intervals when a specified ephemeris object 
@@ -75,7 +77,7 @@ namespace smartastro
 				*
 				*/
 
-				void fovray(const std::string &inst,  std::vector<double> &raydir, const std::string &rframe, const std::string &abcorr, double &et,  int &visibl);
+				void fovray(std::string &inst,  std::vector<double> &raydir, std::string &rframe, std::string &abcorr, double &et,  int &visibl);
 
 				/**
 				* @brief Determine if a specified ephemeris object is within the
@@ -92,7 +94,7 @@ namespace smartastro
 				*
 				*/
 
-				void fovtrg( const std::string &inst, const std::string &target, const std::string &tshape, const std::string &tframe, const std::string &abcorr, double &et, int &visibl);
+				void fovtrg( std::string &inst, std::string &target, std::string &tshape, std::string &tframe, std::string &abcorr, double &et, int &visibl);
 
 				/**
 				* @brief Return the field-of-view (FOV) parameters for a specified 

@@ -19,8 +19,9 @@ namespace smartastro
 		class Celestial_Object : public Astro_Body
 		{
 			public:
-				Celestial_Object( std::string givenName, int givenId,  std::vector<double> &Givenpositn,  double givenMu);
+				Celestial_Object(std::string givenName, std::vector<double> &Givenpositn,  double givenMu);
 
+				Celestial_Object(int givenId,  std::vector<double> &Givenpositn,  double givenMu);
 				~Celestial_Object();
 
 				/**
@@ -235,7 +236,7 @@ namespace smartastro
 				*
 				*/
 
-				void sincpt(const std::string &method, const std::string &target, double &et, const std::string &fixref, const std::string &abcorr, const std::string &dref, const std::vector<double> &dvec,  std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, int &found);
+				void sincpt(std::string &method, std::string &target, double &et, std::string &fixref, std::string &abcorr, std::string &dref, const std::vector<double> &dvec,  std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, int &found);
 
 				/**
 				* @brief Compute ray-surface intercepts for a set of rays, using data 
@@ -313,7 +314,7 @@ namespace smartastro
 				*
 				*/
 
-				void ilumin(const std::string &method, const std::string &target, double &et, const std::string &fixref, const std::string &abcorr, const std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn);
+				void ilumin(std::string &method, std::string &target, double &et, std::string &fixref, std::string &abcorr, const std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn);
 
 				/**
 				* @brief Find the illumination angles (phase, incidence, and 
@@ -340,7 +341,7 @@ namespace smartastro
 				*
 				*/
 
-				void illumg(const std::string &method, const std::string &target, const std::string &ilusrc, double &et, const std::string &fixref, const std::string &abcorr, std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn);
+				void illumg(std::string &method, std::string &target, std::string &ilusrc, double &et, std::string &fixref, std::string &abcorr, std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn);
 
 				/**
 				* @brief Compute the illumination angles---phase, incidence, and
@@ -367,7 +368,7 @@ namespace smartastro
 				*
 				*/
 
-				void illumf(const std::string &method, const std::string &target, const std::string &ilusrc, double &et, const std::string &fixref, const std::string &abcorr, std::vector<double> &spoint, double &trgepc, std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn, int &visibl, int &lit);
+				void illumf(std::string &method, std::string &target, std::string &ilusrc, double &et, std::string &fixref, std::string &abcorr, std::vector<double> &spoint, double &trgepc, std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn, int &visibl, int &lit);
 
 				/**
 				* @brief Find limb points on a target body. The limb is the set of points 
@@ -482,7 +483,7 @@ namespace smartastro
 				*
 				*/
 
-				void occult(const std::string &targ1, const std::string &shape1, const std::string &frame1, const std::string &targ2, const std::string &shape2, const std::string &frame2, const std::string &abcorr, double &et, int &ocltid);
+				void occult(std::string &targ1, std::string &shape1, std::string &frame1, std::string &targ2, std::string &shape2, std::string &frame2, std::string &abcorr, double &et, int &ocltid);
 
 				/**
 				* @brief Determine time intervals when an observer sees one target occulted
@@ -533,7 +534,7 @@ namespace smartastro
 				*
 				*/
 
-				void srfs2c(const std::string &srfstr, int &code, int &found);
+				void srfs2c(std::string &srfstr, int &code, int &found);
 
 				/**
 				* @brief Translate a surface ID code, together with a body ID code, to the 
@@ -561,19 +562,7 @@ namespace smartastro
 				*
 				*/
 
-				void srfscc(const std::string &srfstr, int &code, int &found);
-
-				/**
-				* @brief Translate the SPICE integer code of a body into a common name
-   				* for that body. 
-				*
-				* @param[in] lenout Maximum length of output name.
-				* @param[out] commonName A common name for the body identified by code.
-				* @param[out] found True if translated, otherwise false.
-				*
-				*/
-
-				void bodc2n(int &lenout, std::string commonName, int &found);
+				void srfscc(std::string &srfstr, int &code, int &found);
 
 				/**
 				* @brief Convert planetocentric latitude and longitude of a surface 

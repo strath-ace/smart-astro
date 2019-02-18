@@ -883,7 +883,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void recpgr(const std::string &body,  std::vector<double> &rectan, double &re, double &f, double &lon, double &lat, double &alt);
+	    static void recpgr(std::string &body,  std::vector<double> &rectan, double &re, double &f, double &lon, double &lat, double &alt);
 
 		/**
 	    	* @brief Convert planetographic coordinates to rectangular coordinates. 
@@ -899,7 +899,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void pgrrec(const std::string &body, double &lon, double &lat, double &alt, double &re, double &f,  std::vector<double> &rectan);
+	    static void pgrrec(std::string &body, double &lon, double &lat, double &alt, double &re, double &f,  std::vector<double> &rectan);
 
 		/**
 	    	* @brief Transform a state between coordinate systems. 
@@ -913,7 +913,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void xfmsta(const std::vector<double> &input_state,  const std::string &input_coord_sys, const std::string &output_coord_sys, const std::string &body,  std::vector<double> &output_state);
+	    static void xfmsta(const std::vector<double> &input_state, std::string &input_coord_sys, std::string &output_coord_sys, std::string &body,  std::vector<double> &output_state);
 
 		/**
 	    	* @brief Compute the Jacobian of the transformation from latitudinal to 

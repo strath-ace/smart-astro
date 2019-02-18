@@ -19,7 +19,9 @@ namespace smartastro
 		class Asteroid : public Celestial_Object
 		{
 			public:
-				Asteroid( std::string givenName, int givenId,  std::vector<double> &Givenpositn, double givenMu);
+				Asteroid(std::string givenName, std::vector<double> &Givenpositn, double givenMu);
+
+				Asteroid(int givenId, std::vector<double> &Givenpositn, double givenMu);
 				
 				~Asteroid();
 		};

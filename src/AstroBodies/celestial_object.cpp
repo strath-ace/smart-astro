@@ -12,7 +12,13 @@
 using namespace smartastro;
 using namespace smartastro::astrobodies;
 
-Celestial_Object::Celestial_Object( std::string givenName, int givenId,  std::vector<double> &givenPositn, double givenMu) : Astro_Body(givenName, givenId)
+Celestial_Object::Celestial_Object(std::string givenName, std::vector<double> &givenPositn, double givenMu) : Astro_Body(givenName)
+{
+  positn = givenPositn;
+  mu = givenMu;
+}
+
+Celestial_Object::Celestial_Object(int givenId,  std::vector<double> &givenPositn, double givenMu) : Astro_Body(givenId)
 {
   positn = givenPositn;
   mu = givenMu;
@@ -20,7 +26,8 @@ Celestial_Object::Celestial_Object( std::string givenName, int givenId,  std::ve
 
 Celestial_Object::~Celestial_Object()
 {
-  
+  delete &positn;
+  delete &mu
 }
 
 /*int Celestial_Object::latsrf_(const std::string &method, const std::string &target, double &et, const std::string &fixref, int &npts, const std::vector<std::vector::<double>> &lonlat, std::vector<std::vector::<double>> &srfpts)
@@ -105,7 +112,7 @@ void Celestial_Object::nplnpt(const std::vector<double> &linpt, const std::vecto
   return nplnpt_c(&linpt[0], &lindir[0], &point[0], &pnear[0], &dist);
 }
 
-void Celestial_Object::sincpt(const std::string &method, const std::string &target, double &et, const std::string &fixref, const std::string &abcorr, const std::string &dref, const std::vector<double> &dvec,  std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, int &found)
+void Celestial_Object::sincpt(std::string &method, std::string &target, double &et, std::string &fixref, std::string &abcorr, std::string &dref, const std::vector<double> &dvec,  std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, int &found)
 {
   return sincpt_c(&method.at(0), &target.at(0), et, &fixref.at(0), &abcorr.at(0), &name.at(0), &dref.at(0), &dvec[0], &spoint[0], &trgepc, &srfvec[0], &found);
 }
@@ -150,17 +157,17 @@ int Celestial_Object::dskxsi_( std::vector<int> &pri,  std::string &target,  std
   return dskxsi_(priA, targetA, nsurfA, srflstA, etA, fixrefA, vertexA, raydirA, maxdA, maxiA, xptA, handleA, dladscA, dskdscA, dcA, icA, foundA, target_len, fixref_len);
   }*/
 
-void Celestial_Object::ilumin(const std::string &method, const std::string &target, double &et, const std::string &fixref, const std::string &abcorr, const std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn)
+void Celestial_Object::ilumin(std::string &method, std::string &target, double &et, std::string &fixref, std::string &abcorr, const std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn)
 {
   return ilumin_c(&method.at(0), &target.at(0), et, &fixref.at(0), &abcorr.at(0), &name.at(0), &spoint[0], &trgepc, &srfvec[0], &phase, &incdnc, &emissn);
 }
 
-void Celestial_Object::illumg(const std::string &method, const std::string &target, const std::string &ilusrc, double &et, const std::string &fixref, const std::string &abcorr, std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn)
+void Celestial_Object::illumg(std::string &method, std::string &target, std::string &ilusrc, double &et, std::string &fixref, std::string &abcorr, std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn)
 {
   return illumg_c(&method.at(0), &target.at(0), &ilusrc.at(0), et, &fixref.at(0), &abcorr.at(0), &name.at(0), &spoint[0], &trgepc, &srfvec[0], &phase, &incdnc, &emissn);
 }
 
-void Celestial_Object::illumf(const std::string &method, const std::string &target, const std::string &ilusrc, double &et, const std::string &fixref, const std::string &abcorr, std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn, int &visibl, int &lit)
+void Celestial_Object::illumf(std::string &method, std::string &target, std::string &ilusrc, double &et, std::string &fixref, std::string &abcorr, std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn, int &visibl, int &lit)
 {
   return illumf_c(&method.at(0), &target.at(0), &ilusrc.at(0), et, &fixref.at(0), &abcorr.at(0), &name.at(0), &spoint[0], &trgepc, &srfvec[0], &phase, &incdnc, &emissn, &visibl, &lit);
 }
@@ -220,7 +227,7 @@ void Celestial_Object::oscelt(const std::vector<double> &state, double &et, std:
   return oscelt_c(&state[0], et, mu, &elts[0]);
 }
 
-void Celestial_Object::occult(const std::string &targ1, const std::string &shape1, const std::string &frame1, const std::string &targ2, const std::string &shape2, const std::string &frame2, const std::string &abcorr, double &et, int &ocltid)
+void Celestial_Object::occult(std::string &targ1, std::string &shape1, std::string &frame1, std::string &targ2, std::string &shape2, std::string &frame2, std::string &abcorr, double &et, int &ocltid)
 {
   return occult_c(&targ1.at(0), &shape1.at(0), &frame1.at(0), &targ2.at(0), &shape2.at(0), &frame2.at(0), &abcorr.at(0), &name.at(0), et, &ocltid);
 }
@@ -247,7 +254,7 @@ void Celestial_Object::srfcss(int &code, int srflen, std::string &srfstr, int &i
   return srfcss_c(code, &name.at(0), srflen, &srfstr.at(0), &isname);
 }
 
-void Celestial_Object::srfs2c(const std::string &srfstr, int &code, int &found)
+void Celestial_Object::srfs2c(std::string &srfstr, int &code, int &found)
 {
   return srfs2c_c(&srfstr.at(0), &name.at(0), &code, &found);
 }
@@ -257,14 +264,9 @@ void Celestial_Object::srfc2s(int &code, int srflen, std::string &srfstr, int &i
   return srfc2s_c(code, id, srflen, &srfstr.at(0), &isname);
 }
 
-void Celestial_Object::srfscc(const std::string &srfstr, int &code, int &found)
+void Celestial_Object::srfscc(std::string &srfstr, int &code, int &found)
 {
   return srfscc_c(&srfstr.at(0), id, &code, &found);
-}
-
-void Celestial_Object::bodc2n(int &lenout, std::string commonName, int &found)
-{
-  return bodc2n_c(id, lenout, &commonName.at(0), &found);
 }
 
 void Celestial_Object::srfrec(double &longitude, double &latitude,  std::vector<double> &rectan)

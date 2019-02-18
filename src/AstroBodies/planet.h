@@ -20,7 +20,9 @@ namespace smartastro
 		class Planet : public Celestial_Object
 		{
 			public:
-				Planet(std::string givenName, int givenId, std::vector<double> &Givenpositn, double givenMu);
+				Planet(std::string givenName, std::vector<double> &Givenpositn, double givenMu);
+
+				Planet(int givenId, std::vector<double> &Givenpositn, double givenMu);
 
 				~Planet();
 		};

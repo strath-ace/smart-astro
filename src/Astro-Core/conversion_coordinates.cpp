@@ -1426,19 +1426,35 @@ void conversion_coordinates::georec(double &lon, double &lat, double &alt, doubl
   return georec_c(lon, lat, alt, re, f, &rectan[0]);
 }
 
-void conversion_coordinates::recpgr(const std::string &body,  std::vector<double> &rectan, double &re, double &f, double &lon, double &lat, double &alt)
-{ 
-  return recpgr_c(&body.at(0), &rectan[0], re, f, &lon, &lat, &alt);
-}
-
-void conversion_coordinates::pgrrec(const std::string &body, double &lon, double &lat, double &alt, double &re, double &f,  std::vector<double> &rectan)
-{ 
-  return pgrrec_c(&body.at(0), lon, lat, alt, re, f, &rectan[0]);
-}
-
-void conversion_coordinates::xfmsta(const std::vector<double> &input_state,  const std::string &input_coord_sys, const std::string &output_coord_sys, const std::string &body,  std::vector<double> &output_state)
+void conversion_coordinates::recpgr(std::string &body,  std::vector<double> &rectan, double &re, double &f, double &lon, double &lat, double &alt)
 {
+  body.push_back('\0');
+  
+  return recpgr_c(&body.at(0), &rectan[0], re, f, &lon, &lat, &alt);
+
+  body.pop_back();
+}
+
+void conversion_coordinates::pgrrec(std::string &body, double &lon, double &lat, double &alt, double &re, double &f,  std::vector<double> &rectan)
+{
+  body.push_back('\0');
+  
+  return pgrrec_c(&body.at(0), lon, lat, alt, re, f, &rectan[0]);
+
+  body.pop_back();
+}
+
+void conversion_coordinates::xfmsta(const std::vector<double> &input_state, std::string &input_coord_sys, std::string &output_coord_sys, std::string &body,  std::vector<double> &output_state)
+{
+  input_coord_sys.push_back('\0');
+  output_coord_sys.push_back('\0');
+  body.push_back('\0');
+  
   return xfmsta_c(&input_state.at(0), &input_coord_sys.at(0), &output_coord_sys.at(0), &body.at(0), &output_state[0]);
+
+  input_coord_sys.pop_back();
+  output_coord_sys.pop_back();
+  body.pop_back();
 }
 
 /*void conversion_coordinates::drdlat(double &r, double &lon, double &lat, double (*)[3] jacobi)

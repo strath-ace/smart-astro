@@ -24,6 +24,31 @@ namespace smartastro
 			public:
 
 				/**
+				* @brief Translate the SPICE integer code of a body into a common name
+   				* for that body. 
+				*
+				* @param[in] code Integer ID code to be translated into a name.
+				* @param[in] lenout Maximum length of output name.
+				* @param[out] name A common name for the body identified by code.
+				* @param[out] found True if translated, otherwise false.
+				*
+				*/
+
+				static void bodc2n(int &code, int &lenout, std::string &name, int &found);
+
+				/**
+				* @brief Translate the name of a body or object to the corresponding SPICE
+   				* integer ID code.
+				*
+				* @param[in] name Body name to be translated into a SPICE ID code.
+				* @param[out] code SPICE integer ID code for the named body.
+				* @param[out] found SPICETRUE if translated, otherwise SPICEFALSE.
+				*
+				*/
+
+				static void bodn2c(std::string &name, int &code, int found);
+
+				/**
 				* @brief Compute the rectangular coordinates of the sub-solar point on 
    				* a target body at a specified epoch, optionally corrected for 
    				* light time and stellar aberration. The surface of the target body may 
@@ -42,7 +67,7 @@ namespace smartastro
 				*
 				*/
 				
-				static void subslr(const std::string &method, const std::string &target, double &et, const std::string &fixref, const std::string &abcorr, const std::string &obsrvr,  std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec);
+				static void subslr(std::string &method, std::string &target, double &et, std::string &fixref, std::string &abcorr, std::string &obsrvr,  std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec);
 
 				/**
 				* @brief Compute the rectangular coordinates of the sub-observer point on 
@@ -63,7 +88,7 @@ namespace smartastro
 				*
 				*/
 
-				static void subpnt(const std::string &method, const std::string &target, double &et, const std::string &fixref, const std::string &abcorr, const std::string &obsrvr,  std::vector<double> &spoint, double &trgepc,  std::vector<double> srfvec);
+				static void subpnt(std::string &method, std::string &target, double &et, std::string &fixref, std::string &abcorr, std::string &obsrvr,  std::vector<double> &spoint, double &trgepc,  std::vector<double> srfvec);
 
 				/**
 				* @brief Compute L_s, the planetocentric longitude of the sun, as seen 
@@ -76,7 +101,7 @@ namespace smartastro
 				*
 				*/
 
-				static double lspcn(const std::string &body, double &et, const std::string &abcorr);
+				static double lspcn(std::string &body, double &et, std::string &abcorr);
 
 				/**
 				* @brief Load one or more SPICE kernels into a program.
@@ -86,7 +111,7 @@ namespace smartastro
 				*
 				*/
 
-				static void furnsh(const std::string &file);
+				static void furnsh(std::string &file);
 
 				/**
 				* @brief Unload a SPICE kernel.
@@ -96,7 +121,7 @@ namespace smartastro
 				*
 				*/
 
-				static void unload(const std::string &file);
+				static void unload(std::string &file);
 		};
 	}
 }

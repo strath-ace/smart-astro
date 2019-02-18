@@ -21,7 +21,9 @@ namespace smartastro
 		class Astro_Body
 		{
 			public:
-				Astro_Body(std::string givenName, int givenId);
+				Astro_Body(std::string givenName);
+
+				Astro_Body(int givenId);
 
 				~Astro_Body();
 

@@ -12,12 +12,25 @@
 using namespace smartastro;
 using namespace smartastro::astrobodies;
 
-Astro_Body::Astro_Body( std::string givenName, int givenId)
+Astro_Body::Astro_Body(std::string givenName)
 {
+  int found;
+  
   name = givenName;
+  smartastro::astrocore::spice_general_functions::bodn2c(name, id, found);
+}
+
+Astro_Body::Astro_Body(int givenId)
+{
+  int found;
+  int lenout = 100;
+  
   id = givenId;
+  smartastro::astrocore::spice_general_functions::bodc2n(id, lenout, name, found);
 }
 				 
 Astro_Body::~Astro_Body()
 {
+  delete &name;
+  delete &id;
 }

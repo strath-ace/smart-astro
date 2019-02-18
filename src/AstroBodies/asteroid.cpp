@@ -12,9 +12,14 @@
 using namespace smartastro;
 using namespace smartastro::astrobodies;
 
-Asteroid::Asteroid(std::string givenName, int givenId, std::vector<double> &givenPosition, double givenMu) : Celestial_Object(givenName, givenId, givenPosition, givenMu)
+Asteroid::Asteroid(std::string givenName, std::vector<double> &givenPosition, double givenMu) : Celestial_Object(givenName, givenPosition, givenMu)
 {
 }
+
+Asteroid::Asteroid(int givenId, std::vector<double> &givenPosition, double givenMu) : Celestial_Object(givenId, givenPosition, givenMu)
+{
+}
+
 				
 Asteroid::~Asteroid()
 {
