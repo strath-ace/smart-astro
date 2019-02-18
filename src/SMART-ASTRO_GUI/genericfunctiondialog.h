@@ -4,7 +4,6 @@
 #include <QDialog>
 #include "QButtonGroup"
 #include "parameterinputdialog.h"
-#include "ui_genericfunctiondialog.h"
 
 namespace Ui {
 class GenericFunctionDialog;
@@ -31,3 +30,4 @@ private:
 };
 
 #endif // GENERICFUNCTIONDIALOG_H
+

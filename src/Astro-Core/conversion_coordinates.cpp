@@ -1326,148 +1326,170 @@ bool conversion_coordinates::euler_axis_angle(const std::vector<double> &v, cons
     return 0;
 }
 
-int conversion_coordinates::radrec_(doublereal *range, doublereal *ra, doublereal *dec, doublereal *rectan)
+/*
+--------- SPICE functions implemented by: Scott Hurley (GitHub: Scott_James_Hurley)----
+--------- e-mail: scott.james.hurley.97@gmail.com -------------------------------------
+*/
+
+double** conversion_coordinates::twodVectorToArray(std::vector<std::vector<double>> &vals, int &N, int &M)
 {
-                return radrec_(range, ra, dec, rectan);
+   double** temp;
+
+   for(unsigned i=0; (i < N); i++)
+   { 
+      temp[i] = new double[N];
+      for(unsigned j=0; (j < M); j++)
+      {
+          temp[j] = new double[M];
+          temp[i][j] = vals[i][j];
+      } 
+   }
+ }
+
+void conversion_coordinates::radrec(double &range, double &ra, double &dec, std::vector<double> &rectan)
+{  
+  return radrec_c(range, ra, dec, &rectan[0]);
 }
 
-int conversion_coordinates::recrad_(doublereal *rectan, doublereal *range, doublereal *ra, doublereal *dec)
+void conversion_coordinates::recrad(std::vector<double> &rectan, double &range, double &ra, double &dec)
 {
-        return recrad_(rectan, range, ra, dec);
+        return recrad_c(&rectan[0], &range, &ra, &dec);
 }
 
-int conversion_coordinates::cylrec_(doublereal *r__, doublereal *long__, doublereal *z__, doublereal *rectan)
-{
-        return cylrec_(r__, long__, z__, rectan);
+void conversion_coordinates::cylrec(double &r, double &lon, double &z, std::vector<double> &rectan)
+{ 
+        return cylrec_c(r, lon, z, &rectan[0]);
 }
 
-int conversion_coordinates::reccyl_(doublereal *rectan, doublereal *r__, doublereal *long__, doublereal *z__)
-{
-        return reccyl_(rectan, r__, long__, z__);
+void conversion_coordinates::reccyl(std::vector<double> &rectan,  double &r,  double &lon,  double &z)
+{ 
+        return reccyl_c(&rectan[0], &r, &lon, &z);
 }
 
-int conversion_coordinates::sphrec_(doublereal *r__, doublereal *colat, doublereal *long__, doublereal *rectan)
-{
-        return sphrec_(r__, colat, long__, rectan);
+void conversion_coordinates::sphrec(double &r, double &colat, double &lon,  std::vector<double> &rectan)
+{ 
+  return sphrec_c(r, colat, lon, &rectan[0]);
 }
 
-int conversion_coordinates::recsph_(doublereal *rectan, doublereal *r__, doublereal *colat, doublereal *long__)
-{
-        return recsph_(rectan, r__, colat, long__);
+void conversion_coordinates::recsph( std::vector<double> &rectan, double &r,  double &colat,  double &lon)
+{ 
+        return recsph_c(&rectan[0], &r, &colat, &lon);
 }
 
-int conversion_coordinates::sphcyl_(doublereal *radius, doublereal *colat, doublereal *slong, doublereal *r__, doublereal *long__, doublereal *z__)
+void conversion_coordinates::sphcyl(double &radius, double &colat, double &slon, double &r,  double lon, double &z)
 {
-                return sphcyl_(radius, colat, slong, r__, long__, z__);
+  return sphcyl_c(radius, colat, slon, &r, &lon, &z);
 }
 
-int conversion_coordinates::cylsph_(doublereal *r__, doublereal *longc, doublereal *z__, doublereal *radius, doublereal *colat, doublereal *long__)
-{
-        return cylsph_(r__, longc, z__, radius, colat, long__);
+void conversion_coordinates::cylsph(double &r, double &lonc, double &z, double &radius, double &colat, double &lon)
+{ 
+        return cylsph_c(r, lonc, z, &radius, &colat, &lon);
 }
 
-int conversion_coordinates::sphlat_(doublereal *r__, doublereal *colat, doublereal *longs, doublereal *radius, doublereal *long__, doublereal *lat)
-{
-        return sphlat_(r__, colat, longs, radius, long__, lat);
+void conversion_coordinates::sphlat(double &r, double &colat, double &lons, double &radius, double &lon, double &lat)
+{ 
+        return sphlat_c(r, colat, lons, &radius, &lon, &lat);
 }
 
-int conversion_coordinates::latsph_(doublereal *radius, doublereal *long__, doublereal *lat, doublereal *rho, doublereal *colat, doublereal *longs)
+void conversion_coordinates::latsph(double &radius, double &lon, double &lat, double &rho, double &colat, double &lons)
 {
-        return latsph_(radius, long__, lat, rho, colat, longs);
+  return latsph_c(radius, lon, lat, &rho, &colat,  &lons);
 }
 
-int conversion_coordinates::latcyl_(doublereal *radius, doublereal *long__, doublereal *lat, doublereal *r__, doublereal *longc, doublereal *z__)
-{
-        return latcyl_(radius, long__, lat, r__, longc, z__);
+void conversion_coordinates::latcyl(double &radius, double &lon, double &lat, double &r, double &lonc, double &z)
+{ 
+        return latcyl_c(radius, lon, lat, &r, &lonc, &z);
 }
 
-int conversion_coordinates::cyllat_(doublereal *r__, doublereal *longc, doublereal *z__, doublereal *radius, doublereal *long__, doublereal *lat)
+void conversion_coordinates::cyllat(double &r,double &lonc, double &z, double &radius, double &lon, double &lat)
 {
-        return cyllat_(r__, longc, z__, radius, long__, lat);
+  return cyllat_c(r, lonc, z, &radius, &lon, &lat);
 }
 
-int conversion_coordinates::reclat_(doublereal *rectan, doublereal *radius, doublereal *long__, doublereal *lat)
+void conversion_coordinates::reclat(std::vector<double> &rectan, double &radius, double &longitude, double &latitude)
 {
-        return reclat_(rectan, radius, long__, lat);
+  return reclat_c(&rectan[0], &radius, &longitude, &latitude);
 }
 
-int conversion_coordinates::latrec_(doublereal *radius, doublereal *long__, doublereal *lat, doublereal *rectan)
-{
- 	return latrec_(radius, long__, lat, rectan);
+void conversion_coordinates::latrec(double &radius, double &longitude, double &latitude, std::vector<double> &rectan)
+{ 
+ 	return latrec_c(radius, longitude, latitude, &rectan[0]);
 }
 
-int conversion_coordinates::recgeo_(doublereal *rectan, doublereal *re, doublereal *f, doublereal *long__, doublereal *lat, doublereal *alt)
-{
-  return recgeo_(rectan, re, f, long__, lat, alt);
+void conversion_coordinates::recgeo(std::vector<double> &rectan, double &re, double &f, double &lon, double &lat, double &alt)
+{ 
+  return recgeo_c(&rectan[0], re, f, &lon, &lat, &alt);
 }
 
-int conversion_coordinates::georec_(doublereal *long__, doublereal *lat, doublereal *alt, doublereal *re, doublereal *f, doublereal *rectan)
-{
-  return georec_(long__, lat, alt, re, f, rectan);
+void conversion_coordinates::georec(double &lon, double &lat, double &alt, double &re, double &f, std::vector<double> &rectan)
+{ 
+  return georec_c(lon, lat, alt, re, f, &rectan[0]);
 }
 
-int conversion_coordinates::recpgr_(char *body, doublereal *rectan, doublereal *re, doublereal *f, doublereal *lon, doublereal *lat, doublereal *alt, ftnlen body_len)
-{
-  return recpgr_(body, rectan, re, f,lon, lat, alt, body_len);
+void conversion_coordinates::recpgr(const std::string &body,  std::vector<double> &rectan, double &re, double &f, double &lon, double &lat, double &alt)
+{ 
+  return recpgr_c(&body.at(0), &rectan[0], re, f, &lon, &lat, &alt);
 }
 
-int conversion_coordinates::pgrrec_(char *body, doublereal *lon, doublereal *lat, doublereal *alt, doublereal *re, doublereal *f, doublereal *rectan, ftnlen body_len)
-{
-  return pgrrec_(body, lon, lat, alt, re, f, rectan, body_len);
+void conversion_coordinates::pgrrec(const std::string &body, double &lon, double &lat, double &alt, double &re, double &f,  std::vector<double> &rectan)
+{ 
+  return pgrrec_c(&body.at(0), lon, lat, alt, re, f, &rectan[0]);
 }
 
-int conversion_coordinates::xfmsta_(doublereal *istate, char *icosys, char *ocosys, char *body, doublereal *ostate, ftnlen icosys_len, ftnlen ocosy\
-s_len, ftnlen body_len)
+void conversion_coordinates::xfmsta(const std::vector<double> &input_state,  const std::string &input_coord_sys, const std::string &output_coord_sys, const std::string &body,  std::vector<double> &output_state)
 {
-  return xfmsta_(istate, icosys, ocosys, body, ostate, icosys_len, ocosys_len, body_len);
+  return xfmsta_c(&input_state.at(0), &input_coord_sys.at(0), &output_coord_sys.at(0), &body.at(0), &output_state[0]);
 }
 
-int conversion_coordinates::drdlat_(doublereal *r__, doublereal *long__, doublereal *lat, doublereal *jacobi)
+/*void conversion_coordinates::drdlat(double &r, double &lon, double &lat, double (*)[3] jacobi)
 {
-  return drdlat_(r__, long__, lat, jacobi);
+  int rowSize = jacobi.size();
+  int columnSize = jacobi[0].size();
+  double** jacobiA = twodVectorToArray(jacobi, rowSize, columnSize);
+  return drdlat_c(r, lon, lat, jacobi);
 }
 
-int conversion_coordinates::dlatdr_(doublereal *x, doublereal *y, doublereal *z__, doublereal *jacobi)
+void conversion_coordinates::dlatdr(double &x, double &y, double &z, double **jacobi)
 {
-  return dlatdr_(x, y, z__, jacobi);
+  return dlatdr_c(x, y, z, **jacobi);
 }
 
-int conversion_coordinates::drdpgr_(char *body, doublereal *lon, doublereal *lat, doublereal *alt, doublereal *re, doublereal *f, doublereal *jacobi, ftnlen body_len)
+void conversion_coordinates::drdpgr(const std::string &body, double &lon, double &lat, double &alt, double &re, double &f, double **jacobi)
 {
-  return drdpgr_(body, lon, lat, alt, re, f, jacobi, body_len);
+  return drdpgr_c(&body.at(0), lon, lat, alt, re, f, **jacobi);
 }
 
-int conversion_coordinates::dpgrdr_(char *body, doublereal *x, doublereal *y, doublereal *z__, doublereal *re, doublereal *f, doublereal *jacobi, ftnlen body_len)
+void conversion_coordinates::dpgrdr(const std::string &body, double &x, double &y, double &z, double &re, double &f, double **jacobi)
 {
-  return dpgrdr_(body, x, y, z__, re, f, jacobi, body_len);
+  return dpgrdr_c(&body.at(0), x, y, z, re, f, **jacobi);
 }
 
-int conversion_coordinates::drdgeo_(doublereal *long__, doublereal *lat, doublereal *alt, doublereal *re, doublereal *f, doublereal *jacobi)
+void conversion_coordinates::drdgeo(double &lon, double &lat, double &alt, double &re, double &f, double **jacobi)
 {
-  return drdgeo_(long__, lat, alt, re, f, jacobi);
+  return drdgeo_c(lon, lat, alt, re, f, **jacobi);
 }
 
-int conversion_coordinates::dgeodr_(doublereal *x, doublereal *y, doublereal *z__, doublereal *re, doublereal *f, doublereal *jacobi)
+void conversion_coordinates::dgeodr(double &x, double &y, double &z, double &re, double &f, double **jacobi)
 {
-  return dgeodr_(x, y, z__, re, f, jacobi);
+  return dgeodr_c(x, y, z, re, f, **jacobi);
 }
 
-int conversion_coordinates::drdcyl_(doublereal *r__, doublereal *long__, doublereal *z__, doublereal *jacobi)
+void conversion_coordinates::drdcyl(double &r__, double &lon, double &z, double **jacobi)
 {
-  return drdcyl_(r__, long__, z__, jacobi);
+  return drdcyl_c(r, lon, z, **jacobi);
 }
 
-int conversion_coordinates::dcyldr_(doublereal *x, doublereal *y, doublereal *z__, doublereal *jacobi)
+void conversion_coordinates::dcyldr(double &x, double &y, double &z, double **jacobi)
 {
-  return dcyldr_(x, y, z__, jacobi);
+  return dcyldr_c(x, y, z, **jacobi);
 }
 
-int conversion_coordinates::drdsph_(doublereal *r__, doublereal *colat, doublereal *long__, doublereal *jacobi)
+void conversion_coordinates::drdsph(double &r, double &colat, double &lon,  std::vector<std::vector<double>> &jacobi)
 {
-  return drdsph_(r__, colat, long__, jacobi);
+  return drdsph_c(r, colat, lon, &jacobi[0][0]);
 }
 
-int conversion_coordinates::dsphdr_(doublereal *x, doublereal *y, doublereal *z__, doublereal *jacobi)
+void conversion_coordinates::dsphdr(double &x, double &y, double &z, **jacobi)
 {
-  return dsphdr_(x, y, z__, jacobi);
-}
+  return dsphdr_(x, y, z, **jacobi);
+}*/

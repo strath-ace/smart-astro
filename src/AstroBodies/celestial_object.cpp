@@ -1,182 +1,273 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+/*
+-------Copyright (C) 2019 University of Strathclyde and Authors-------
+--------- Author: Scott Hurley (GitHub: Scott_James_Hurley)-----------
+-------- e-mail: scott.james.hurley.97@gmail.com ---------------------
+*/
+
 #include "AstroBodies/celestial_object.h"
 
 using namespace smartastro;
 using namespace smartastro::astrobodies;
 
-Celestial_Object::Celestial_Object()
+Celestial_Object::Celestial_Object( std::string givenName, int givenId,  std::vector<double> &givenPositn, double givenMu) : Astro_Body(givenName, givenId)
 {
+  positn = givenPositn;
+  mu = givenMu;
 }
 
 Celestial_Object::~Celestial_Object()
 {
+  
 }
 
-int Celestial_Object::latsrf_(char *method, char *target, doublereal *et, char *fixref, integer *npts, doublereal *lonlat, doublereal *srfpts, ftnlen method_len, ftnlen target_len, ftnlen fixref_len)
+/*int Celestial_Object::latsrf_(const std::string &method, const std::string &target, double &et, const std::string &fixref, int &npts, const std::vector<std::vector::<double>> &lonlat, std::vector<std::vector::<double>> &srfpts)
 {
-  return latsrf_(method, target, et, fixref, npts, lonlat, srfpts, method_len, target_len, fixref_len);
+  return latsrf_(&method.at(0), &target.at(0), et, &fixref.at(0), npts, setupHMM(lonlat, lonlat.size(), lonlat[0].size()), setupHMM(srfpts, srfpts.size(), srfpts[0].size()));
 }
 
-int Celestial_Object::srfnrm_(char *method, char *target, doublereal *et, char *fixref, integer *npts, doublereal *srfpts, doublereal *normls, ftnlen method_len, ftnlen target_len, ftnlen fixref_len)
+int Celestial_Object::srfnrm_( std::string &method,  std::string &target,  std::vector<double> &et,  std::string &fixref,  std::vector<int> &npts,  std::vector<double> &srfpts,  std::vector<double> &normls, int method_len, int target_len, int fixref_len)
 {
-  return srfnrm_(method, target, et, fixref, npts, srfpts, normls,  method_len, target_len, fixref_len);
+  return srfnrm_(methodA, targetA, etA, fixrefA, nptsA, srfptsA, normlsA,  method_len, target_len, fixref_len);
+  }*/
+
+void Celestial_Object::nearpt(double &a, double &b, double &c, std::vector<double> &npoint, double &alt)
+{
+  return nearpt_c(&positn[0], a, b, c, &npoint[0], &alt);
 }
 
-int Celestial_Object::nearpt_(doublereal *positn, doublereal *a, doublereal *b, doublereal *c__, doublereal *npoint, doublereal *alt)
+void Celestial_Object::surfpt(const std::vector<double> &u, double &a, double &b, double &c,  std::vector<double> &point, int &found)
 {
-  return nearpt_(positn, a, b, c__, npoint, alt);
+  return surfpt_c(&positn.at(0), &u[0], a, b, c, &point[0], &found);
 }
 
-int Celestial_Object::dnearp_(doublereal *state, doublereal *a, doublereal *b, doublereal *c__, doublereal *dnear, doublereal *dalt, logical *found)
+void Celestial_Object::surfnm(double &a, double &b, double &c, const std::vector<double> &point,  std::vector<double> &normal)
 {
-  return dnearp_(state, a, b, c__, dnear, dalt, found);
+  return surfnm_c(a, b, c, &point[0], &normal[0]);
 }
 
-int Celestial_Object::surfpt_(doublereal *positn, doublereal *u, doublereal *a, doublereal *b, doublereal *c__, doublereal *point, logical *found)
+/*int Celestial_Object::edlimb_(double &a, double &b, double &c, const std::vector<double> &viewpt,  std::vector<double> &limb)
 {
-  return surfpt_(positn, u, a, b, c__, point, found);
-}
-
-int Celestial_Object::surfnm_(doublereal *a, doublereal *b, doublereal *c__, doublereal *point, doublereal *normal)
-{
-  return surfnm_(a, b, c__, point, normal);
-}
-
-int Celestial_Object::ednmpt_(doublereal *a, doublereal *b, doublereal *c__, doublereal *normal, doublereal *point)
-{
-  return ednmpt_(a, b, c__, normal, point);
-}
-
-int Celestial_Object::edpnt_(doublereal *p, doublereal *a, doublereal *b, doublereal *c__, doublereal *ep)
-{
-  return edpnt_(p, a, b, c__, ep);
-}
-
-int Celestial_Object::edlimb_(doublereal *a, doublereal *b, doublereal *c__, doublereal *viewpt, doublereal *limb)
-{
+  double *aA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(a);
+  double *bA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(b);
+  double *c__A = smartastro::astrocore::spice_general_functions::doubleVectorToArray(c__);
+  double *viewptA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(viewpt);
+  double *limbA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(limb);
+  
   return edlimb_(a, b, c__, viewpt, limb);
 }
 
-int Celestial_Object::inelpl_(doublereal *ellips, doublereal *plane, integer *nxpts, doublereal *xpt1, doublereal *xpt2)
+int Celestial_Object::inelpl_( std::vector<double> &ellips,  std::vector<double> &plane,  std::vector<int> &nxpts,  std::vector<double> &xpt1,  std::vector<double> &xpt2)
 {
-  return inelpl_(ellips, plane, nxpts, xpt1, xpt2);
+  double *ellipsA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(ellips);
+  double *planeA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(plane);
+  double *c__A = smartastro::astrocore::spice_general_functions::doubleVectorToArray(nxpts);
+  double *viewptA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(xpt1);
+  double *limbA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(xpt2);
+  
+  return inelpl_(ellipsA, planeA, nxptsA, xpt1A, xpt2A);
+  }*/
+
+void Celestial_Object::npedln(double &a, double &b, double &c, const std::vector<double> &linept, const std::vector<double> &linedr, std::vector<double> &pnear, double &dist)
+{
+  return npedln_c(a, b, c, &linept[0], &linedr[0], &pnear[0], &dist);
 }
 
-int Celestial_Object::npedln_(doublereal *a, doublereal *b, doublereal *c__, doublereal *linept, doublereal *linedr, doublereal *pnear, doublereal *dist)
+/*int Celestial_Object::inrypl_( std::vector<double> &vertex,  std::vector<double> &dir,  std::vector<double> &plane,  std::vector<int> &nxpts,  std::vector<double> &xpt)
 {
-  return npedln_(a, b, c__, linept, linedr, pnear, dist);
+  double *vertexA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(vertex);
+  double *dirA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(dir);
+  double *planeA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(plane);
+  double *nxptsA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(nxpts);
+  double *xptA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(xpt);
+  
+  return inrypl_(vertexA, dirA, planeA, nxptsA, xptA);
 }
 
-int Celestial_Object::inrypl_(doublereal *vertex, doublereal *dir, doublereal *plane, integer *nxpts, doublereal *xpt)
+int Celestial_Object::pjelpl_( std::vector<double> &elin,  std::vector<double> &plane,  std::vector<double> &elout)
 {
-  return inrypl_(vertex, dir, plane, nxpts, xpt);
+  double *elinA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(elin);
+  double *planeA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(plane);
+  double *eloutA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(elout);
+  
+  return pjelpl_(elinA, planeA, eloutA);
+  }*/
+
+void Celestial_Object::saelgv(const std::vector<double> &vec1, const std::vector<double> &vec2,  std::vector<double> &smajor,  std::vector<double> &sminor)
+{
+  return saelgv_c(&vec1[0], &vec2[0], &smajor[0], &sminor[0]);
 }
 
-int Celestial_Object::pjelpl_(doublereal *elin, doublereal *plane, doublereal *elout)
+void Celestial_Object::nplnpt(const std::vector<double> &linpt, const std::vector<double> &lindir, const std::vector<double> &point,  std::vector<double> &pnear, double &dist)
 {
-  return pjelpl_(elin, plane, elout);
+  return nplnpt_c(&linpt[0], &lindir[0], &point[0], &pnear[0], &dist);
 }
 
-int Celestial_Object::saelgv_(doublereal *vec1, doublereal *vec2, doublereal *smajor, doublereal *sminor)
+void Celestial_Object::sincpt(const std::string &method, const std::string &target, double &et, const std::string &fixref, const std::string &abcorr, const std::string &dref, const std::vector<double> &dvec,  std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, int &found)
 {
-  return saelgv_(vec1, vec2, smajor, sminor);
+  return sincpt_c(&method.at(0), &target.at(0), et, &fixref.at(0), &abcorr.at(0), &name.at(0), &dref.at(0), &dvec[0], &spoint[0], &trgepc, &srfvec[0], &found);
 }
 
-int Celestial_Object::nplnpt_(doublereal *linpt, doublereal *lindir, doublereal *point, doublereal *pnear, doublereal *dist)
+/*int Celestial_Object::dskxv_( std::vector<int> &pri,  std::string &target,  std::vector<int> &nsurf,  std::vector<int> &srflst,  std::vector<double> &et,  std::string &fixref,  std::vector<int> &nrays,  std::vector<double> &vtxarr,  std::vector<double> &dirarr,  std::vector<double> &xptarr,  std::vector<int> &fndarr, int target_len, int fixref_len)
 {
-  return nplnpt_(linpt, lindir, point, pnear, dist);
+  int *priA = smartastro::astrocore::spice_general_functions::intVectorToArray(pri);
+  char *targetA = smartastro::astrocore::spice_general_functions::stringToCharArray(target);
+  int *nsurfA = smartastro::astrocore::spice_general_functions::intVectorToArray(nsurf);
+  int *srflstA = smartastro::astrocore::spice_general_functions::intVectorToArray(srflst);
+  double *etA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(et);
+  char *fixrefA = smartastro::astrocore::spice_general_functions::stringToCharArray(fixref);
+  int *nraysA = smartastro::astrocore::spice_general_functions::intVectorToArray(nrays);
+  double *vtxarrA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(vtxarr);
+  double *dirarrA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(dirarr);
+  double *xptarrA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(xptarr);
+  int *fndarrA = smartastro::astrocore::spice_general_functions::intVectorToArray(fndarr);
+
+  return dskxv_(priA, targetA, nsurfA, srflstA, etA, fixrefA, nraysA, vtxarrA, dirarrA, xptarrA, fndarrA, target_len, fixref_len);
 }
 
-int Celestial_Object::npsgpt_(doublereal *ep1, doublereal *ep2, doublereal *point, doublereal *pnear, doublereal *dist)
+int Celestial_Object::dskxsi_( std::vector<int> &pri,  std::string &target,  std::vector<int> &nsurf,  std::vector<int> &srflst,  std::vector<double> &et,  std::string &fixref,  std::vector<double> &vertex,  std::vector<double> &raydir,  std::vector<int> &maxd,  std::vector<int> &maxi,  std::vector<double> &xpt,  std::vector<int> &handle,  std::vector<int> &dladsc,  std::vector<double> &dskdsc,  std::vector<double> &dc,  std::vector<int> &ic,  std::vector<int> &found, int target_len, int fixref_len)
 {
-  return npsgpt_(ep1, ep2, point, pnear, dist);
+  int *priA = smartastro::astrocore::spice_general_functions::intVectorToArray(pri);
+  char *targetA = smartastro::astrocore::spice_general_functions::stringToCharArray(target);
+  int *nsurfA = smartastro::astrocore::spice_general_functions::intVectorToArray(nsurf);
+  int *srflstA = smartastro::astrocore::spice_general_functions::intVectorToArray(srflst);
+  double *etA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(et);
+  char *fixrefA = smartastro::astrocore::spice_general_functions::stringToCharArray(fixref);
+  double *vertexA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(vertex);
+  double *raydirA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(raydir);
+  int *maxdA = smartastro::astrocore::spice_general_functions::intVectorToArray(maxd);
+  int *maxiA = smartastro::astrocore::spice_general_functions::intVectorToArray(maxi);
+  double *xptA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(xpt);
+  int *handleA = smartastro::astrocore::spice_general_functions::intVectorToArray(handle);
+  int *dladscA = smartastro::astrocore::spice_general_functions::intVectorToArray(dladsc);
+  double *dskdscA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(dskdsc);
+  double *dcA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(dc);
+  int *icA = smartastro::astrocore::spice_general_functions::intVectorToArray(ic);
+  int *foundA = smartastro::astrocore::spice_general_functions::intVectorToArray(found);
+
+  return dskxsi_(priA, targetA, nsurfA, srflstA, etA, fixrefA, vertexA, raydirA, maxdA, maxiA, xptA, handleA, dladscA, dskdscA, dcA, icA, foundA, target_len, fixref_len);
+  }*/
+
+void Celestial_Object::ilumin(const std::string &method, const std::string &target, double &et, const std::string &fixref, const std::string &abcorr, const std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn)
+{
+  return ilumin_c(&method.at(0), &target.at(0), et, &fixref.at(0), &abcorr.at(0), &name.at(0), &spoint[0], &trgepc, &srfvec[0], &phase, &incdnc, &emissn);
 }
 
-int Celestial_Object::sincpt_(char *method, char *target, doublereal *et, char *fixref, char *abcorr, char *obsrvr, char *dref, doublereal *dvec, doublereal *spoint, doublereal *trgepc, doublereal *srfvec, logical *found, ftnlen method_len, ftnlen target_len, ftnlen fixref_len, ftnlen abcorr_len, ftnlen obsrvr_len, ftnlen dref_len)
+void Celestial_Object::illumg(const std::string &method, const std::string &target, const std::string &ilusrc, double &et, const std::string &fixref, const std::string &abcorr, std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn)
 {
-  return sincpt_(method, target, et, fixref, abcorr, obsrvr, dref, dvec, spoint, trgepc, srfvec, found, method_len, target_len, fixref_len, abcorr_len, obsrvr_len, dref_len);
+  return illumg_c(&method.at(0), &target.at(0), &ilusrc.at(0), et, &fixref.at(0), &abcorr.at(0), &name.at(0), &spoint[0], &trgepc, &srfvec[0], &phase, &incdnc, &emissn);
 }
 
-int Celestial_Object::dskxv_(logical *pri, char *target, integer *nsurf, integer *srflst, doublereal *et, char *fixref, integer *nrays, doublereal *vtxarr, doublereal *dirarr, doublereal *xptarr, logical *fndarr, ftnlen target_len, ftnlen fixref_len)
+void Celestial_Object::illumf(const std::string &method, const std::string &target, const std::string &ilusrc, double &et, const std::string &fixref, const std::string &abcorr, std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn, int &visibl, int &lit)
 {
-  return dskxv_(pri, target, nsurf, srflst, et, fixref, nrays, vtxarr, dirarr, xptarr, fndarr, target_len, fixref_len);
+  return illumf_c(&method.at(0), &target.at(0), &ilusrc.at(0), et, &fixref.at(0), &abcorr.at(0), &name.at(0), &spoint[0], &trgepc, &srfvec[0], &phase, &incdnc, &emissn, &visibl, &lit);
 }
 
-int Celestial_Object::dskxsi_(logical *pri, char *target, integer *nsurf, integer *srflst, doublereal *et, char *fixref, doublereal *vertex, doublereal *raydir, integer *maxd, integer *maxi, doublereal *xpt, integer *handle, integer *dladsc, doublereal *dskdsc, doublereal *dc, integer *ic, logical *found, ftnlen target_len, ftnlen fixref_len)
+/*int Celestial_Object::limbpt_( std::string &method,  std::string &target,  std::vector<double> &et,  std::string &fixref,  std::string &abcorr,  std::string &corloc,  std::vector<double> &refvec,  std::vector<double> &rolstp,  std::vector<int> &ncuts,  std::vector<double> &schstp,  std::vector<double> &soltol,  std::vector<int> &maxn,  std::vector<int> &npts,  std::vector<double> &points,  std::vector<double> &epochs,  std::vector<double> &tangts, int method_len, int target_len, int fixref_len, int abcorr_len, int corloc_len, int obsrvr_len)
 {
-  return dskxsi_(pri, target, nsurf, srflst, et, fixref, vertex, raydir, maxd, maxi, xpt, handle, dladsc, dskdsc, dc, ic, found, target_len, fixref_len);
+  char *methodA = smartastro::astrocore::spice_general_functions::stringToCharArray(method);
+  char *targetA = smartastro::astrocore::spice_general_functions::stringToCharArray(target);
+  double *etA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(et);
+  char *fixrefA = smartastro::astrocore::spice_general_functions::stringToCharArray(fixref);
+  char *abcorrA = smartastro::astrocore::spice_general_functions::stringToCharArray(abcorr);
+  char *corlocA = smartastro::astrocore::spice_general_functions::stringToCharArray(corloc);
+  double *refvecA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(refvec);
+  double *rolstpA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(rolstp);
+  int *ncutsA = smartastro::astrocore::spice_general_functions::intVectorToArray(ncuts);
+  double *schstpA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(schstp);
+  double *soltolA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(soltol);
+  int *maxnA = smartastro::astrocore::spice_general_functions::intVectorToArray(maxn);
+  int *nptsA = smartastro::astrocore::spice_general_functions::intVectorToArray(npts);
+  double *pointsA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(points);
+  double *epochsA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(epochs);
+  double *tangtsA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(tangts);
+  
+  return limbpt_(methodA, targetA, etA, fixrefA, abcorrA, corlocA, name, refvecA, rolstpA, ncutsA, schstpA, soltolA, maxnA, nptsA, pointsA, epochsA, tangtsA, method_len, target_len, fixref_len, abcorr_len, corloc_len, obsrvr_len);
 }
 
-int Celestial_Object::ilumin_(char *method, char *target, doublereal *et, char *fixref, char *abcorr, char *obsrvr, doublereal *spoint, doublereal *trgepc, doublereal *srfvec, doublereal *phase, doublereal *solar, doublereal *emissn, ftnlen method_len, ftnlen target_len, ftnlen fixref_len, ftnlen abcorr_len, ftnlen obsrvr_len)
+int Celestial_Object::termpt_( std::string &method,  std::string &ilusrc,  std::string &target,  std::vector<double> &et,  std::string &fixref,  std::string &abcorr,  std::string &corloc,  std::vector<double> &refvec,  std::vector<double> &rolstp,  std::vector<int> &ncuts,  std::vector<double> &schstp,  std::vector<double> &soltol,  std::vector<int> &maxn,  std::vector<int> &npts,  std::vector<double> &points,  std::vector<double> &epochs,  std::vector<double> &trmvcs, int method_len, int ilusrc_len, int target_len, int fixref_len, int abcorr_len, int corloc_len, int obsrvr_len)
 {
-  return ilumin_(method, target, et, fixref, abcorr, obsrvr, spoint, trgepc, srfvec, phase, solar, emissn, method_len, target_len, fixref_len, abcorr_len, obsrvr_len);
+  char *methodA = smartastro::astrocore::spice_general_functions::stringToCharArray(method);
+  char *ilusrcA = smartastro::astrocore::spice_general_functions::stringToCharArray(ilusrc);
+  char *targetA = smartastro::astrocore::spice_general_functions::stringToCharArray(target);
+  double *etA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(et);
+  char *fixrefA = smartastro::astrocore::spice_general_functions::stringToCharArray(fixref);
+  char *abcorrA = smartastro::astrocore::spice_general_functions::stringToCharArray(abcorr);
+  char *corlocA = smartastro::astrocore::spice_general_functions::stringToCharArray(corloc);
+  double *refvecA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(refvec);
+  double *rolstpA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(rolstp);
+  int *ncutsA = smartastro::astrocore::spice_general_functions::intVectorToArray(ncuts);
+  double *schstpA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(schstp);
+  double *soltolA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(soltol);
+  int *maxnA = smartastro::astrocore::spice_general_functions::intVectorToArray(maxn);
+  int *nptsA = smartastro::astrocore::spice_general_functions::intVectorToArray(npts);
+  double *pointsA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(points);
+  double *epochsA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(epochs);
+  double *trmvcsA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(trmvcs);
+  
+  return termpt_(methodA, ilusrcA, targetA, etA, fixrefA, abcorrA, corlocA, name, refvecA, rolstpA, ncutsA, schstpA, soltolA, maxnA, nptsA, pointsA, epochsA, trmvcsA, method_len, ilusrc_len, target_len, fixref_len, abcorr_len, corloc_len, obsrvr_len);
+  }*/
+
+void Celestial_Object::conics(const std::vector<double> &elts, double &et,  std::vector<double> &state)
+{
+  return conics_c(&elts[0], et, &state[0]);
 }
 
-int Celestial_Object::illumg_(char *method, char *target, char *ilusrc, doublereal *et, char *fixref, char *abcorr, char *obsrvr, doublereal *spoint, doublereal *trgepc, doublereal *srfvec, doublereal *phase, doublereal *incdnc, doublereal *emissn, ftnlen method_len, ftnlen target_len, ftnlen ilusrc_len, ftnlen fixref_len, ftnlen abcorr_len, ftnlen obsrvr_len)
+void Celestial_Object::oscelt(const std::vector<double> &state, double &et, std::vector<double> &elts)
 {
-  return illumg_(method, target, ilusrc, et, fixref, abcorr, obsrvr, spoint, trgepc, srfvec, phase, incdnc, emissn, method_len, target_len, ilusrc_len, fixref_len, abcorr_len, obsrvr_len);
+  return oscelt_c(&state[0], et, mu, &elts[0]);
 }
 
-int Celestial_Object::illumf_(char *method, char *target, char *ilusrc, doublereal *et, char *fixref, char *abcorr, char *obsrvr, doublereal *spoint, doublereal *trgepc, doublereal *srfvec, doublereal *phase, doublereal *incdnc, doublereal *emissn, logical *visibl, logical *lit, ftnlen method_len, ftnlen target_len, ftnlen ilusrc_len, ftnlen fixref_len, ftnlen abcorr_len, ftnlen obsrvr_len)
+void Celestial_Object::occult(const std::string &targ1, const std::string &shape1, const std::string &frame1, const std::string &targ2, const std::string &shape2, const std::string &frame2, const std::string &abcorr, double &et, int &ocltid)
 {
-  return illumf_(method, target, ilusrc, et, fixref, abcorr, obsrvr, spoint, trgepc, srfvec, phase, incdnc, emissn, visibl, lit, method_len, target_len, ilusrc_len, fixref_len, abcorr_len, obsrvr_len);
+  return occult_c(&targ1.at(0), &shape1.at(0), &frame1.at(0), &targ2.at(0), &shape2.at(0), &frame2.at(0), &abcorr.at(0), &name.at(0), et, &ocltid);
 }
 
-int Celestial_Object::limbpt_(char *method, char *target, doublereal *et, char *fixref, char *abcorr, char *corloc, char *obsrvr, doublereal *refvec, doublereal *rolstp, integer *ncuts, doublereal *schstp, doublereal *soltol, integer *maxn, integer *npts, doublereal *points, doublereal *epochs, doublereal *tangts, ftnlen method_len, ftnlen target_len, ftnlen fixref_len, ftnlen abcorr_len, ftnlen corloc_len, ftnlen obsrvr_len)
+/*int Celestial_Object::gfoclt_( std::string &occtyp,  std::string &front,  std::string &fshape,  std::string &fframe,  std::string &back,  std::string &bshape,  std::string &bframe,  std::string &abcorr,  std::vector<double> &step,  std::vector<double> &cnfine,  std::vector<double> &result, int occtyp_len, int front_len, int fshape_len, int fframe_len, int back_len, int bshape_len, int bframe_len, int abcorr_len, int obsrvr_len)
 {
-  return limbpt_(method, target, et, fixref, abcorr, corloc, obsrvr, refvec, rolstp, ncuts, schstp, soltol, maxn, npts, points, epochs, tangts, method_len, target_len, fixref_len, abcorr_len, corloc_len, obsrvr_len);
+  char *occtypA = smartastro::astrocore::spice_general_functions::stringToCharArray(occtyp);
+  char *frontA = smartastro::astrocore::spice_general_functions::stringToCharArray(front);
+  char *fshapeA = smartastro::astrocore::spice_general_functions::stringToCharArray(fshape);
+  char *fframeA = smartastro::astrocore::spice_general_functions::stringToCharArray(fframe);
+  char *backA = smartastro::astrocore::spice_general_functions::stringToCharArray(back);
+  char *bshapeA = smartastro::astrocore::spice_general_functions::stringToCharArray(bshape);
+  char *bframeA = smartastro::astrocore::spice_general_functions::stringToCharArray(bframe);
+  char *abcorrA = smartastro::astrocore::spice_general_functions::stringToCharArray(abcorr);
+  double *stepA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(step);
+  double *cnfineA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(cnfine);
+  double *resultA = smartastro::astrocore::spice_general_functions::doubleVectorToArray(result);
+  
+  return gfoclt_(occtypA, frontA, fshapeA, fframeA, backA, bshapeA, bframeA, abcorrA, name, stepA, cnfineA, resultA, occtyp_len, front_len, fshape_len, fframe_len, back_len, bshape_len, bframe_len, abcorr_len, obsrvr_len);
+  }*/
+
+void Celestial_Object::srfcss(int &code, int srflen, std::string &srfstr, int &isname)
+{
+  return srfcss_c(code, &name.at(0), srflen, &srfstr.at(0), &isname);
 }
 
-int Celestial_Object::termpt_(char *method, char *ilusrc, char *target, doublereal *et, char *fixref, char *abcorr, char *corloc, char *obsrvr, doublereal *refvec, doublereal *rolstp, integer *ncuts, doublereal *schstp, doublereal *soltol, integer *maxn, integer *npts, doublereal *points, doublereal *epochs, doublereal *trmvcs, ftnlen method_len, ftnlen ilusrc_len, ftnlen target_len, ftnlen fixref_len, ftnlen abcorr_len, ftnlen corloc_len, ftnlen obsrvr_len)
+void Celestial_Object::srfs2c(const std::string &srfstr, int &code, int &found)
 {
-  return termpt_(method, ilusrc, target, et, fixref, abcorr, corloc, obsrvr, refvec, rolstp, ncuts, schstp, soltol, maxn, npts, points, epochs, trmvcs, method_len, ilusrc_len, target_len, fixref_len, abcorr_len, corloc_len, obsrvr_len);
+  return srfs2c_c(&srfstr.at(0), &name.at(0), &code, &found);
 }
 
-int Celestial_Object::conics_(doublereal *elts, doublereal *et, doublereal *state)
+void Celestial_Object::srfc2s(int &code, int srflen, std::string &srfstr, int &isname)
 {
-  return conics_(elts, et, state);
+  return srfc2s_c(code, id, srflen, &srfstr.at(0), &isname);
 }
 
-int Celestial_Object::oscelt_(doublereal *state, doublereal *et, doublereal *mu, doublereal *elts)
+void Celestial_Object::srfscc(const std::string &srfstr, int &code, int &found)
 {
-  return oscelt_(state, et, mu, elts);
+  return srfscc_c(&srfstr.at(0), id, &code, &found);
 }
 
-int Celestial_Object::occult_(char *targ1, char *shape1, char *frame1, char *targ2, char *shape2, char *frame2, char *abcorr, char *obsrvr, doublereal *et, integer *ocltid, ftnlen targ1_len, ftnlen shape1_len, ftnlen frame1_len, ftnlen targ2_len, ftnlen shape2_len, ftnlen frame2_len, ftnlen abcorr_len, ftnlen obsrvr_len)
+void Celestial_Object::bodc2n(int &lenout, std::string commonName, int &found)
 {
-  return occult_(targ1, shape1, frame1, targ2, shape2, frame2, abcorr, obsrvr, et, ocltid, targ1_len, shape1_len, frame1_len, targ2_len, shape2_len, frame2_len, abcorr_len, obsrvr_len);
+  return bodc2n_c(id, lenout, &commonName.at(0), &found);
 }
 
-int Celestial_Object::gfoclt_(char *occtyp, char *front, char *fshape, char *fframe, char *back, char *bshape, char *bframe, char *abcorr, char *obsrvr, doublereal *step, doublereal *cnfine, doublereal *result, ftnlen occtyp_len, ftnlen front_len, ftnlen fshape_len, ftnlen fframe_len, ftnlen back_len, ftnlen bshape_len, ftnlen bframe_len, ftnlen abcorr_len, ftnlen obsrvr_len)
+void Celestial_Object::srfrec(double &longitude, double &latitude,  std::vector<double> &rectan)
 {
-  return gfoclt_(occtyp, front, fshape, fframe, back, bshape, bframe, abcorr, obsrvr, step, cnfine, result, occtyp_len, front_len, fshape_len, fframe_len, back_len, bshape_len, bframe_len, abcorr_len, obsrvr_len);
-}
-
-int Celestial_Object::srfcss_(integer *code, char *bodstr, char *srfstr, logical *isname, ftnlen bodstr_len, ftnlen srfstr_len)
-{
-  return srfcss_(code, bodstr, srfstr, isname, bodstr_len, srfstr_len);
-}
-
-int Celestial_Object::srfs2c_(char *srfstr, char *bodstr, integer *code, logical *found, ftnlen srfstr_len, ftnlen bodstr_len)
-{
-  return srfs2c_(srfstr, bodstr, code, found, srfstr_len, bodstr_len);
-}
-
-int Celestial_Object::srfc2s_(integer *code, integer *bodyid, char *srfstr, logical *isname, ftnlen srfstr_len)
-{
-  return srfc2s_(code, bodyid, srfstr, isname, srfstr_len);
-}
-
-int Celestial_Object::srfscc_(char *srfstr, integer *bodyid, integer *code, logical *found, ftnlen srfstr_len)
-{
-  return srfscc_(srfstr, bodyid, code, found, srfstr_len);
-}
-
-int Celestial_Object::bodc2n_(integer *code, char *name__, logical *found, ftnlen name_len)
-{
-  return bodc2n_(code, name__, found, name_len);
-}
-
-int Celestial_Object::srfrec_(integer *body, doublereal *long__, doublereal *lat, doublereal *rectan)
-{
-  return srfrec_(body, long__, lat, rectan);
+  return srfrec_c(id, longitude, latitude, &rectan[0]);
 }

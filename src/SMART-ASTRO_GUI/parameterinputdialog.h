@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include "Controller/parameterinputcontroller.h"
-#include "ui_parameterinputdialog.h"
+#include "answerdialog.h"
 
 namespace Ui {
 class ParameterInputDialog;
@@ -24,7 +24,10 @@ private:
     Ui::ParameterInputDialog *ui;
     int index;
     ParameterInputController parameterInputController;
-    std::vector<QString> getArgs();
+    AnswerDialog answerDialog;
+    std::vector<QString> args;
+    std::vector<QString> resultsLabels;
+    void getArgs();
     void setInputFields();
     void setVisibility(int fieldNum);
     void setParams(std::vector<std::string> &params);

@@ -1,4 +1,7 @@
 #include "genericfunctiondialog.h"
+#include "ui_genericfunctiondialog.h"
+
+
 
 GenericFunctionDialog::GenericFunctionDialog(QWidget *parent) :
     QDialog(parent),
@@ -56,7 +59,7 @@ void GenericFunctionDialog::addButtonsToGroup(QButtonGroup *qButtonGroup)
 void GenericFunctionDialog::on_confirmButton_clicked()
 {
     if(qButtonGroup->checkedButton() != NULL){
-    parameterInputDialog = new ParameterInputDialog(parentWindow);
+    parameterInputDialog = new ParameterInputDialog(parentWindow, qButtonGroup->checkedId());
     parameterInputDialog->show();
     this->close();
     }

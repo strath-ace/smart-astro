@@ -24,23 +24,33 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
+# INCLUDEPATH += /home/strazol/CSpice/cspice/lib
+ LIBS += -L/home/strazol/CSpice/cspice/lib -lcspice
+
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
     genericfunctiondialog.cpp \
     parameterinputdialog.cpp \
-    Controller/parameterinputcontroller.cpp
+    Controller/parameterinputcontroller.cpp \
+    answerdialog.cpp \
+    ../Astro-Core/conversion_coordinates.cpp \
+    ../Astro-Core/spice_general_functions.cpp
 
 HEADERS += \
         mainwindow.h \
 	genericfunctiondialog.h \
     parameterinputdialog.h \
-    Controller/parameterinputcontroller.h
+    Controller/parameterinputcontroller.h \
+    answerdialog.h \
+    ../Astro-Core/conversion_time.h \
+    ../Astro-Core/conversion_coordinates.h
 
 FORMS += \
         mainwindow.ui \
     genericfunctiondialog.ui \
-    parameterinputdialog.ui
+    parameterinputdialog.ui \
+    answerdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

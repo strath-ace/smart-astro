@@ -1,4 +1,5 @@
 #include "parameterinputdialog.h"
+#include "ui_parameterinputdialog.h"
 
 ParameterInputDialog::ParameterInputDialog(QWidget *parent, int index) :
     QDialog(parent),
@@ -15,7 +16,7 @@ ParameterInputDialog::~ParameterInputDialog()
 
 void ParameterInputDialog::setVisibility(int fieldNum)
 {
-    if(index <= 14){
+    if(fieldNum <= 14){
         ui->label_24->setVisible(false);
         ui->label_23->setVisible(false);
         ui->label_22->setVisible(false);
@@ -39,7 +40,7 @@ void ParameterInputDialog::setVisibility(int fieldNum)
         ui->lineEdit_15->setVisible(false);
         ui->lineEdit_14->setVisible(false);
     }
-    if (index <= 7){
+    if (fieldNum <= 7){
         ui->label_13->setVisible(false);
         ui->label_12->setVisible(false);
         ui->label_11->setVisible(false);
@@ -53,78 +54,92 @@ void ParameterInputDialog::setVisibility(int fieldNum)
         ui->lineEdit_9->setVisible(false);
         ui->lineEdit_8->setVisible(false);
     }
-    if (index <= 5){
+    if (fieldNum <= 6){
         ui->label_7->setVisible(false);
-        ui->label_6->setVisible(false);
         ui->lineEdit_7->setVisible(false);
+    }
+    if (fieldNum <= 5){
+        ui->label_6->setVisible(false);
         ui->lineEdit_6->setVisible(false);
     }
-    if (index <= 4){
+    if (fieldNum <= 4){
         ui->label_5->setVisible(false);
         ui->lineEdit_5->setVisible(false);
     }
-    if (index <= 3){
+    if (fieldNum <= 3){
         ui->label_4->setVisible(false);
         ui->lineEdit_4->setVisible(false);
     }
 }
 
 
-void ParameterInputDialog::setParams(int &params)
+void ParameterInputDialog::setParams(std::vector<std::string> &params)
 {
-    if(*params.size() >= 3){
-        ui->label->setText(args[0]);
-        ui->label_2->setText(args[1]);
-        ui->label_3->setText(args[2]);
+    if(params.size() >= 3){
+        QString string;
+        ui->label->setText(QString::fromStdString(params[0]));
+        ui->label_2->setText(QString::fromStdString(params[1]));
+        ui->label_3->setText(QString::fromStdString(params[2]));
 
     }
-    if(args.size() >= 4){
-        ui->label_4->setText(args[3]);
+    if(params.size() >= 4){
+        ui->label_4->setText(QString::fromStdString(params[3]));
 
     }
-    if(args.size() >= 5){
-        ui->label_5->setText(args[4]);
+    if(params.size() >= 5){
+        ui->label_5->setText(QString::fromStdString(params[4]));
 
     }
-    if(args.size() >= 7){
-        ui->label_6->setText(args[5]);
-        ui->label_7->setText(args[6]);
+    if(params.size() >= 6){
+            ui->label_6->setText(QString::fromStdString(params[5]));
+
+        }
+    if(params.size() >= 7){
+        ui->label_7->setText(QString::fromStdString(params[6]));
 
     }
-    if(args.size() >= 14){
-        ui->label_8->setText(args[7]);
-        ui->label_9->setText(args[8]);
-        ui->label_10->setText(args[9]);
-        ui->label_11->setText(args[10]);
-        ui->label_12->setText(args[11]);
-        ui->label_13->setText(args[12]);
-        ui->label_14->setText(args[13]);
+    if(params.size() >= 14){
+        ui->label_8->setText(QString::fromStdString(params[7]));
+        ui->label_9->setText(QString::fromStdString(params[8]));
+        ui->label_10->setText(QString::fromStdString(params[9]));
+        ui->label_11->setText(QString::fromStdString(params[10]));
+        ui->label_12->setText(QString::fromStdString(params[11]));
+        ui->label_13->setText(QString::fromStdString(params[12]));
+        ui->label_14->setText(QString::fromStdString(params[13]));
     }
 }
 
 void ParameterInputDialog::setInputFields()
 {
-    std::vector<std::string> args;
     setVisibility(14);
 
     switch(index) {
     case 31:
     case 30:
-        args = {"method:", "target:", "et:", "fixref:", "abcorr:", "obsrvr:", "spoint:", "trgepc:", "srfvec:", "method_len:", "target_len:", "fixref_len:", "abcorr_len:", "obsrvr_len:"};
 
         break;
-    case 24:
+    case 29:
         setVisibility(7);
-        ui->label->setText("body:");
-        ui->label_2->setText("target:");
-        ui->label_3->setText("et:");
-        ui->label_4->setText("fixref:");
-        ui->label_5->setText("abcorr:");
-        ui->label_6->setText("obsrvr:");
-        ui->label_7->setText("spoint:");
+        break;
+    case 28:
+    {
+        std::vector<std::string> params{"r", "colat", "lons", "radius", "lon", "lat"};
+        resultsLabels.push_back(QString::fromStdString("radius"));
+        resultsLabels.push_back(QString::fromStdString("lon"));
+        resultsLabels.push_back(QString::fromStdString("lat"));
+        setParams(params);
+        setVisibility(6);
+    }
         break;
     case 27:
-        setVisibility(7);
+    {
+        std::vector<std::string> params{"radius", "colat", "slon", "r", "lon", "z"};
+        resultsLabels.push_back(QString::fromStdString("r"));
+        resultsLabels.push_back(QString::fromStdString("lon"));
+        resultsLabels.push_back(QString::fromStdString("z"));
+        setParams(params);
+        setVisibility(6);
+    }
         break;
     case 26:
         setVisibility(7);
@@ -132,6 +147,8 @@ void ParameterInputDialog::setInputFields()
     case 25:
         setVisibility(5);
         break;
+    case 24:
+        setVisibility(5);
         break;
     case 23:
         setVisibility(5);
@@ -149,16 +166,35 @@ void ParameterInputDialog::setInputFields()
         setVisibility(5);
         break;
     case 18:
-        setVisibility(5);
+    {
+        std::vector<std::string> params{"body", "et", "abcorr"};
+        resultsLabels.push_back(QString::fromStdString("Answer"));
+        setParams(params);
+        setVisibility(3);
+    }
         break;
     case 17:
-        setVisibility(5);
+    {
+        std::vector<std::string> params{"radius", "lon", "lat", "r", "lonc", "z"};
+        resultsLabels.push_back(QString::fromStdString("r"));
+        resultsLabels.push_back(QString::fromStdString("lonc"));
+        resultsLabels.push_back(QString::fromStdString("z"));
+        setParams(params);
+        setVisibility(6);
+    }
         break;
     case 16:
         setVisibility(5);
         break;
     case 15:
-        setVisibility(4);
+    {
+        std::vector<std::string> params{"radius", "lon", "lat", "r", "lonc", "z"};
+        resultsLabels.push_back(QString::fromStdString("r"));
+        resultsLabels.push_back(QString::fromStdString("lonc"));
+        resultsLabels.push_back(QString::fromStdString("z"));
+        setParams(params);
+        setVisibility(6);
+    }
         break;
     case 14:
         setVisibility(3);
@@ -197,90 +233,105 @@ void ParameterInputDialog::setInputFields()
         setVisibility(3);
         break;
     case 2:
-        setVisibility(3);
+    {
+        std::vector<std::string> params{"r", "lonc", "z", "radius", "colat", "lon"};
+        resultsLabels.push_back(QString::fromStdString("radius"));
+        resultsLabels.push_back(QString::fromStdString("colat"));
+        resultsLabels.push_back(QString::fromStdString("lon"));
+        setParams(params);
+        setVisibility(6);
+    }
         break;
     case 1:
-        setVisibility(3);
+        setVisibility(5);
         break;
     case 0:
-        setVisibility(3);
+    {
+        std::vector<std::string> params{"r", "lonc", "z", "radius", "lon", "lat"};
+        resultsLabels.push_back(QString::fromStdString("radius"));
+        resultsLabels.push_back(QString::fromStdString("lon"));
+        resultsLabels.push_back(QString::fromStdString("lat"));
+        setParams(params);
+        setVisibility(6);
+    }
         break;
     }
 }
 
-std::vector<QString> ParameterInputDialog::getArgs()
+void ParameterInputDialog::getArgs()
 {
-    std::vector<QString> vector;
 
     if(ui->label->text() != NULL){
-    vector.push_back(ui->label->text());
+    args.push_back(ui->label->text());
     }
     if(ui->label_2->text() != NULL){
-    vector.push_back(ui->label_2->text());
+    args.push_back(ui->label_2->text());
     }
     if(ui->label_3->text() != NULL){
-    vector.push_back(ui->label_3->text());
+    args.push_back(ui->label_3->text());
     }
     if(ui->label_4->text() != NULL){
-    vector.push_back(ui->label_3->text());
+    args.push_back(ui->label_3->text());
     }
     if(ui->label_5->text() != NULL){
-    vector.push_back(ui->label_3->text());
+    args.push_back(ui->label_3->text());
     }
     if(ui->label_6->text() != NULL){
-    vector.push_back(ui->label_2->text());
+    args.push_back(ui->label_2->text());
     }
     if(ui->label_7->text() != NULL){
-    vector.push_back(ui->label_7->text());
+    args.push_back(ui->label_7->text());
     }
     if(ui->label_8->text() != NULL){
-    vector.push_back(ui->label_8->text());
+    args.push_back(ui->label_8->text());
     }
     if(ui->label_9->text() != NULL){
-    vector.push_back(ui->label_9->text());
+    args.push_back(ui->label_9->text());
     }
     if(ui->label_10->text() != NULL){
-    vector.push_back(ui->label_10->text());
+    args.push_back(ui->label_10->text());
     }
     if(ui->label_11->text() != NULL){
-    vector.push_back(ui->label_11->text());
+    args.push_back(ui->label_11->text());
     }
     if(ui->label_12->text() != NULL){
-    vector.push_back(ui->label_12->text());
+    args.push_back(ui->label_12->text());
     }
     if(ui->label_13->text() != NULL){
-    vector.push_back(ui->label_13->text());
+    args.push_back(ui->label_13->text());
     }
     if(ui->label_14->text() != NULL){
-    vector.push_back(ui->label_14->text());
+    args.push_back(ui->label_14->text());
     }
     if(ui->label_15->text() != NULL){
-    vector.push_back(ui->label_15->text());
+    args.push_back(ui->label_15->text());
     }
     if(ui->label_16->text() != NULL){
-    vector.push_back(ui->label_16->text());
+    args.push_back(ui->label_16->text());
     }
     if(ui->label_17->text() != NULL){
-    vector.push_back(ui->label_17->text());
+    args.push_back(ui->label_17->text());
     }
     if(ui->label_18->text() != NULL){
-    vector.push_back(ui->label_18->text());
+    args.push_back(ui->label_18->text());
     }
     if(ui->label_19->text() != NULL){
-    vector.push_back(ui->label_19->text());
+    args.push_back(ui->label_19->text());
     }
     if(ui->label_20->text() != NULL){
-    vector.push_back(ui->label_20->text());
+    args.push_back(ui->label_20->text());
     }
     if(ui->label_21->text() != NULL){
-    vector.push_back(ui->label_21->text());
+    args.push_back(ui->label_21->text());
     }
-
-    return vector;
 }
 
 void ParameterInputDialog::on_pushButton_clicked()
 {
-    std::vector<QString> argsVector = getArgs();
-    ui->answerLine->setText(parameterInputController.calculate(argsVector, index));
+    answerDialog.show();
+    parameterInputController.calculate(args, index);
+    answerDialog.displayResults(args, resultsLabels);
+    args.clear();
+    resultsLabels.clear();
+    this->close();
 }
