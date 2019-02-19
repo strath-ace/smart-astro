@@ -13,6 +13,7 @@
 #include <vector>
 #include <cspice/SpiceUsr.h>
 #include "../Astro-Core/spice_general_functions.h"
+#include "../exception.h"
 
 namespace smartastro
 {
