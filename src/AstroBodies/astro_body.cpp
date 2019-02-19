@@ -18,6 +18,8 @@ Astro_Body::Astro_Body(std::string givenName)
   
   name = givenName;
   smartastro::astrocore::spice_general_functions::bodn2c(name, id, found);
+  if (found==0)
+      smartastro_throw("astro body name not found in spice");
 }
 
 Astro_Body::Astro_Body(int givenId)
