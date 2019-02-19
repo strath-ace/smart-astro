@@ -24,11 +24,7 @@ Celestial_Object::Celestial_Object(int givenId,  std::vector<double> &givenPosit
   mu = givenMu;
 }
 
-Celestial_Object::~Celestial_Object()
-{
-  delete &positn;
-  delete &mu
-}
+
 
 /*int Celestial_Object::latsrf_(const std::string &method, const std::string &target, double &et, const std::string &fixref, int &npts, const std::vector<std::vector::<double>> &lonlat, std::vector<std::vector::<double>> &srfpts)
 {

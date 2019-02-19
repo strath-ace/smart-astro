@@ -22,9 +22,6 @@ Artificial_Object::Artificial_Object(int givenId) : Astro_Body(givenId)
 
 }
 
-Artificial_Object::~Artificial_Object()
-{
-}
 
 void Artificial_Object::gfrfov(std::string &inst,  std::vector<double> &raydir, std::string &rframe, std::string &abcorr, double &step, SpiceCell  &cnfine,  SpiceCell &result)
 {

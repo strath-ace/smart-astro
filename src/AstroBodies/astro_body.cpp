@@ -29,8 +29,3 @@ Astro_Body::Astro_Body(int givenId)
   smartastro::astrocore::spice_general_functions::bodc2n(id, lenout, name, found);
 }
 				 
-Astro_Body::~Astro_Body()
-{
-  delete &name;
-  delete &id;
-}

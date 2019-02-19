@@ -22,6 +22,3 @@ Planet::Planet(int givenId, std::vector<double> &givenPosition, double givenMu) 
 
 }
 
-Planet::~Planet()
-{
-}

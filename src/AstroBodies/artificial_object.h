@@ -23,7 +23,7 @@ namespace smartastro
 
 				Artificial_Object(int givenId);
 
-				~Artificial_Object();
+				virtual ~Artificial_Object() = default;
 
 				/**
 				* @brief Determine time intervals when a specified ray intersects the 

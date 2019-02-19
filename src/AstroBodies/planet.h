@@ -24,7 +24,7 @@ namespace smartastro
 
 				Planet(int givenId, std::vector<double> &Givenpositn, double givenMu);
 
-				~Planet();
+				virtual ~Planet() = default;
 		};
 	}
 }
