@@ -65,30 +65,23 @@ endif()
 cmake_minimum_required(VERSION 2.8.11)
 project (SMART-ASTRO_GUI)
 
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
-# set(CMAKE_PREFIX_PATH /home/strazol/anaconda2/lib/cmake/Qt5Widgets)
-
-# find_package(Qt5Widgets REQUIRED )
-
-# find_package(Qt5 COMPONENTS Widgets Core GUI REQUIRED )
-
-# include_directories(${Qt5Widgets_INCLUDES})
-
- 
-
-# set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
-
-find_package(Qt5Core REQUIRED)
+#find_package(Qt5Core REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${Qt5Widgets_INCLUDE_DIRS})
-include_directories(${Qt5Core_INCLUDE_DIRS})
+#include_directories(${Qt5Widgets_INCLUDE_DIRS})
+#include_directories(${Qt5Core_INCLUDE_DIRS})
+
+include_directories(${Qt5Widgets_INCLUDES})
 
 add_definitions(${Qt5Widgets_DEFINITIONS})
+
+set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 set(SMART-ASTRO_GUI_SRCS
     src/SMART-ASTRO_GUI/main.cpp
@@ -118,12 +111,7 @@ set(SMART-ASTRO_GUI_UIS
    src/SMART-ASTRO_GUI/parameterinputdialog.ui
    src/SMART-ASTRO_GUI/answerdialog.ui
 )
-add_executable(SMART-ASTRO_GUI ${SMART-ASTRO_GUI_SRCS} ${SMART-ASTRO_GUI_HEADERS} ${SMART-ASTRO_GUI_UIS})
+add_executable(SMART-ASTRO_GUI ${SMART-ASTRO_GUI_SRCS} ${SMART-ASTRO_GUI_HEADERS})
 
-#target_include_directories(SMART-ASTRO_GUI PUBLIC ../CSPICE/cspice/src)
-
-#target_link_libraries(SMART-ASTRO_GUI ${Qt5Widgets_LIBRARIES} ${CSPICE_LIBRARY})
-
-target_link_libraries(SMART-ASTRO_GUI ${CSPICE_LIBRARY} Qt5::Widgets Qt5::Core  )
-
-#qt5_use_modules(SMART-ASTRO_GUI Widgets)
+target_link_libraries(SMART-ASTRO_GUI ${CSPICE_LIBRARY} ${Qt5Widgets_LIBRARIES}  )
+#Qt5::Widgets Qt5::Core

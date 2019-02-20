@@ -21,32 +21,32 @@ Artificial_Object::~Artificial_Object()
 {
 }
 
-void Artificial_Object::gfrfov(const std::string &inst,  std::vector<double> &raydir, const std::string &rframe, const std::string &abcorr, double &step, SpiceCell  &cnfine,  SpiceCell &result)
+void Artificial_Object::gfrfov(const std::string &inst, const std::vector<double> &raydir, const std::string &rframe, const std::string &abcorr, const double &step, SpiceCell &cnfine, SpiceCell &result)
 {  
   return gfrfov_c(&inst.at(0), &raydir[0], &rframe.at(0), &abcorr.at(0), &name.at(0), step, &cnfine, &result);
 }
 
-void Artificial_Object::gftfov(const std::string &inst, const std::string &target, const std::string &tshape, const std::string &tframe, const std::string &abcorr, double &step,  SpiceCell &cnfine,  SpiceCell &result)
+void Artificial_Object::gftfov(const std::string &inst, const std::string &target, const std::string &tshape, const std::string &tframe, const std::string &abcorr, const double &step, SpiceCell &cnfine, SpiceCell &result)
 {
   return gftfov_c(&inst.at(0), &target.at(0), &tshape.at(0), &tframe.at(0), &abcorr.at(0), &name.at(0), step, &cnfine, &result);
 }
 
-void Artificial_Object::fovray(const std::string &inst,  std::vector<double> &raydir, const std::string &rframe, const std::string &abcorr, double &et,  int &visibl)
+void Artificial_Object::fovray(const std::string &inst, const std::vector<double> &raydir, const std::string &rframe, const std::string &abcorr, const double &et, int &visibl)
 {
   return fovray_c(&inst.at(0), &raydir[0], &rframe.at(0), &abcorr.at(0), &name.at(0), &et, &visibl);
 }
 
-void Artificial_Object::fovtrg( const std::string &inst, const std::string &target, const std::string &tshape, const std::string &tframe, const std::string &abcorr, double &et, int &visibl)
+void Artificial_Object::fovtrg(const std::string &inst, const std::string &target, const std::string &tshape, const std::string &tframe, const std::string &abcorr, const double &et, int &visibl)
 {
   return fovtrg_c(&inst.at(0), &target.at(0), &tshape.at(0), &tframe.at(0), &abcorr.at(0), &name.at(0), &et, &visibl);
 }
 
-/*void Artificial_Object::getfov(int &instid, int &room, int &shapelen, int &framelen, const std::string &shape, const std::string &frame,  std::vector<double> &bsight,  std::vector<int> &n,  std::vector<vector<double>> &bounds)
+/*void Artificial_Object::getfov(const int &instid, const int &room, const int &shapelen, const int &framelen, std::string &shape, std::string &frame,  std::vector<double> &bsight,  std::vector<int> &n,  std::vector<vector<double>> &bounds)
 {
   return getfov_c(instid, room, shapelen, framelen, &shape.at(0), &frame.at(0), &bsight[0], &n, &bounds[0][0]);
   }*/
 
-/*int Artificial_Object::gffove_( std::string &inst,  std::string &tshape,  std::vector<double> &raydir,  std::string &target,  std::string &tframe,  std::string &abcorr,  std::vector<double> &tol, int udstep, int udrefn,  std::vector<int> &rpt, int udrepi, int udrepu, int udrepf,  std::vector<int> &bail, L_fp udbail,  std::vector<double> &cnfine,  std::vector<double> &result, int inst_len, int tshape_len, int target_len, int tframe_len, int abcorr_len, int obsrvr_len)
+/*int Artificial_Object::gffove_(const std::string &inst, const std::string &tshape, const std::vector<double> &raydir, const std::string &target, const std::string &tframe, const std::string &abcorr, const std::vector<double> &tol, const int udstep, const int udrefn, const std::vector<int> &rpt, const int udrepi, const int udrepu, const int udrepf, const std::vector<int> &bail, const L_fp udbail, const std::vector<double> &cnfine, std::vector<double> &result)
 {
   char *instA = smartastro::astrocore::spice_general_functions::stringToCharArray(inst);
   char *tshapeA = smartastro::astrocore::spice_general_functions::stringToCharArray(tshape);
