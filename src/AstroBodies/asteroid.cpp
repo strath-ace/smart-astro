@@ -20,7 +20,3 @@ Asteroid::Asteroid(int givenId, std::vector<double> &givenPosition, double given
 {
 }
 
-				
-Asteroid::~Asteroid()
-{
-}

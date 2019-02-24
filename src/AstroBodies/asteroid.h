@@ -23,7 +23,7 @@ namespace smartastro
 
 				Asteroid(int givenId, std::vector<double> &Givenpositn, double givenMu);
 				
-				~Asteroid();
+				virtual ~Asteroid() = default;
 		};
 	}
 }

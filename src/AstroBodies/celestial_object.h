@@ -14,11 +14,13 @@
 
 namespace smartastro
 {
-	namespace astrobodies 
+	namespace astrobodies
 	{
 		class Celestial_Object : public Astro_Body
 		{
+
 			protected:
+
 				std::vector<double> positn;
 
 				double mu;
@@ -27,8 +29,8 @@ namespace smartastro
 				Celestial_Object(std::string givenName, std::vector<double> &Givenpositn,  double givenMu);
 
 				Celestial_Object(int givenId,  std::vector<double> &Givenpositn,  double givenMu);
-				
-				~Celestial_Object();
+
+				virtual ~Celestial_Object() = default;
 
 				/**
 				* @brief Map array of planetocentric longitude/latitude coordinate pairs 

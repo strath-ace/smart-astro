@@ -40,7 +40,6 @@ Astro_Body::Astro_Body(int givenId)
 Astro_Body::~Astro_Body()
 {
   delete &name;
-  delete &id;
 }
 
 smartastro::ephemerides::base_ephemeris * Astro_Body::getEphemerides(const int ephemeridesType, const smartastro::ephemerides::base_ephemeris::ephemerisParams &pParams)

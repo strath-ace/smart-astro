@@ -29,11 +29,12 @@ namespace smartastro
 				smartastro::ephemerides::spiceEphemeris *spiceEphemeris = NULL;
 
 			public:
+
 				Astro_Body(std::string givenName);
 
 				Astro_Body(int givenId);
 
-				~Astro_Body();
+				virtual ~Astro_Body() = default;
 
 				smartastro::ephemerides::base_ephemeris * getEphemerides(const int ephemeridesType, const smartastro::ephemerides::base_ephemeris::ephemerisParams &pParams);		
 		};
