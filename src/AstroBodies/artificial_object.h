@@ -41,7 +41,7 @@ namespace smartastro
 				*
 				*/
 
-				void gfrfov(std::string &inst,  std::vector<double> &raydir, std::string &rframe, std::string &abcorr, double &step, SpiceCell &cnfine, SpiceCell &result);
+				void gfrfov(const std::string &inst, const std::vector<double> &raydir, const std::string &rframe, const std::string &abcorr, const double &step, SpiceCell  &cnfine,  SpiceCell &result);
 
 				/**
 				* @brief Determine time intervals when a specified ephemeris object 
@@ -60,7 +60,7 @@ namespace smartastro
 				*
 				*/
 
-				void gftfov(std::string &inst, std::string &target, std::string &tshape, std::string &tframe, std::string &abcorr, double &step, SpiceCell &cnfine, SpiceCell &result);
+				void gftfov(const std::string &inst, const std::string &target, const std::string &tshape, const std::string &tframe, const std::string &abcorr, const double &step,  SpiceCell &cnfine,  SpiceCell &result);
 
 				/**
 				* @brief Determine time intervals when a specified ephemeris object 
@@ -77,7 +77,7 @@ namespace smartastro
 				*
 				*/
 
-				void fovray(std::string &inst,  std::vector<double> &raydir, std::string &rframe, std::string &abcorr, double &et,  int &visibl);
+				void fovray(const std::string &inst, const std::vector<double> &raydir, const std::string &rframe, const std::string &abcorr, double &et, int &visible);
 
 				/**
 				* @brief Determine if a specified ephemeris object is within the
@@ -94,7 +94,7 @@ namespace smartastro
 				*
 				*/
 
-				void fovtrg( std::string &inst, std::string &target, std::string &tshape, std::string &tframe, std::string &abcorr, double &et, int &visibl);
+				void fovtrg(const std::string &inst, const std::string &target, const std::string &tshape, const std::string &tframe, const std::string &abcorr, double &et, int &visible);
 
 				/**
 				* @brief Return the field-of-view (FOV) parameters for a specified 
@@ -113,7 +113,7 @@ namespace smartastro
 				*
 				*/
 
-				/*void getfov(int &instid, int &room, int &shapelen, int &framelen, const std::string &shape, const std::string &frame,  std::vector<double> &bsight,  std::vector<int> &n,  std::vector<std::vector<double>> &bounds);
+				void getfov(const int &instid, const int &room, const int &shapelen, const int &framelen, std::string &shape, std::string &frame,  std::vector<double> &bsight, int &n, std::vector<double> &bounds);
 
 				/**
 				* @brief Determine time intervals when a specified target body or ray
@@ -128,21 +128,15 @@ namespace smartastro
 				* @param[in] tframe Body-fixed, body-centered frame for target body.
 				* @param[in] abcorr Aberration correction flag.
 				* @param[in] tol Convergence tolerance in seconds. 
-				* @param[in] udstep Name of the routine returns a time step.
-				* @param[in] udrefn Name of the routine that computes a refined time.
 				* @param[in] rpt Progress report flag.
-				* @param[in] udrepi Function that initializes progress reporting.
-				* @param[in] udrepu Function that updates the progress report. 
-				* @param[in] udrepf Function that finalizes progress reporting.
 				* @param[in] bail Logical indicating program interrupt monitoring.
-				* @param[in] udbail Name of a routine that signals a program interrupt. 
 				* @param[in/out] cnfine SPICE window to which the search is restricted.
 				* @param[out] result SPICE window containing results.  
-				* @return int
+				* @return void
 				*
 				*/
 
-				/*int gffove_(std::string &inst, std::string &tshape,  std::vector<double> &raydir,  std::string &target, std::string &tframe, std::string &abcorr,   std::vector<double> &tol, int udstep, int udrefn, std::vector<int> &rpt, int udrepi, int udrepu, int udrepf, std::vector<int> &bail, L_fp udbail, std::vector<double> &cnfine,  std::vector<double> &result, int inst_len, int tshape_len, int target_len, int tframe_len, int abcorr_len, int obsrvr_len);*/
+				void gffove(const std::string &inst, const std::string &tshape, const std::vector<double> &raydir, const std::string &target, const std::string &tframe, const std::string &abcorr, const double &tol, const int &rpt, const int &bail, std::vector<double> &cnfine, std::vector<double> &result);
 		};
 	}
 }

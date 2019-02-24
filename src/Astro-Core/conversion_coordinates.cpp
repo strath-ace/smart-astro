@@ -1331,181 +1331,257 @@ bool conversion_coordinates::euler_axis_angle(const std::vector<double> &v, cons
 --------- e-mail: scott.james.hurley.97@gmail.com -------------------------------------
 */
 
-double** conversion_coordinates::twodVectorToArray(std::vector<std::vector<double>> &vals, int &N, int &M)
-{
-   double** temp;
-
-   for(unsigned i=0; (i < N); i++)
-   { 
-      temp[i] = new double[N];
-      for(unsigned j=0; (j < M); j++)
-      {
-          temp[j] = new double[M];
-          temp[i][j] = vals[i][j];
-      } 
-   }
- }
-
-void conversion_coordinates::radrec(double &range, double &ra, double &dec, std::vector<double> &rectan)
+void conversion_coordinates::radrec(const double &range, const double &ra, const double &dec, std::vector<double> &rectan)
 {  
   return radrec_c(range, ra, dec, &rectan[0]);
 }
 
-void conversion_coordinates::recrad(std::vector<double> &rectan, double &range, double &ra, double &dec)
+void conversion_coordinates::recrad(const std::vector<double> &rectan, double &range, double &ra, double &dec)
 {
-        return recrad_c(&rectan[0], &range, &ra, &dec);
+  return recrad_c(&rectan[0], &range, &ra, &dec);
 }
 
-void conversion_coordinates::cylrec(double &r, double &lon, double &z, std::vector<double> &rectan)
+void conversion_coordinates::cylrec(const double &r, const double &lon, const double &z, std::vector<double> &rectan)
 { 
-        return cylrec_c(r, lon, z, &rectan[0]);
+  return cylrec_c(r, lon, z, &rectan[0]);
 }
 
-void conversion_coordinates::reccyl(std::vector<double> &rectan,  double &r,  double &lon,  double &z)
+void conversion_coordinates::reccyl(const std::vector<double> &rectan,  double &r,  double &lon,  double &z)
 { 
-        return reccyl_c(&rectan[0], &r, &lon, &z);
+  return reccyl_c(&rectan[0], &r, &lon, &z);
 }
 
-void conversion_coordinates::sphrec(double &r, double &colat, double &lon,  std::vector<double> &rectan)
+void conversion_coordinates::sphrec(const double &r, const double &colat, const double &lon, std::vector<double> &rectan)
 { 
   return sphrec_c(r, colat, lon, &rectan[0]);
 }
 
-void conversion_coordinates::recsph( std::vector<double> &rectan, double &r,  double &colat,  double &lon)
+void conversion_coordinates::recsph(const std::vector<double> &rectan, double &r, double &colat, double &lon)
 { 
-        return recsph_c(&rectan[0], &r, &colat, &lon);
+  return recsph_c(&rectan[0], &r, &colat, &lon);
 }
 
-void conversion_coordinates::sphcyl(double &radius, double &colat, double &slon, double &r,  double lon, double &z)
+void conversion_coordinates::sphcyl(const double &radius, const double &colat, const double &slon, double &r, double lon, double &z)
 {
   return sphcyl_c(radius, colat, slon, &r, &lon, &z);
 }
 
-void conversion_coordinates::cylsph(double &r, double &lonc, double &z, double &radius, double &colat, double &lon)
+void conversion_coordinates::cylsph(const double &r, const double &lonc, const double &z, double &radius, double &colat, double &lon)
 { 
-        return cylsph_c(r, lonc, z, &radius, &colat, &lon);
+  return cylsph_c(r, lonc, z, &radius, &colat, &lon);
 }
 
-void conversion_coordinates::sphlat(double &r, double &colat, double &lons, double &radius, double &lon, double &lat)
+void conversion_coordinates::sphlat(const double &r, const double &colat, const double &lons, double &radius, double &lon, double &lat)
 { 
-        return sphlat_c(r, colat, lons, &radius, &lon, &lat);
+  return sphlat_c(r, colat, lons, &radius, &lon, &lat);
 }
 
-void conversion_coordinates::latsph(double &radius, double &lon, double &lat, double &rho, double &colat, double &lons)
+void conversion_coordinates::latsph(const double &radius, const double &lon, const double &lat, double &rho, double &colat, double &lons)
 {
   return latsph_c(radius, lon, lat, &rho, &colat,  &lons);
 }
 
-void conversion_coordinates::latcyl(double &radius, double &lon, double &lat, double &r, double &lonc, double &z)
+void conversion_coordinates::latcyl(const double &radius, const double &lon, const double &lat, double &r, double &lonc, double &z)
 { 
-        return latcyl_c(radius, lon, lat, &r, &lonc, &z);
+  return latcyl_c(radius, lon, lat, &r, &lonc, &z);
 }
 
-void conversion_coordinates::cyllat(double &r,double &lonc, double &z, double &radius, double &lon, double &lat)
+void conversion_coordinates::cyllat(const double &r, const double &lonc, const double &z, double &radius, double &lon, double &lat)
 {
   return cyllat_c(r, lonc, z, &radius, &lon, &lat);
 }
 
-void conversion_coordinates::reclat(std::vector<double> &rectan, double &radius, double &longitude, double &latitude)
+void conversion_coordinates::reclat(const std::vector<double> &rectan, double &radius, double &longitude, double &latitude)
 {
   return reclat_c(&rectan[0], &radius, &longitude, &latitude);
 }
 
-void conversion_coordinates::latrec(double &radius, double &longitude, double &latitude, std::vector<double> &rectan)
+void conversion_coordinates::latrec(const double &radius, const double &longitude, const double &latitude, std::vector<double> &rectan)
 { 
- 	return latrec_c(radius, longitude, latitude, &rectan[0]);
+  return latrec_c(radius, longitude, latitude, &rectan[0]);
 }
 
-void conversion_coordinates::recgeo(std::vector<double> &rectan, double &re, double &f, double &lon, double &lat, double &alt)
+void conversion_coordinates::recgeo(const std::vector<double> &rectan, const double &re, const double &f, double &lon, double &lat, double &alt)
 { 
   return recgeo_c(&rectan[0], re, f, &lon, &lat, &alt);
 }
 
-void conversion_coordinates::georec(double &lon, double &lat, double &alt, double &re, double &f, std::vector<double> &rectan)
+void conversion_coordinates::georec(const double &lon, const double &lat, const double &alt, const double &re, const double &f, std::vector<double> &rectan)
 { 
   return georec_c(lon, lat, alt, re, f, &rectan[0]);
 }
 
-void conversion_coordinates::recpgr(std::string &body,  std::vector<double> &rectan, double &re, double &f, double &lon, double &lat, double &alt)
+void conversion_coordinates::recpgr(const std::string &body, std::vector<double> &rectan, const double &re, const double &f, double &lon, double &lat, double &alt)
 {
-  body.push_back('\0');
-  
-  return recpgr_c(&body.at(0), &rectan[0], re, f, &lon, &lat, &alt);
-
-  body.pop_back();
+  return recpgr_c(body.c_str(), &rectan[0], re, f, &lon, &lat, &alt);
 }
 
-void conversion_coordinates::pgrrec(std::string &body, double &lon, double &lat, double &alt, double &re, double &f,  std::vector<double> &rectan)
+void conversion_coordinates::pgrrec(const std::string &body, const double &lon, const double &lat, const double &alt, const double &re, const double &f, std::vector<double> &rectan)
 {
-  body.push_back('\0');
-  
-  return pgrrec_c(&body.at(0), lon, lat, alt, re, f, &rectan[0]);
-
-  body.pop_back();
+  return pgrrec_c(body.c_str(), lon, lat, alt, re, f, &rectan[0]);
 }
 
-void conversion_coordinates::xfmsta(const std::vector<double> &input_state, std::string &input_coord_sys, std::string &output_coord_sys, std::string &body,  std::vector<double> &output_state)
+void conversion_coordinates::xfmsta(const std::vector<double> &input_state, const std::string &input_coord_sys, const std::string &output_coord_sys, const std::string &body, std::vector<double> &output_state)
 {
-  input_coord_sys.push_back('\0');
-  output_coord_sys.push_back('\0');
-  body.push_back('\0');
-  
-  return xfmsta_c(&input_state.at(0), &input_coord_sys.at(0), &output_coord_sys.at(0), &body.at(0), &output_state[0]);
-
-  input_coord_sys.pop_back();
-  output_coord_sys.pop_back();
-  body.pop_back();
+  return xfmsta_c(&input_state[0], input_coord_sys.c_str(), output_coord_sys.c_str(), body.c_str(), &output_state[0]);
 }
 
-/*void conversion_coordinates::drdlat(double &r, double &lon, double &lat, double (*)[3] jacobi)
+void conversion_coordinates::drdlat(const double &r, const double &lon, const double &lat, std::vector<double> &jacobi)
 {
-  int rowSize = jacobi.size();
-  int columnSize = jacobi[0].size();
-  double** jacobiA = twodVectorToArray(jacobi, rowSize, columnSize);
-  return drdlat_c(r, lon, lat, jacobi);
+  if(jacobi.size() == 9){
+    int noOfRows = jacobi.size() / 3;
+    double jacobiA[noOfRows][3];
+    
+    smartastro::astrocore::spice_general_functions::doubleVectorTo2dArray3(jacobi, jacobiA);
+    
+    drdlat_c(r, lon, lat, jacobiA);
+
+    smartastro::astrocore::spice_general_functions::double2dArray3ToVector(jacobiA, jacobi);
+  } else {
+    smartastro_throw("jacobi vector is not the correct size for the array.");
+  }
 }
 
-void conversion_coordinates::dlatdr(double &x, double &y, double &z, double **jacobi)
+void conversion_coordinates::dlatdr(const double &x, const double &y, const double &z, std::vector<double> &jacobi)
 {
-  return dlatdr_c(x, y, z, **jacobi);
+  if(jacobi.size() == 9){
+    int noOfRows = jacobi.size() / 3;
+    double jacobiA[noOfRows][3];
+
+    smartastro::astrocore::spice_general_functions::doubleVectorTo2dArray3(jacobi, jacobiA);
+
+    dlatdr_c(x, y, z, jacobiA);
+
+    smartastro::astrocore::spice_general_functions::double2dArray3ToVector(jacobiA, jacobi);
+  } else {
+    smartastro_throw("jacobi vector is not the correct size for the array.");
+  }
 }
 
-void conversion_coordinates::drdpgr(const std::string &body, double &lon, double &lat, double &alt, double &re, double &f, double **jacobi)
+void conversion_coordinates::drdpgr(const std::string &body, const double &lon, const double &lat, const double &alt, const double &re, const double &f, std::vector<double> &jacobi)
 {
-  return drdpgr_c(&body.at(0), lon, lat, alt, re, f, **jacobi);
+  if(jacobi.size() == 9){
+    int noOfRows = jacobi.size() / 3;
+    double jacobiA[noOfRows][3];
+
+    smartastro::astrocore::spice_general_functions::doubleVectorTo2dArray3(jacobi, jacobiA);
+
+    drdpgr_c(body.c_str(), lon, lat, alt, re, f, jacobiA);
+
+    smartastro::astrocore::spice_general_functions::double2dArray3ToVector(jacobiA, jacobi);
+  } else {
+    smartastro_throw("jacobi vector is not the correct size for the array.");
+  }
 }
 
-void conversion_coordinates::dpgrdr(const std::string &body, double &x, double &y, double &z, double &re, double &f, double **jacobi)
+void conversion_coordinates::dpgrdr(const std::string &body, const double &x, const double &y, const double &z, const double &re, const double &f, std::vector<double> &jacobi)
 {
-  return dpgrdr_c(&body.at(0), x, y, z, re, f, **jacobi);
+  if(jacobi.size() == 9){
+    int noOfRows = jacobi.size() / 3;
+    double jacobiA[noOfRows][3];
+
+    smartastro::astrocore::spice_general_functions::doubleVectorTo2dArray3(jacobi, jacobiA);
+    
+    dpgrdr_c(&body.at(0), x, y, z, re, f, jacobiA);
+
+    smartastro::astrocore::spice_general_functions::double2dArray3ToVector(jacobiA, jacobi);
+  } else {
+    smartastro_throw("jacobi vector is not the correct size for the array.");
+  }
 }
 
-void conversion_coordinates::drdgeo(double &lon, double &lat, double &alt, double &re, double &f, double **jacobi)
+void conversion_coordinates::drdgeo(const double &lon, const double &lat, const double &alt, const double &re, const double &f, std::vector<double> &jacobi)
 {
-  return drdgeo_c(lon, lat, alt, re, f, **jacobi);
+   if(jacobi.size() == 9){
+    int noOfRows = jacobi.size() / 3;
+    double jacobiA[noOfRows][3];
+
+    smartastro::astrocore::spice_general_functions::doubleVectorTo2dArray3(jacobi, jacobiA);
+    
+    drdgeo_c(lon, lat, alt, re, f, jacobiA);
+
+    smartastro::astrocore::spice_general_functions::double2dArray3ToVector(jacobiA, jacobi);
+  } else {
+    smartastro_throw("jacobi vector is not the correct size for the array.");
+  }
 }
 
-void conversion_coordinates::dgeodr(double &x, double &y, double &z, double &re, double &f, double **jacobi)
+void conversion_coordinates::dgeodr(const double &x, const double &y, const double &z, const double &re, const double &f, std::vector<double> &jacobi)
 {
-  return dgeodr_c(x, y, z, re, f, **jacobi);
+  if(jacobi.size() == 9){
+    int noOfRows = jacobi.size() / 3;
+    double jacobiA[noOfRows][3];
+
+    smartastro::astrocore::spice_general_functions::doubleVectorTo2dArray3(jacobi, jacobiA);
+
+    dgeodr_c(x, y, z, re, f, jacobiA);
+
+    smartastro::astrocore::spice_general_functions::double2dArray3ToVector(jacobiA, jacobi);
+  } else {
+    smartastro_throw("jacobi vector is not the correct size for the array.");
+  }
 }
 
-void conversion_coordinates::drdcyl(double &r__, double &lon, double &z, double **jacobi)
+void conversion_coordinates::drdcyl(const double &r, const double &lon, const double &z, std::vector<double> &jacobi)
 {
-  return drdcyl_c(r, lon, z, **jacobi);
+  if(jacobi.size() == 9){
+    int noOfRows = jacobi.size() / 3;
+    double jacobiA[noOfRows][3];
+
+    smartastro::astrocore::spice_general_functions::doubleVectorTo2dArray3(jacobi, jacobiA);
+    
+    drdcyl_c(r, lon, z, jacobiA);
+
+    smartastro::astrocore::spice_general_functions::double2dArray3ToVector(jacobiA, jacobi);
+  } else {
+    smartastro_throw("jacobi vector is not the correct size for the array.");
+  }
 }
 
-void conversion_coordinates::dcyldr(double &x, double &y, double &z, double **jacobi)
+void conversion_coordinates::dcyldr(const double &x, const double &y, const double &z, std::vector<double> &jacobi)
 {
-  return dcyldr_c(x, y, z, **jacobi);
+  if(jacobi.size() == 9){
+    int noOfRows = jacobi.size() / 3;
+    double jacobiA[noOfRows][3];
+
+    smartastro::astrocore::spice_general_functions::doubleVectorTo2dArray3(jacobi, jacobiA);
+    
+    dcyldr_c(x, y, z, jacobiA);
+
+    smartastro::astrocore::spice_general_functions::double2dArray3ToVector(jacobiA, jacobi);
+  } else {
+    smartastro_throw("jacobi vector is not the correct size for the array.");
+  }
 }
 
-void conversion_coordinates::drdsph(double &r, double &colat, double &lon,  std::vector<std::vector<double>> &jacobi)
+void conversion_coordinates::drdsph(const double &r, const double &colat, const double &lon, std::vector<double> &jacobi)
 {
-  return drdsph_c(r, colat, lon, &jacobi[0][0]);
+  if(jacobi.size() == 9){
+    int noOfRows = jacobi.size() / 3;
+    double jacobiA[noOfRows][3];
+
+    smartastro::astrocore::spice_general_functions::doubleVectorTo2dArray3(jacobi, jacobiA);
+    
+    drdsph_c(r, colat, lon, jacobiA);
+
+    smartastro::astrocore::spice_general_functions::double2dArray3ToVector(jacobiA, jacobi);
+  } else {
+    smartastro_throw("jacobi vector is not the correct size for the array.");
+  }
 }
 
-void conversion_coordinates::dsphdr(double &x, double &y, double &z, **jacobi)
+void conversion_coordinates::dsphdr(const double &x, const double &y, const double &z, std::vector<double> &jacobi)
 {
-  return dsphdr_(x, y, z, **jacobi);
-}*/
+  if(jacobi.size() == 9){
+    int noOfRows = jacobi.size() / 3;
+    double jacobiA[noOfRows][3];
+
+    smartastro::astrocore::spice_general_functions::doubleVectorTo2dArray3(jacobi, jacobiA);
+    
+    dsphdr_c(x, y, z, jacobiA);
+
+    smartastro::astrocore::spice_general_functions::double2dArray3ToVector(jacobiA, jacobi);
+  } else {
+    smartastro_throw("jacobi vector is not the correct size for the array.");
+  }
+}

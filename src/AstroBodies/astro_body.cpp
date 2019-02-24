@@ -18,6 +18,10 @@ Astro_Body::Astro_Body(std::string givenName)
   
   name = givenName;
   smartastro::astrocore::spice_general_functions::bodn2c(name, id, found);
+
+  if (found==0){
+    smartastro_throw("Astro body name not found in SPICE.");
+  }
 }
 
 Astro_Body::Astro_Body(int givenId)
@@ -27,10 +31,32 @@ Astro_Body::Astro_Body(int givenId)
   
   id = givenId;
   smartastro::astrocore::spice_general_functions::bodc2n(id, lenout, name, found);
+
+  if (found==0){
+    smartastro_throw("Astro body code not found in SPICE.");
+  }
 }
 				 
 Astro_Body::~Astro_Body()
 {
   delete &name;
   delete &id;
+}
+
+smartastro::ephemerides::base_ephemeris * Astro_Body::getEphemerides(const int ephemeridesType, const smartastro::ephemerides::base_ephemeris::ephemerisParams &pParams)
+{
+  switch(ephemeridesType) {
+    case 1:
+      if(integratedEphemeris == NULL){
+	*integratedEphemeris = smartastro::ephemerides::integratedEphemeris(&pParams);
+      }
+      return integratedEphemeris;
+      break;
+    case 2:
+      if(spiceEphemeris == NULL){
+       *spiceEphemeris = smartastro::ephemerides::spiceEphemeris(&pParams);
+      }
+      return spiceEphemeris;
+      break;
+  }
 }

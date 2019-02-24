@@ -18,10 +18,16 @@ namespace smartastro
 	{
 		class Celestial_Object : public Astro_Body
 		{
+			protected:
+				std::vector<double> positn;
+
+				double mu;
+
 			public:
 				Celestial_Object(std::string givenName, std::vector<double> &Givenpositn,  double givenMu);
 
 				Celestial_Object(int givenId,  std::vector<double> &Givenpositn,  double givenMu);
+				
 				~Celestial_Object();
 
 				/**
@@ -41,7 +47,7 @@ namespace smartastro
 				*
 				*/
 
-				/*void latsrf_(const std::string &method, const std::string &target, double &et, const std::string &fixref, int &npts, const std::vector<std::vector::<double>> &lonlat, std::vector<std::vector::<double>> &srfpts);
+				void latsrf(const std::string &method, const std::string &target, double &et, const std::string &fixref, const int &npts, const std::vector<double> &lonlat, std::vector<double> &srfpts);
 
 				/**
 				* @brief Map array of surface points on a specified target body to 
@@ -61,7 +67,7 @@ namespace smartastro
 				*
 				*/
 
-				/*int srfnrm_( std::string &method,  std::string &target,  std::vector<double> &et,  std::string &fixref,  std::vector<int> &npts,  std::vector<double> &srfpts,  std::vector<double> &normls, int method_len, int target_len, int fixref_len);*/
+				void srfnrm(const std::string &method, const std::string &target, double &et, const std::string &fixref, const int &npts, const std::vector<double> &srfpts, std::vector<double> &normls);
 
 				/**
 				* @brief This routine locates the point on the surface of an ellipsoid
@@ -78,7 +84,7 @@ namespace smartastro
 				*
 				*/
 
-				void nearpt(double &a, double &b, double &c, std::vector<double> &npoint, double &alt);
+				void nearpt(const double &a, const double &b, const double &c, std::vector<double> &npoint, double &alt);
 
 				/**
 				* @brief Determine the intersection of a line-of-sight vector with the 
@@ -95,7 +101,7 @@ namespace smartastro
 				*
 				*/
 
-				void surfpt(const std::vector<double> &u, double &a, double &b, double &c,  std::vector<double> &point, int &found);
+				void surfpt(const std::vector<double> &u, const double &a, const double &b, const double &c,  std::vector<double> &point, int &found);
 
 				/**
 				* @brief This routine computes the outward-pointing, unit normal vector 
@@ -110,7 +116,7 @@ namespace smartastro
 				*
 				*/
 
-				void surfnm(double &a, double &b, double &c, const std::vector<double> &point,  std::vector<double> &normal);
+				void surfnm(const double &a, const double &b, const double &c, const std::vector<double> &point,  std::vector<double> &normal);
 
 				/**
 				* @brief Find the limb of a triaxial ellipsoid, viewed from a specified 
@@ -125,13 +131,15 @@ namespace smartastro
 				*
 				*/
 
-				/*int edlimb_( std::vector<double> &a,  std::vector<double> &b,  std::vector<double> &c__,  std::vector<double> &viewpt,  std::vector<double> &limb);
+				void edlimb(const double &a, const double &b, const double &c, const std::vector<double> &viewpt,  std::vector<double> &limb);
 
 				/**
 				* @brief Find the intersection of an ellipse and a plane.
 				*
 				* @param[in] ellips A CSPICE ellipse.
 				* @param[in] plane A CSPICE plane. 
+				* @param[in] spicePlaneType Type of SpicePlane. 1 for Normal vector and constant, 
+				* 2 for Normal vector and point, 3 for Point and spanning vectors to plane.
 				* @param[out] nxpts Number of intersection points of plane and ellipse.
 				* @param[out] lxpt1 Intersection points. 
 				* @param[out] lxpt2 Intersection points. 
@@ -139,7 +147,7 @@ namespace smartastro
 				*
 				*/
 
-				/*int inelpl_( std::vector<double> &ellips,  std::vector<double> &plane,  std::vector<int> &nxpts,  std::vector<double> &xpt1,  std::vector<double> &xpt2);*/
+				void inelpl(const std::vector<double> &ellips, const std::vector<double> &plane, const int spicePlaneType, int &nxpts, std::vector<double> &xpt1, std::vector<double> &xpt2);
 
 				/**
 				* @brief Find nearest point on a triaxial ellipsoid to a specified line, 
@@ -156,7 +164,7 @@ namespace smartastro
 				*
 				*/
 
-				void npedln(double &a, double &b, double &c, const std::vector<double> &linept, const std::vector<double> &linedr, std::vector<double> &pnear, double &dist);
+				void npedln(const double &a, const double &b, const double &c, const std::vector<double> &linept, const std::vector<double> &linedr, std::vector<double> &pnear, double &dist);
 
 				/**
 				* @brief Find the intersection of a ray and a plane. 
@@ -164,13 +172,15 @@ namespace smartastro
 				* @param[in] vertex Vertex vector of ray. 
 				* @param[in] dir Direction vector of ray. 
 				* @param[in] plane A CSPICE plane.
+				* @param[in] spicePlaneType Type of SpicePlane. 1 for Normal vector and constant, 
+				* 2 for Normal vector and point, 3 for Point and spanning vectors to plane.
 				* @param[out] nxpts Number of intersection points of ray and plane.
 				* @param[out] xpt Intersection point, if nxpts = 1. 
 				* @return void
 				*
 				*/
 
-				/*int inrypl_( std::vector<double> &vertex,  std::vector<double> &dir,  std::vector<double> &plane,  std::vector<int> &nxpts,  std::vector<double> &xpt);
+				void inrypl(const std::vector<double> &vertex, const std::vector<double> &dir, const std::vector<double> &plane, const int spicePlaneType, int &nxpts, std::vector<double> &xpt);
 
 				/**
 				* @brief Project an ellipse onto a plane, orthogonally. 
@@ -182,7 +192,7 @@ namespace smartastro
 				*
 				*/
 
-				/*int pjelpl_( std::vector<double> &elin,  std::vector<double> &plane,  std::vector<double> &elout);*/
+				void pjelpl(const std::vector<double> &elin, const std::vector<double> &plane, const int spicePlaneType, std::vector<double> &elout);
 
 				/**
 				* @brief Find semi-axis vectors of an ellipse generated by two arbitrary 
@@ -236,7 +246,7 @@ namespace smartastro
 				*
 				*/
 
-				void sincpt(std::string &method, std::string &target, double &et, std::string &fixref, std::string &abcorr, std::string &dref, const std::vector<double> &dvec,  std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, int &found);
+				void sincpt(const std::string &method, const std::string &target, const double &et, const std::string &fixref, const std::string &abcorr, const std::string &dref, const std::vector<double> &dvec,  std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, int &found);
 
 				/**
 				* @brief Compute ray-surface intercepts for a set of rays, using data 
@@ -257,7 +267,7 @@ namespace smartastro
 				*
 				*/
 
-				/*int dskxv_( std::vector<int> &pri,  std::string &target,  std::vector<int> &nsurf,  std::vector<int> &srflst,  std::vector<double> &et,  std::string &fixref,  std::vector<int> &nrays,  std::vector<double> &vtxarr,  std::vector<double> &dirarr,  std::vector<double> &xptarr,  std::vector<int> &fndarr, int target_len, int fixref_len);*/
+				void dskxv(const int &pri, const std::string &target, const int &nsurf, const std::vector<int> &srflst, const double &et, const std::string &fixref, const int &nrays, std::vector<double> &vtxarr, const std::vector<double> &dirarr, std::vector<double> &xptarr, std::vector<int> &fndarr);
 
 				/**
 				* @brief Compute a ray-surface intercept using data provided by  
@@ -289,15 +299,12 @@ namespace smartastro
 				*
 				*/
 
-				/*int dskxsi_( std::vector<int> &pri,  std::string &target,  std::vector<int> &nsurf,  std::vector<int> &srflst,  std::vector<double> &et,  std::string &fixref,  std::vector<double> &vertex,  std::vector<double> &raydir,  std::vector<int> &maxd,  std::vector<int> &maxi,  std::vector<double> &xpt,  std::vector<int> &handle,  std::vector<int> &dladsc,  std::vector<double> &dskdsc,  std::vector<double> &dc,  std::vector<int> &ic,  std::vector<int> &found, int target_len, int fixref_len);*/
+				void dskxsi(const int &pri, const std::string &target, const int &nsurf, const std::vector<int> &srflst, const double &et, const std::string &fixref, const std::vector<double> &vertex, const std::vector<double> &raydir, const int &maxd, const int &maxi, std::vector<double> &xpt, int &handle, std::vector<int> &dladsc, std::vector<int> &dskdsc, std::vector<double> &dc, std::vector<int> &ic, int &found);
 
 				/**
-				* @brief Given an observer and a direction vector defining a ray, compute 
-   				* the surface intercept of the ray on a target body at a specified 
-   				* epoch, optionally corrected for light time and stellar aberration. 
- 				* The surface of the target body may be represented by a triaxial 
-  				* ellipsoid or by topographic data provided by DSK files. 
- 				* This routine supersedes srfxpt_c. 
+				* @brief Find the illumination angles (phase, solar incidence, and
+   				* emission) at a specified surface point of a target body.
+ 				* This routine supersedes illum_c.
 				*
 				* @param[in] method Computation method.
 				* @param[in] target Name of target body.
@@ -314,7 +321,7 @@ namespace smartastro
 				*
 				*/
 
-				void ilumin(std::string &method, std::string &target, double &et, std::string &fixref, std::string &abcorr, const std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn);
+				void ilumin(const std::string &method, const std::string &target, const double &et, const std::string &fixref, const std::string &abcorr, const std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn);
 
 				/**
 				* @brief Find the illumination angles (phase, incidence, and 
@@ -335,13 +342,11 @@ namespace smartastro
 				* @param[out] phase Phase angle at the surface point.  
 				* @param[out] incdnc Solar incidence angle at the surface point. 
 				* @param[out] emissn Emission angle at the surface point.
-				* @param[out] visibl Visibility flag (SPICETRUE == visible).
-				* @param[out] lit Illumination flag (SPICETRUE == illuminated).
 				* @return void
 				*
 				*/
 
-				void illumg(std::string &method, std::string &target, std::string &ilusrc, double &et, std::string &fixref, std::string &abcorr, std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn);
+				void illumg(const std::string &method, const std::string &target, const std::string &ilusrc, const double &et, const std::string &fixref, const std::string &abcorr, const std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn);
 
 				/**
 				* @brief Compute the illumination angles---phase, incidence, and
@@ -364,11 +369,13 @@ namespace smartastro
 				* @param[out] phase Phase angle at the surface point.  
 				* @param[out] incdnc Solar incidence angle at the surface point. 
 				* @param[out] emissn Emission angle at the surface point.
+				* @param[out] visibl Visibility flag (SPICETRUE == visible).
+				* @param[out] lit Illumination flag (SPICETRUE == illuminated).
 				* @return void
 				*
 				*/
 
-				void illumf(std::string &method, std::string &target, std::string &ilusrc, double &et, std::string &fixref, std::string &abcorr, std::vector<double> &spoint, double &trgepc, std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn, int &visibl, int &lit);
+				void illumf(const std::string &method, const std::string &target, const std::string &ilusrc, const double &et, const std::string &fixref, const std::string &abcorr, const std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec, double &phase, double &incdnc, double &emissn, int &visibl, int &lit);
 
 				/**
 				* @brief Find limb points on a target body. The limb is the set of points 
@@ -398,7 +405,7 @@ namespace smartastro
 				*
 				*/
 
-				/*int limbpt_( std::string &method,  std::string &target,  std::vector<double> &et,  std::string &fixref,  std::string &abcorr,  std::string &corloc,    std::vector<double> &refvec,  std::vector<double> &rolstp,  std::vector<int> &ncuts,  std::vector<double> &schstp,  std::vector<double> &soltol,  std::vector<int> &maxn,  std::vector<int> &npts,  std::vector<double> &points,  std::vector<double> &epochs,  std::vector<double> &tangts, int method_len, int target_len, int fixref_len, int abcorr_len, int corloc_len, int obsrvr_len);
+				void limbpt(const std::string &method, const std::string &target, const double &et, const std::string &fixref, const std::string &abcorr, const std::string &corloc, const std::vector<double> &refvec, const double &rolstp, const int &ncuts, const double &schstp, const double &soltol, const int &maxn, std::vector<int> &npts, std::vector<double> &points, std::vector<double> &epochs, std::vector<double> &tangts);
 
 				/**
 				* @brief Find terminator points on a target body. The caller specifies
@@ -434,7 +441,7 @@ namespace smartastro
 				*
 				*/
 
-				/*int termpt_( std::string &method,  std::string &ilusrc,  std::string &target,  std::vector<double> &et,  std::string &fixref,  std::string &abcorr,  std::string &corloc,    std::vector<double> &refvec,  std::vector<double> &rolstp,  std::vector<int> &ncuts,  std::vector<double> &schstp,  std::vector<double> &soltol,  std::vector<int> &maxn,  std::vector<int> &npts,  std::vector<double> &points,  std::vector<double> &epochs,  std::vector<double> &trmvcs, int method_len, int ilusrc_len, int target_len, int fixref_len, int abcorr_len, int corloc_len, int obsrvr_len);*/
+				void termpt(const std::string &method, const std::string &ilusrc, const std::string &target, const double &et, const std::string &fixref, const std::string &abcorr, const std::string &corloc, const std::vector<double> &refvec, const double &rolstp, const int &ncuts, const double &schstp, const double &soltol, const int &maxn,  std::vector<int> &npts, std::vector<double> &points, std::vector<double> &epochs, std::vector<double> &trmvcs);
 
 				/**
 				* @brief Determine the set of osculating conic orbital elements that
@@ -448,7 +455,7 @@ namespace smartastro
 				*
 				*/
 
-				void conics(const std::vector<double> &elts, double &et,  std::vector<double> &state);
+				void conics(const std::vector<double> &elts, const double &et, std::vector<double> &state);
 
 				/**
 				* @brief Determine the state (position, velocity) of an orbiting body
@@ -461,7 +468,7 @@ namespace smartastro
 				*
 				*/
 
-				void oscelt(const std::vector<double> &state, double &et, std::vector<double> &elts);
+				void oscelt(const std::vector<double> &state, const double &et, std::vector<double> &elts);
 
 				/**
 				* @brief Determines the occultation condition (not occulted, partially,
@@ -483,7 +490,7 @@ namespace smartastro
 				*
 				*/
 
-				void occult(std::string &targ1, std::string &shape1, std::string &frame1, std::string &targ2, std::string &shape2, std::string &frame2, std::string &abcorr, double &et, int &ocltid);
+				void occult(const std::string &targ1, const std::string &shape1, const std::string &frame1, const std::string &targ2, const std::string &shape2, const std::string &frame2, const std::string &abcorr, double &et, int &ocltid);
 
 				/**
 				* @brief Determine time intervals when an observer sees one target occulted
@@ -506,7 +513,7 @@ namespace smartastro
 				*
 				*/
 
-				/*int gfoclt_( std::string &occtyp,  std::string &front,  std::string &fshape,  std::string &fframe,  std::string &back,  std::string &bshape,  std::string &bframe,  std::string &abcorr,    std::vector<double> &step,  std::vector<double> &cnfine,  std::vector<double> &result, int occtyp_len, int front_len, int fshape_len, int fframe_len, int back_len, int bshape_len, int bframe_len, int abcorr_len, int obsrvr_len);*/
+				void gfoclt(const std::string &occtyp, const std::string &front, const std::string &fshape, const std::string &fframe, const std::string &back, const std::string &bshape, const std::string &bframe, const std::string &abcorr, const double &step, std::vector<double> &cnfine, std::vector<double> &result);
 
 				/**
 				* @brief Translate a surface ID code, together with a body string, to the 
@@ -521,7 +528,7 @@ namespace smartastro
 				*
 				*/
 
-				void srfcss(int &code, int srflen, std::string &srfstr, int &isname);
+				void srfcss(const int &code, const int srflen, std::string &srfstr, int &isname);
 
 				/**
 				* @brief Translate a surface string, together with a body string, to the 
@@ -534,7 +541,7 @@ namespace smartastro
 				*
 				*/
 
-				void srfs2c(std::string &srfstr, int &code, int &found);
+				void srfs2c(const std::string &srfstr, int &code, int &found);
 
 				/**
 				* @brief Translate a surface ID code, together with a body ID code, to the 
@@ -549,7 +556,7 @@ namespace smartastro
 				*
 				*/
 
-				void srfc2s(int &code, int srflen, std::string &srfstr, int &isname);
+				void srfc2s(const int &code, const int srflen, std::string &srfstr, int &isname);
 
 				/**
 				* @brief Translate a surface string, together with a body ID code, to the 
@@ -562,7 +569,7 @@ namespace smartastro
 				*
 				*/
 
-				void srfscc(std::string &srfstr, int &code, int &found);
+				void srfscc(const std::string &srfstr, int &code, int &found);
 
 				/**
 				* @brief Convert planetocentric latitude and longitude of a surface 
@@ -574,12 +581,7 @@ namespace smartastro
 				*
 				*/
 
-				void srfrec(double &longitude, double &latitude,  std::vector<double> &rectan);
-
-			protected:
-				std::vector<double> positn;
-
-				double mu;
+				void srfrec(const double &longitude, const double &latitude,  std::vector<double> &rectan);
 		};
 	}
 }

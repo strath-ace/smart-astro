@@ -13,6 +13,7 @@
 #include "../exception.h"
 #include "../constants.h"
 #include "conversion_time.h"
+#include "spice_general_functions.h"
 
 
 namespace smartastro{
@@ -640,7 +641,6 @@ namespace smartastro{
 --------- SPICE functions implemented by: Scott Hurley (GitHub: Scott_James_Hurley)----
 --------- e-mail: scott.james.hurley.97@gmail.com -------------------------------------
 */
-	    static double** twodVectorToArray(std::vector<std::vector<double>> &vals, int &N, int &M);
 
 	    	/**
 	    	* @brief Convert from range, right ascension, and declination to rectangular
@@ -654,7 +654,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void radrec(double &range, double &ra, double &dec, std::vector<double> &rectan);
+	    static void radrec(const double &range, const double &ra, const double &dec, std::vector<double> &rectan);
 
 		/**
 	    	* @brief Convert from range, right ascension, and declination to rectangular
@@ -668,7 +668,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void recrad(std::vector<double> &rectan, double &range, double &ra, double &dec);
+	    static void recrad(const std::vector<double> &rectan, double &range, double &ra, double &dec);
 
 		/**
 	    	* @brief Convert from cylindrical to rectangular coordinates.
@@ -681,7 +681,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void cylrec(double &r, double &lon, double &z, std::vector<double> &rectan);
+	    static void cylrec(const double &r, const double &lon, const double &z, std::vector<double> &rectan);
 
 		/**
 	    	* @brief Convert from rectangular to cylindrical coordinates.
@@ -694,7 +694,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void reccyl(std::vector<double> &rectan, double &r,  double &lon, double &z);
+	    static void reccyl(const std::vector<double> &rectan,  double &r,  double &lon,  double &z);
 
 		/**
 	    	* @brief Convert from spherical coordinates to rectangular coordinates.
@@ -707,7 +707,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void sphrec(double &r, double &colat, double &lon,  std::vector<double> &rectan);
+	    static void sphrec(const double &r, const double &colat, const double &lon, std::vector<double> &rectan);
 
 		/**
 	    	* @brief Convert from rectangular coordinates to spherical coordinates.
@@ -720,7 +720,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void recsph(std::vector<double> &rectan, double &r, double &colat, double &lon);
+	    static void recsph(const std::vector<double> &rectan, double &r, double &colat, double &lon);
 
 		/**
 	    	* @brief This routine converts from spherical coordinates to cylindrical 
@@ -736,7 +736,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void sphcyl(double &radius, double &colat, double &slon, double &r,  double lon, double &z);
+	    static void sphcyl(const double &radius, const double &colat, const double &slon, double &r, double lon, double &z);
 
 		/**
 	    	* @brief Convert from cylindrical to spherical coordinates.
@@ -751,7 +751,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void cylsph(double &r, double &lonc, double &z, double &radius, double &colat, double &lon);
+	    static void cylsph(const double &r, const double &lonc, const double &z, double &radius, double &colat, double &lon);
 
 		/**
 	    	* @brief Convert from spherical coordinates to latitudinal coordinates.
@@ -766,7 +766,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void sphlat(double &r, double &colat, double &lons, double &radius, double &lon, double &lat);
+	    static void sphlat(const double &r, const double &colat, const double &lons, double &radius, double &lon, double &lat);
 
 		/**
 	    	* @brief Convert from latitudinal coordinates to spherical coordinates.
@@ -781,7 +781,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void latsph(double &radius, double &lon, double &lat, double &rho, double &colat, double &lons);
+	    static void latsph(const double &radius, const double &lon, const double &lat, double &rho, double &colat, double &lons);
 
 		/**
 	    	* @brief Convert from latitudinal coordinates to cylindrical coordinates.
@@ -796,7 +796,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void latcyl(double &radius, double &lon, double &lat, double &r, double &lonc, double &z);
+	    static void latcyl(const double &radius, const double &lon, const double &lat, double &r, double &lonc, double &z);
 
 		/**
 	    	* @brief Convert from cylindrical to latitudinal coordinates. 
@@ -811,7 +811,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void cyllat(double &r, double &lonc, double &z, double &radius, double &lon, double &lat);
+	    static void cyllat(const double &r, const double &lonc, const double &z, double &radius, double &lon, double &lat);
 
 		/**
 	    	* @brief Convert from rectangular coordinates to latitudinal coordinates.
@@ -824,7 +824,7 @@ namespace smartastro{
 	    	*
 	    	*/
 	
-	    static void reclat(std::vector<double> &rectan, double &radius, double &longitude, double &latitiude);
+	    static void reclat(const std::vector<double> &rectan, double &radius, double &longitude, double &latitude);
 
 		/**
 	    	* @brief Convert from latitudinal coordinates to rectangular coordinates.
@@ -837,7 +837,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void latrec(double &radius, double &longitude, double &latitiude, std::vector<double> &rectan);
+	    static void latrec(const double &radius, const double &longitude, const double &latitude, std::vector<double> &rectan);
 
 		/**
 	    	* @brief Convert from rectangular coordinates to geodetic coordinates. 
@@ -852,7 +852,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void recgeo(std::vector<double> &rectan, double &re, double &f, double &lon, double &lat, double &alt);
+	    static void recgeo(const std::vector<double> &rectan, const double &re, const double &f, double &lon, double &lat, double &alt);
 
 		/**
 	    	* @brief Convert geodetic coordinates to rectangular coordinates.
@@ -867,7 +867,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void georec(double &lon, double &lat, double &alt, double &re, double &f, std::vector<double> &rectan);
+	    static void georec(const double &lon, const double &lat, const double &alt, const double &re, const double &f, std::vector<double> &rectan);
 
 		/**
 	    	* @brief Convert rectangular coordinates to planetographic coordinates.
@@ -883,7 +883,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void recpgr(std::string &body,  std::vector<double> &rectan, double &re, double &f, double &lon, double &lat, double &alt);
+	    static void recpgr(const std::string &body, std::vector<double> &rectan, const double &re, const double &f, double &lon, double &lat, double &alt);
 
 		/**
 	    	* @brief Convert planetographic coordinates to rectangular coordinates. 
@@ -899,7 +899,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void pgrrec(std::string &body, double &lon, double &lat, double &alt, double &re, double &f,  std::vector<double> &rectan);
+	    static void pgrrec(const std::string &body, const double &lon, const double &lat, const double &alt, const double &re, const double &f, std::vector<double> &rectan);
 
 		/**
 	    	* @brief Transform a state between coordinate systems. 
@@ -913,7 +913,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-	    static void xfmsta(const std::vector<double> &input_state, std::string &input_coord_sys, std::string &output_coord_sys, std::string &body,  std::vector<double> &output_state);
+	    static void xfmsta(const std::vector<double> &input_state, const std::string &input_coord_sys, const std::string &output_coord_sys, const std::string &body,  std::vector<double> &output_state);
 
 		/**
 	    	* @brief Compute the Jacobian of the transformation from latitudinal to 
@@ -927,7 +927,7 @@ namespace smartastro{
 	    	*
 	    	*/
 	
-/*	    static void drdlat(double &r, double &lon, double &lat, double (*)[3] jacobi);*/
+	    static void drdlat(const double &r, const double &lon, const double &lat, std::vector<double> &jacobi);
 
 		/**
 	    	* @brief This routine computes the Jacobian of the transformation from 
@@ -941,7 +941,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-/*	    static void dlatdr(double &x, double &y, double &z, double **jacobi);*/
+	    static void dlatdr(const double &x, const double &y, const double &z, std::vector<double> &jacobi);
 
 		/**
 	    	* @brief This routine computes the Jacobian matrix of the transformation 
@@ -958,7 +958,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-/*	    static void drdpgr(const std::string &body, double &lon, double &lat, double &alt, double &re, double &f, &jacobi[][]);*/
+	    static void drdpgr(const std::string &body, const double &lon, const double &lat, const double &alt, const double &re, const double &f, std::vector<double> &jacobi);
 
 		/**
 	    	* @brief This routine computes the Jacobian matrix of the transformation 
@@ -975,7 +975,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-/*	    static void dpgrdr_(const std::string &body, double &x, double &y, double &z, double &re, double &f, double **jacobi);*/
+	    static void dpgrdr(const std::string &body, const double &x, const double &y, const double &z, const double &re, const double &f, std::vector<double> &jacobi);
 
 		/**
 	    	* @brief This routine computes the Jacobian of the transformation from 
@@ -991,7 +991,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-/*	    static void drdgeo(double &lon, double &lat, double &alt, double &re, double &f, double **jacobi);*/
+	    static void drdgeo(const double &lon, const double &lat, const double &alt, const double &re, const double &f, std::vector<double> &jacobi);
 
 		/**
 	    	* @brief This routine computes the Jacobian of the transformation from 
@@ -1007,7 +1007,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-/*	    static void dgeodr(double &x, double &y, double &z, double &re, double &f, double **jacobi);*/
+	    static void dgeodr(const double &x, const double &y, const double &z, const double &re, const double &f, std::vector<double> &jacobi);
 
 		/**
 	    	* @brief This routine computes the Jacobian of the transformation from 
@@ -1021,7 +1021,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-/*	    static void drdcyl(double &r__, double &lon, double &z, double **jacobi);*/
+	    static void drdcyl(const double &r__, const double &lon, const double &z, std::vector<double> &jacobi);
 
 		/**
 	    	* @brief This routine computes the Jacobian of the transformation from 
@@ -1035,7 +1035,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-/*	    static void dcyldr(double &x, double &y, double &z, double **jacobi);*/
+	    static void dcyldr(const double &x, const double &y, const double &z, std::vector<double> &jacobi);
 		
 		/**
 	    	* @brief This routine computes the Jacobian of the transformation from 
@@ -1049,7 +1049,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-/*	    static void drdsph(double &r, double &colat, double &lon,  double ** &jacobi);*/
+	    static void drdsph(const double &r, const double &colat, const double &lon, std::vector<double> &jacobi);
 
 		/**
 	    	* @brief This routine computes the Jacobian of the transformation from 
@@ -1063,7 +1063,7 @@ namespace smartastro{
 	    	*
 	    	*/
 
-/*	    static void dsphdr(double &x, double &y, double &z, double **jacobi);*/
+	    static void dsphdr(const double &x, const double &y, const double &z, std::vector<double> &jacobi);
 		};
 
     }

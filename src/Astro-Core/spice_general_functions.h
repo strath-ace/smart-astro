@@ -13,6 +13,7 @@
 #include <vector>
 #include <string>
 #include <cspice/SpiceUsr.h>
+#include "../exception.h"
 
 namespace smartastro
 {
@@ -21,7 +22,142 @@ namespace smartastro
 
 		class spice_general_functions
 		{
-			public:
+			public:	
+
+				/**
+				* @brief Convert a one-dimensional vector to a SpiceDSKDescr
+				*
+				* @param[in] vector 1D vector to be converted from. Format: [surfce, center, dclass, dtype, 
+				* frmcde, corsys, corpar[10], co1min, co1max, co2min, co2max, co3min, co3max, start, stop].
+				* @param[out] descr SpiceDSKDescr to be converted to. 
+				*
+				*/
+
+				static void vectorToSpiceDSKDescr(const std::vector<int> &vector, SpiceDSKDescr &descr);
+
+				
+				/**
+				* @brief Convert a SpiceDSKDescr to a one-dimensional vector 
+				*
+				* @param[in] descr SpiceDSKDescr to be converted from.
+				* @param[out] vector 1D vector to be converted to. Format: [surfce, center, dclass, dtype, 
+				* frmcde, corsys, corpar[10], co1min, co1max, co2min, co2max, co3min, co3max, start, stop].
+				*
+				*/
+
+				static void spiceDSKDescrToVector(const SpiceDSKDescr &descr, std::vector<int> &vector);
+
+				/**
+				* @brief Convert a one-dimensional vector to a SpiceDLADescr
+				*
+				* @param[in] vector 1D vector to be converted from. Format: [bwdptr, fwdptr, ibase, isize, 
+				* dbase, dsize, cbase, csize].
+				*
+				*/
+
+				static void vectorToSpiceDLADescr(const std::vector<int> &vector, SpiceDLADescr &descr);
+
+				/**
+				* @brief Convert a SpiceDLADescr to a one-dimensional vector 
+				*
+				* @param[in] descr SpiceDLADescr to be converted from.
+				* @param[out] vector 1D vector to be converted to. Format: [bwdptr, fwdptr, ibase, isize, 
+				* dbase, dsize, cbase, csize].
+				*
+				*/
+				
+				static void spiceDLADescrToVector(const SpiceDLADescr &descr, std::vector<int> &vector);
+
+				/**
+				* @brief Convert a one-dimensional vector with a normal vector and constant to a SpicePlane 
+				*
+				* @param[in] vector 1D vector to be converted from. Format: [bwdptr, fwdptr, ibase, isize, 
+				* dbase, dsize, cbase, csize].
+				* @param[out] plane SpicePlane to be converted to.
+				*
+				*/
+
+				static void vectorToSpicePlaneNVC(const std::vector<double> &vector, SpicePlane &plane);
+
+				/**
+				* @brief Convert a one-dimensional vector with a normal vector and point to a SpicePlane 
+				*
+				* @param[in] vector 1D vector to be converted from. Format: [normal[3], constant].
+				* @param[out] plane SpicePlane to be converted to.
+				*
+				*/
+
+				static void vectorToSpicePlaneNVP(const std::vector<double> &vector, SpicePlane &plane);
+
+				/**
+				* @brief Convert a one-dimensional vector with a point and spanning vectors to a SpicePlane 
+				*
+				* @param[in] vector 1D vector to be converted from. Format: [normal[3], point[3]].
+				* @param[out] plane SpicePlane to be converted to.
+				*
+				*/
+
+				static void vectorToSpicePlanePSV(const std::vector<double> &vector, SpicePlane &plane);
+
+				/**
+				* @brief Convert a one-dimensional vector to a SpiceEllipse 
+				*
+				* @param[in] vector 1D vector to be converted from. Format: [point[3], span1[3], span2[3]].
+				* @param[out] ellispe SpiceEllipse to be converted to.
+				*
+				*/
+
+				static void vectorToSpiceEllipse(const std::vector<double> &vector, SpiceEllipse &ellipse);
+
+				/**
+				* @brief Convert a SpiceEllipse to a one-dimensional vector  
+				*
+				* @param[in] ellispe SPiceEllipse to be converted from
+				* @param[out] vector 1D vector to be converted to. Format: [center[3], v1[3], v2[3]].
+				*
+				*/
+
+				static void spiceEllipseToVector(const SpiceEllipse &ellipse, std::vector<double> &vector);
+
+				/**
+				* @brief Convert a one-dimensional vector to a two-dimensional array with a breadth of 2  
+				*
+				* @param[in] vector 1D vector to be converted from. Format: [center[3], v1[3], v2[3]].
+				* @param[out] array 2D array to be converted to.
+				*
+				*/
+
+				static void doubleVectorTo2dArray2(const std::vector<double> &vector, double (*array)[2]);
+
+				/**
+				* @brief Convert a one-dimensional vector to a two-dimensional array with a breadth of 3  
+				*
+				* @param[in] vector 1D vector to be converted from.
+				* @param[out] array 2D array to be converted to.
+				*
+				*/
+
+				static void doubleVectorTo2dArray3(const std::vector<double> &vector, double (*array)[3]);
+
+				/**
+				* @brief Convert a two-dimensional array with a breadth of 3 to a one-dimensional vector 
+				*
+				* @param[in] array 2D array to be converted from.
+				* @param[out] vector 1D vector to be converted to.
+				*
+				*/
+
+				static void double2dArray3ToVector(const double (*array)[3], std::vector<double> &vector);
+
+				/**
+				* @brief Convert a two-dimensional array with a breadth of 2 to a one-dimensional vector 
+				*
+				* @param[in] array 2D array to be converted from.
+				* @param[out] vector 1D vector to be converted to.
+				*
+				*/
+
+				static void double2dArray2ToVector(const double (*array)[2], std::vector<double> &vector);
 
 				/**
 				* @brief Translate the SPICE integer code of a body into a common name
@@ -34,7 +170,7 @@ namespace smartastro
 				*
 				*/
 
-				static void bodc2n(int &code, int &lenout, std::string &name, int &found);
+				static void bodc2n(const int &code, const int &lenout, std::string &name, int &found);
 
 				/**
 				* @brief Translate the name of a body or object to the corresponding SPICE
@@ -46,7 +182,7 @@ namespace smartastro
 				*
 				*/
 
-				static void bodn2c(std::string &name, int &code, int found);
+				static void bodn2c(const std::string &name, int &code, int found);
 
 				/**
 				* @brief Compute the rectangular coordinates of the sub-solar point on 
@@ -67,7 +203,7 @@ namespace smartastro
 				*
 				*/
 				
-				static void subslr(std::string &method, std::string &target, double &et, std::string &fixref, std::string &abcorr, std::string &obsrvr,  std::vector<double> &spoint, double &trgepc,  std::vector<double> &srfvec);
+				static void subslr(const std::string &method, const std::string &target, const double &et, const std::string &fixref, const std::string &abcorr, const std::string &obsrvr, std::vector<double> &spoint, double &trgepc, std::vector<double> &srfvec);
 
 				/**
 				* @brief Compute the rectangular coordinates of the sub-observer point on 
@@ -88,7 +224,7 @@ namespace smartastro
 				*
 				*/
 
-				static void subpnt(std::string &method, std::string &target, double &et, std::string &fixref, std::string &abcorr, std::string &obsrvr,  std::vector<double> &spoint, double &trgepc,  std::vector<double> srfvec);
+				static void subpnt(const std::string &method, const std::string &target, const double &et, const std::string &fixref, const std::string &abcorr, const std::string &obsrvr,  std::vector<double> &spoint, double &trgepc,  std::vector<double> srfvec);
 
 				/**
 				* @brief Compute L_s, the planetocentric longitude of the sun, as seen 
@@ -101,7 +237,7 @@ namespace smartastro
 				*
 				*/
 
-				static double lspcn(std::string &body, double &et, std::string &abcorr);
+				static double lspcn(const std::string &body, const double &et, const std::string &abcorr);
 
 				/**
 				* @brief Load one or more SPICE kernels into a program.
@@ -111,7 +247,7 @@ namespace smartastro
 				*
 				*/
 
-				static void furnsh(std::string &file);
+				static void furnsh(const std::string &file);
 
 				/**
 				* @brief Unload a SPICE kernel.
@@ -121,7 +257,7 @@ namespace smartastro
 				*
 				*/
 
-				static void unload(std::string &file);
+				static void unload(const std::string &file);
 		};
 	}
 }
