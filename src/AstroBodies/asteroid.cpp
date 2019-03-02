@@ -12,11 +12,18 @@
 using namespace smartastro;
 using namespace smartastro::astrobodies;
 
-Asteroid::Asteroid(std::string givenName, std::vector<double> &givenPosition, double givenMu) : Celestial_Object(givenName, givenPosition, givenMu)
+Asteroid::Asteroid(std::string givenName, std::vector<std::string> spiceEphemeridesParams, std::vector<double> &givenPosition, double givenMu) : Celestial_Object(givenName, spiceEphemeridesParams, givenPosition, givenMu)
 {
 }
 
-Asteroid::Asteroid(int givenId, std::vector<double> &givenPosition, double givenMu) : Celestial_Object(givenId, givenPosition, givenMu)
+Asteroid::Asteroid(std::string givenName, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>, std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams, std::vector<double> &givenPosition, double givenMu) : Celestial_Object(givenName, referenceFrame, integratedEphemeridesFunction, integratedEphemeridesParams, givenPosition, givenMu)
 {
 }
 
+Asteroid::Asteroid(int givenId, std::vector<std::string> spiceEphemeridesParams, std::vector<double> &givenPosition, double givenMu) : Celestial_Object(givenId, spiceEphemeridesParams, givenPosition, givenMu)
+{
+}
+
+Asteroid::Asteroid(int givenId, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>, std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams, std::vector<double> &givenPosition, double givenMu) : Celestial_Object(givenId, referenceFrame, integratedEphemeridesFunction, integratedEphemeridesParams, givenPosition, givenMu)
+{
+}

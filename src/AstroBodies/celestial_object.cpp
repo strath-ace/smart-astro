@@ -12,21 +12,28 @@
 using namespace smartastro;
 using namespace smartastro::astrobodies;
 
-Celestial_Object::Celestial_Object(std::string givenName, std::vector<double> &givenPositn, double givenMu) : Astro_Body(givenName)
+Celestial_Object::Celestial_Object(std::string givenName, std::vector<std::string> spiceEphemeridesParams, std::vector<double> &givenPositn, double givenMu) : Astro_Body(givenName, spiceEphemeridesParams)
 {
   positn = givenPositn;
   mu = givenMu;
 }
 
-Celestial_Object::Celestial_Object(int givenId,  std::vector<double> &givenPositn, double givenMu) : Astro_Body(givenId)
+Celestial_Object::Celestial_Object(std::string givenName, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>, std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams, std::vector<double> &givenPositn, double givenMu) : Astro_Body(givenName, referenceFrame, integratedEphemeridesFunction, integratedEphemeridesParams)
 {
   positn = givenPositn;
   mu = givenMu;
 }
 
-Celestial_Object::~Celestial_Object()
+Celestial_Object::Celestial_Object(int givenId, std::vector<std::string> spiceEphemeridesParams, std::vector<double> &givenPositn, double givenMu) : Astro_Body(givenId, spiceEphemeridesParams)
 {
-  delete &positn;
+  positn = givenPositn;
+  mu = givenMu;
+}
+
+Celestial_Object::Celestial_Object(int givenId, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>, std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams, std::vector<double> &givenPositn, double givenMu) : Astro_Body(givenId, referenceFrame, integratedEphemeridesFunction, integratedEphemeridesParams)
+{
+  positn = givenPositn;
+  mu = givenMu;
 }
 
 void Celestial_Object::latsrf(const std::string &method, const std::string &target, double &et, const std::string &fixref, const int &npts, const std::vector<double> &lonlat, std::vector<double> &srfpts)

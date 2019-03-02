@@ -19,9 +19,13 @@ namespace smartastro
 		class Artificial_Object : public Astro_Body
 		{
 			public:
-				Artificial_Object(std::string givenName);
+				Artificial_Object(std::string givenName, std::vector<std::string> spiceEphemeridesParams);
 
-				Artificial_Object(int givenId);
+				Artificial_Object(std::string givenName, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>,std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams);
+
+				Artificial_Object(int givenId, std::vector<std::string> spiceEphemeridesParams);
+
+				Artificial_Object(int givenId, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>,std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams);
 
 				virtual ~Artificial_Object() = default;
 

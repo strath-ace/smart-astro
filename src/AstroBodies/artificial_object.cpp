@@ -12,14 +12,21 @@
 using namespace smartastro;
 using namespace smartastro::astrobodies;
 
-Artificial_Object::Artificial_Object(std::string givenName) : Astro_Body(givenName)
+Artificial_Object::Artificial_Object(std::string givenName, std::vector<std::string> spiceEphemeridesParams) : Astro_Body(givenName, spiceEphemeridesParams)
 {
 }
 
-Artificial_Object::Artificial_Object(int givenId) : Astro_Body(givenId)
+Artificial_Object::Artificial_Object(std::string givenName, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>, std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams) : Astro_Body(givenName, referenceFrame, integratedEphemeridesFunction, integratedEphemeridesParams)
 {
 }
 
+Artificial_Object::Artificial_Object(int givenId, std::vector<std::string> spiceEphemeridesParams) : Astro_Body(givenId, spiceEphemeridesParams)
+{
+}
+
+Artificial_Object::Artificial_Object(int givenId, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>, std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams) : Astro_Body(givenId, referenceFrame, integratedEphemeridesFunction, integratedEphemeridesParams)
+{
+}
 
 void Artificial_Object::gfrfov(const std::string &inst, const std::vector<double> &raydir, const std::string &rframe, const std::string &abcorr, const double &step, SpiceCell  &cnfine,  SpiceCell &result)
 {

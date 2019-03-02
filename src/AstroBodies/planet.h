@@ -20,9 +20,13 @@ namespace smartastro
 		class Planet : public Celestial_Object
 		{
 			public:
-				Planet(std::string givenName, std::vector<double> &Givenpositn, double givenMu);
+				Planet(std::string givenName, std::vector<std::string> spiceEphemeridesParams, std::vector<double> &Givenpositn, double givenMu);
 
-				Planet(int givenId, std::vector<double> &Givenpositn, double givenMu);
+				Planet(std::string givenName, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>,std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams, std::vector<double> &Givenpositn, double givenMu);
+
+				Planet(int givenId, std::vector<std::string> spiceEphemeridesParams, std::vector<double> &Givenpositn, double givenMu);
+
+				Planet(int givenId, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>,std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams, std::vector<double> &Givenpositn, double givenMu);
 
 				virtual ~Planet() = default;
 		};

@@ -26,9 +26,13 @@ namespace smartastro
 				double mu;
 
 			public:
-				Celestial_Object(std::string givenName, std::vector<double> &Givenpositn,  double givenMu);
+				Celestial_Object(std::string givenName, std::vector<std::string> spiceEphemeridesParams, std::vector<double> &Givenpositn,  double givenMu);
 
-				Celestial_Object(int givenId,  std::vector<double> &Givenpositn,  double givenMu);
+				Celestial_Object(std::string givenName, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>,std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams, std::vector<double> &Givenpositn,  double givenMu);
+
+				Celestial_Object(int givenId, std::vector<std::string> spiceEphemeridesParams, std::vector<double> &Givenpositn, double givenMu);
+
+				Celestial_Object(int givenId, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>,std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams, std::vector<double> &Givenpositn, double givenMu);
 
 				virtual ~Celestial_Object() = default;
 

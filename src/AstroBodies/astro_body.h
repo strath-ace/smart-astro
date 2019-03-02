@@ -27,16 +27,23 @@ namespace smartastro
 				int id;
 				smartastro::ephemerides::integratedEphemeris *integratedEphemeris = NULL;
 				smartastro::ephemerides::spiceEphemeris *spiceEphemeris = NULL;
+				enum StateType {CARTESIAN, KEPLERIAN, EQUINOCTIAL};
 
 			public:
 
-				Astro_Body(std::string givenName);
+				Astro_Body(std::string givenName, std::vector<std::string> spiceEphemeridesParams);
 
-				Astro_Body(int givenId);
+				Astro_Body(std::string givenName, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>, std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams);
+
+				Astro_Body(int givenId, std::vector<std::string> integratedEphemeridesParams);
+
+				Astro_Body(int givenId, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>,std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams);
 
 				virtual ~Astro_Body() = default;
 
-				smartastro::ephemerides::base_ephemeris * getEphemerides(const int ephemeridesType, const smartastro::ephemerides::base_ephemeris::ephemerisParams &pParams);		
+				smartastro::ephemerides::base_ephemeris * getEphemerides(const int ephemeridesType, const smartastro::ephemerides::base_ephemeris::ephemerisParams &pParams);
+
+				void getState(const StateType& stateType, const double& time, std::vector<double>& state);		
 		};
 	}
 }
