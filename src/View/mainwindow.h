@@ -9,6 +9,10 @@ namespace Ui {
 class MainWindow;
 }
 
+/**
+* @brief Window for selecting the type of calulation the user wants to carry out.
+*/
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -18,6 +22,13 @@ public:
     ~MainWindow();
 
 private slots:
+
+    /**
+    * @brief Shows the function selection dialog corresponding to the type the user selected and hides this window when button is clicked.
+    *
+    * @return void
+    *
+    */
 
     void on_showFunctionsButton_clicked();
 

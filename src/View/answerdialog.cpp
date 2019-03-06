@@ -14,11 +14,14 @@ AnswerDialog::AnswerDialog(QWidget *parent, QWidget *paramDialog) :
 
 AnswerDialog::~AnswerDialog()
 {
+    delete ui;
 }
 
 void AnswerDialog::displayResults(std::vector<QString> args, std::vector<QString> resultsLabels){
-    ui->answerLabel->setText(resultsLabels[0]);
-    ui->answerField->setText(args[0]);
+    if(args.size() >= 1){
+        ui->answerLabel->setText(resultsLabels[0]);
+        ui->answerField->setText(args[0]);
+    }
 }
 
 void AnswerDialog::on_okButton_clicked()
