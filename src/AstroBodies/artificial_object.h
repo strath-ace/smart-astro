@@ -75,7 +75,7 @@ namespace smartastro
 				*
 				*/
 
-				void fovray(const std::string &inst, const std::vector<double> &raydir, const std::string &rframe, const std::string &abcorr, const double &et, int &visibl);
+				void fovray(const std::string &inst, const std::vector<double> &raydir, const std::string &rframe, const std::string &abcorr, double &et, int &visibl);
 
 				/**
 				* @brief Determine if a specified ephemeris object is within the
@@ -92,7 +92,7 @@ namespace smartastro
 				*
 				*/
 
-				void fovtrg(const std::string &inst, const std::string &target, const std::string &tshape, const std::string &tframe, const std::string &abcorr, const double &et, int &visibl);
+				void fovtrg(const std::string &inst, const std::string &target, const std::string &tshape, const std::string &tframe, const std::string &abcorr, double &et, int &visibl);
 
 				/**
 				* @brief Return the field-of-view (FOV) parameters for a specified 

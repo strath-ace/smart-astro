@@ -31,12 +31,12 @@ void Artificial_Object::gftfov(const std::string &inst, const std::string &targe
   return gftfov_c(&inst.at(0), &target.at(0), &tshape.at(0), &tframe.at(0), &abcorr.at(0), &name.at(0), step, &cnfine, &result);
 }
 
-void Artificial_Object::fovray(const std::string &inst, const std::vector<double> &raydir, const std::string &rframe, const std::string &abcorr, const double &et, int &visibl)
+void Artificial_Object::fovray(const std::string &inst, const std::vector<double> &raydir, const std::string &rframe, const std::string &abcorr, double &et, int &visibl)
 {
   return fovray_c(&inst.at(0), &raydir[0], &rframe.at(0), &abcorr.at(0), &name.at(0), &et, &visibl);
 }
 
-void Artificial_Object::fovtrg(const std::string &inst, const std::string &target, const std::string &tshape, const std::string &tframe, const std::string &abcorr, const double &et, int &visibl)
+void Artificial_Object::fovtrg(const std::string &inst, const std::string &target, const std::string &tshape, const std::string &tframe, const std::string &abcorr, double &et, int &visibl)
 {
   return fovtrg_c(&inst.at(0), &target.at(0), &tshape.at(0), &tframe.at(0), &abcorr.at(0), &name.at(0), &et, &visibl);
 }
