@@ -16,6 +16,7 @@ GenericFunctionDialog::GenericFunctionDialog(QWidget *parent) :
 
 GenericFunctionDialog::~GenericFunctionDialog()
 {
+    delete ui;
 }
 
 void GenericFunctionDialog::addButtonsToGroup(QButtonGroup *qButtonGroup)

@@ -17,6 +17,7 @@ ParameterInputDialog::ParameterInputDialog(QWidget *parent, QWidget *genFunctDia
 
 ParameterInputDialog::~ParameterInputDialog()
 {
+    delete ui;
 }
 
 void ParameterInputDialog::setVisibility(int fieldNum)
