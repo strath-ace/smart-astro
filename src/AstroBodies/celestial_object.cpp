@@ -120,7 +120,7 @@ void Celestial_Object::inelpl(const std::vector<double> &ellips, const std::vect
 
 void Celestial_Object::npedln(const double &a, const double &b, const double &c, const std::vector<double> &linept, const std::vector<double> &linedr, std::vector<double> &pnear, double &dist)
 {
-  return npedln_c(a, b, c, &linept[0], &linedr[0], &pnear[0], &dist);
+  npedln_c(a, b, c, &linept[0], &linedr[0], &pnear[0], &dist);
 }
 
 void Celestial_Object::inrypl(const std::vector<double> &vertex, const std::vector<double> &dir, const std::vector<double> &plane, const int spicePlaneType, int &nxpts, std::vector<double> &xpt)
@@ -199,7 +199,7 @@ void Celestial_Object::dskxv(const int &pri, const std::string &target, const in
    }
 }
 
-void Celestial_Object::dskxsi(const int &pri, const std::string &target, const int &nsurf, const std::vector<int> &srflst, const double &et, const std::string &fixref, const std::vector<double> &vertex, const std::vector<double> &raydir, const int &maxd, const int &maxi, std::vector<double> &xpt, int &handle, std::vector<int> &dladsc, std::vector<int> &dskdsc, std::vector<double> &dc, std::vector<int> &ic, int &found)
+void Celestial_Object::dskxsi(const int &pri, const std::string &target, const int &nsurf, const std::vector<int> &srflst, const double &et, const std::string &fixref, const std::vector<double> &vertex, const std::vector<double> &raydir, const int &maxd, const int &maxi, std::vector<double> &xpt, int &handle, std::vector<int> &dladsc, std::vector<double> &dskdsc, std::vector<double> &dc, std::vector<int> &ic, int &found)
 {
   SpiceDLADescr dladscD;
   SpiceDSKDescr dskdscD;

@@ -19,11 +19,44 @@ namespace smartastro
 		class Artificial_Object : public Astro_Body
 		{
 			public:
+
+				/**
+         			* Constructor for providing a name and a spiceEphemeris
+         			*
+         			* @param givenName Name of astro body
+				* @param spiceEphemeridesParams Parameters to create spiceEphemeris. Format: referenceFrame, kernelsToLoad, target, abberrationCorrection
+         			*/				
+
 				Artificial_Object(std::string givenName, std::vector<std::string> spiceEphemeridesParams);
+
+				/**
+         			* Constructor for providing a name and an integratedEphemeris
+         			*
+         			* @param givenName Name of astro body
+				* @param referenceFrame Reference frame for integratedEphemeris
+				* @param integratedEphemeridesFunction Integration function for integratedEphemeris
+				* @param integratedEphemeridesParams  Parameters to create integratedEphemeris. Format: ti, xi, hstep
+         			*/
 
 				Artificial_Object(std::string givenName, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>,std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams);
 
+				/**
+         			* Constructor for providing an ID and a spiceEphemeris
+         			*
+         			* @param givenId ID of astro body
+				* @param spiceEphemeridesParams Parameters to create spiceEphemeris. Format: referenceFrame, kernelsToLoad, target, abberrationCorrection
+         			*/
+
 				Artificial_Object(int givenId, std::vector<std::string> spiceEphemeridesParams);
+
+				/**
+         			* Constructor for providing an ID and an integratedEphemeris
+         			*
+         			* @param givenId ID of astro body
+				* @param referenceFrame Reference frame for integratedEphemeris
+				* @param integratedEphemeridesFunction Integration function for integratedEphemeris
+				* @param integratedEphemeridesParams  Parameters to create integratedEphemeris. Format: ti, xi, hstep
+         			*/
 
 				Artificial_Object(int givenId, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>,std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams);
 

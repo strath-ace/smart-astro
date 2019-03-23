@@ -12,7 +12,7 @@
 using namespace smartastro;
 using namespace smartastro::astrocore;
 
-void spice_general_functions::vectorToSpiceDSKDescr(const std::vector<int> &vector, SpiceDSKDescr &descr)
+void spice_general_functions::vectorToSpiceDSKDescr(const std::vector<double> &vector, SpiceDSKDescr &descr)
 {
   if(vector.size() == 24){
     
@@ -39,7 +39,7 @@ void spice_general_functions::vectorToSpiceDSKDescr(const std::vector<int> &vect
   }
 }
 
-void spice_general_functions::spiceDSKDescrToVector(const SpiceDSKDescr &descr, std::vector<int> &vector)
+void spice_general_functions::spiceDSKDescrToVector(const SpiceDSKDescr &descr, std::vector<double> &vector)
 {
   if(vector.size() == 24){
     vector[0] = descr.surfce;
@@ -113,7 +113,7 @@ void spice_general_functions::vectorToSpicePlaneNVP(const std::vector<double> &v
 {
   if(vector.size() == 6){
     double normal[3] = {vector[0], vector[1], vector[2]};
-    double point[3] = {vector[0], vector[1], vector[2]};
+    double point[3] = {vector[3], vector[4], vector[5]};
 
     nvp2pl_c(&normal[0], &point[0], &plane);
   } else {
@@ -173,17 +173,16 @@ void spice_general_functions::spiceEllipseToVector(const SpiceEllipse &ellipse, 
 
 void spice_general_functions::doubleVectorTo2dArray2(const std::vector<double> &vector, double (*array)[2])
 {
-  int rows =  sizeof array / sizeof array[0];
-  int size = vector.size() - 1;
-  int vectorIndexCnt = 0;
+  if(vector.size() % 2 == 0){
+  	int rows =  vector.size() / 2;
+  	int vectorIndexCnt = 0;
 
-  if(vector.size() == rows * 2){
-  for(int i = 0; i < rows; ++i){
-      for(int j = 0; j < 2; ++j){
-        array[i][j] = vector[vectorIndexCnt];
-	++vectorIndexCnt;
-      }
-    }
+  	for(int i = 0; i < rows; ++i){
+      		for(int j = 0; j < 2; ++j){
+        	array[i][j] = vector[vectorIndexCnt];
+		++vectorIndexCnt;
+      		}
+    	}
   } else {
     smartastro_throw("Vector is not the correct size for the array.");
   }
@@ -191,16 +190,16 @@ void spice_general_functions::doubleVectorTo2dArray2(const std::vector<double> &
 
 void spice_general_functions::doubleVectorTo2dArray3(const std::vector<double> &vector, double (*array)[3])
 {
-  int rows =  sizeof array / sizeof array[0];
-  int vectorIndexCnt = 0;
+  if(vector.size() % 3 == 0){
+  	int rows =  vector.size() / 3;
+  	int vectorIndexCnt = 0;
 
-  if(vector.size() == rows * 3){
-  for(int i = 0; i < rows; ++i){
-      for(int j = 0; j < 3; ++j){
-        array[i][j] = vector[vectorIndexCnt];
-	++vectorIndexCnt;
-      }
-    }
+  	for(int i = 0; i < rows; ++i){
+      		for(int j = 0; j < 3; ++j){
+        	array[i][j] = vector[vectorIndexCnt];
+		++vectorIndexCnt;
+      		}
+    	}
   } else {
     smartastro_throw("Vector is not the correct size for the array.");
   }
@@ -208,10 +207,11 @@ void spice_general_functions::doubleVectorTo2dArray3(const std::vector<double> &
   
 void spice_general_functions::double2dArray3ToVector(const double (*array)[3], std::vector<double> &vector)
 {
-  int rows =  sizeof array / sizeof array[0];
+  int rows = vector.size() / 3;
+
   int vectorIndexCnt = 0;
 
-  if(vector.size() == rows * 3){
+  if(vector.size() % 3 == 0){
   for(int i = 0; i < rows; ++i){
       for(int j = 0; j < 3; ++j){
 	vector[vectorIndexCnt] = array[i][j];
@@ -225,14 +225,15 @@ void spice_general_functions::double2dArray3ToVector(const double (*array)[3], s
 
 void spice_general_functions::double2dArray2ToVector(const double (*array)[2], std::vector<double> &vector)
 {
-  int rows =  sizeof array / sizeof array[0];
+  int rows = vector.size() / 2;
+
   int vectorIndexCnt = 0;
 
-  if(vector.size() == rows * 2){
+  if(vector.size() % 2 == 0){
   for(int i = 0; i < rows; ++i){
-      for(int j = 0; j < 3; ++j){
+      for(int j = 0; j < 2; ++j){
 	vector[vectorIndexCnt] = array[i][j];
-        ++vectorIndexCnt;
+	++vectorIndexCnt;
       }
     }
   } else {
@@ -241,15 +242,19 @@ void spice_general_functions::double2dArray2ToVector(const double (*array)[2], s
 }
 
 void spice_general_functions::bodc2n(const int &code, const int &lenout, std::string &name, int &found)
-{
-  name.push_back('\0');
+{ 
+  char *nameA = new char[lenout];
   
-  bodc2n_c(code, lenout, &name.at(0), &found);
+  bodc2n_c(code, lenout, nameA, &found);
 
-  name.pop_back();
+  std::string nameCpy(nameA);
+
+  name = nameCpy;
+
+  delete nameA;
 }
 
-void spice_general_functions::bodn2c(const std::string &name, int &code, int found)
+void spice_general_functions::bodn2c(const std::string &name, int &code, int &found)
 {
   return bodn2c_c(name.c_str(), &code, &found);
 }

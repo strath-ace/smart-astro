@@ -12,6 +12,8 @@
 
 #include <vector>
 #include <string>
+#include <cstring>
+#include <stdio.h>
 #include <cspice/SpiceUsr.h>
 #include "../exception.h"
 
@@ -33,7 +35,7 @@ namespace smartastro
 				*
 				*/
 
-				static void vectorToSpiceDSKDescr(const std::vector<int> &vector, SpiceDSKDescr &descr);
+				static void vectorToSpiceDSKDescr(const std::vector<double> &vector, SpiceDSKDescr &descr);
 
 				
 				/**
@@ -45,7 +47,7 @@ namespace smartastro
 				*
 				*/
 
-				static void spiceDSKDescrToVector(const SpiceDSKDescr &descr, std::vector<int> &vector);
+				static void spiceDSKDescrToVector(const SpiceDSKDescr &descr, std::vector<double> &vector);
 
 				/**
 				* @brief Convert a one-dimensional vector to a SpiceDLADescr
@@ -182,7 +184,7 @@ namespace smartastro
 				*
 				*/
 
-				static void bodn2c(const std::string &name, int &code, int found);
+				static void bodn2c(const std::string &name, int &code, int &found);
 
 				/**
 				* @brief Compute the rectangular coordinates of the sub-solar point on 

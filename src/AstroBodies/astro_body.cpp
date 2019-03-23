@@ -14,7 +14,9 @@ using namespace smartastro::astrobodies;
 
 Astro_Body::Astro_Body(std::string givenName, std::vector<std::string> spiceEphemeridesParams)
 {
+  ephemerisType = false;
   int found;
+  std::vector<std::string> kernel;
   
   name = givenName;
   smartastro::astrocore::spice_general_functions::bodn2c(name, id, found);
@@ -22,29 +24,25 @@ Astro_Body::Astro_Body(std::string givenName, std::vector<std::string> spiceEphe
   if (found==0){
     smartastro_throw("Astro body name not found in SPICE.");
   } else {
-    
-    std::vector<std::string> kernel;
-    
-    for(int i = 1; i < spiceEphemeridesParams.size() - 3; ++i){
-      kernel.push_back(spiceEphemeridesParams[i]);
-    }
-    
-    smartastro::ephemerides::spiceEphemeris::spiceEphemerisParams spiceEphemerisParamsStruct = {
-      spiceEphemeridesParams[0],
-      kernel,
-      spiceEphemeridesParams[spiceEphemeridesParams.size() - 2],
-      name,
-      spiceEphemeridesParams[spiceEphemeridesParams.size() - 1],
-    };
 
-    *spiceEphemeris = smartastro::ephemerides::spiceEphemeris(&spiceEphemerisParamsStruct);
+    for(int i = 1; i < spiceEphemeridesParams.size() - 2; ++i){
+	kernel.push_back(spiceEphemeridesParams[i]);
+    }
+
+    spiceEphemerisParamsStruct.referenceFrame = spiceEphemeridesParams[0];
+    spiceEphemerisParamsStruct.kernelToLoad = kernel;
+    spiceEphemerisParamsStruct.target = spiceEphemeridesParams[spiceEphemeridesParams.size() - 2];
+    spiceEphemerisParamsStruct.observer = name;
+    spiceEphemerisParamsStruct.abberrationCorrection = spiceEphemeridesParams[spiceEphemeridesParams.size() - 1];
+
+    spiceephemeris = new smartastro::ephemerides::spiceEphemeris(&spiceEphemerisParamsStruct);
   }
 }
 
 Astro_Body::Astro_Body(std::string givenName, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>,std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams)
 {
   int found;
-
+  ephemerisType = true;
   name = givenName;
   smartastro::astrocore::spice_general_functions::bodn2c(name, id, found);
 
@@ -54,54 +52,52 @@ Astro_Body::Astro_Body(std::string givenName, std::string referenceFrame, std::f
 
     std::vector<double> xiVector;
 
-    for(int i = 1; i < integratedEphemeridesParams.size() - 2; ++i){
+    for(int i = 1; i < integratedEphemeridesParams.size() - 1; ++i){
       xiVector.push_back(integratedEphemeridesParams[i]);
     }
 
-    smartastro::ephemerides::integratedEphemeris::integratedEphemerisParams integratedEphemerisParamsStruct = {
-      referenceFrame,
-      integratedEphemeridesFunction,
-      integratedEphemeridesParams[0],
-      xiVector,
-      integratedEphemeridesParams[integratedEphemeridesParams.size() - 1],
-    };
+     integratedEphemerisParamsStruct.referenceFrame = referenceFrame;
+     integratedEphemerisParamsStruct.integrate = integratedEphemeridesFunction;
+     integratedEphemerisParamsStruct.ti = integratedEphemeridesParams[0];
+     integratedEphemerisParamsStruct.xi = xiVector;
+     integratedEphemerisParamsStruct.hstep = integratedEphemeridesParams[integratedEphemeridesParams.size() - 1];
 
-    *integratedEphemeris = smartastro::ephemerides::integratedEphemeris(&integratedEphemerisParamsStruct);
+    integratedephemeris = new smartastro::ephemerides::integratedEphemeris(&integratedEphemerisParamsStruct);
   }
 }
 
 Astro_Body::Astro_Body(int givenId, std::vector<std::string> spiceEphemeridesParams)
 {
-  int found;
+  ephemerisType = false;
+  int found =1;
   int lenout = 100;
+  std::vector<std::string> kernel;
   
   id = givenId;
+
   smartastro::astrocore::spice_general_functions::bodc2n(id, lenout, name, found);
 
   if (found==0){
-    smartastro_throw("Astro body code not found in SPICE.");
+    smartastro_throw("Astro body name not found in SPICE.");
   } else {
 
-    std::vector<std::string> kernal;
-
-    for(int i = 1; i < spiceEphemeridesParams.size() - 3; ++i){
-      kernal.push_back(spiceEphemeridesParams[i]);
+    for(int i = 1; i < spiceEphemeridesParams.size() - 2; ++i){
+	kernel.push_back(spiceEphemeridesParams[i]);
     }
 
-    smartastro::ephemerides::spiceEphemeris::spiceEphemerisParams spiceEphemerisParamsStruct = {
-      spiceEphemeridesParams[0],
-      kernal,
-      spiceEphemeridesParams[spiceEphemeridesParams.size() - 2],
-      name,
-      spiceEphemeridesParams[spiceEphemeridesParams.size() - 1],
-    };
+    spiceEphemerisParamsStruct.referenceFrame = spiceEphemeridesParams[0];
+    spiceEphemerisParamsStruct.kernelToLoad = kernel;
+    spiceEphemerisParamsStruct.target = spiceEphemeridesParams[spiceEphemeridesParams.size() - 2];
+    spiceEphemerisParamsStruct.observer = name;
+    spiceEphemerisParamsStruct.abberrationCorrection = spiceEphemeridesParams[spiceEphemeridesParams.size() - 1];
 
-    *spiceEphemeris = smartastro::ephemerides::spiceEphemeris(&spiceEphemerisParamsStruct);
+    spiceephemeris = new smartastro::ephemerides::spiceEphemeris(&spiceEphemerisParamsStruct);
   }
 }
 
 Astro_Body::Astro_Body(int givenId, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>,std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams)
 {
+  ephemerisType = true;
   int found;
   int lenout = 100;
 
@@ -114,49 +110,31 @@ Astro_Body::Astro_Body(int givenId, std::string referenceFrame, std::function<in
 
     std::vector<double> xiVector;
 
-    for(int i = 1; i < integratedEphemeridesParams.size() - 2; ++i){
+    for(int i = 1; i < integratedEphemeridesParams.size() - 1; ++i){
       xiVector.push_back(integratedEphemeridesParams[i]);
     }
 
-    smartastro::ephemerides::integratedEphemeris::integratedEphemerisParams integratedEphemerisParamsStruct = {
-      referenceFrame,
-      integratedEphemeridesFunction,
-      integratedEphemeridesParams[0],
-      xiVector,
-      integratedEphemeridesParams[integratedEphemeridesParams.size() - 1],
-    };
+   integratedEphemerisParamsStruct.referenceFrame = referenceFrame;
+   integratedEphemerisParamsStruct.integrate = integratedEphemeridesFunction;
+   integratedEphemerisParamsStruct.ti = integratedEphemeridesParams[0];
+   integratedEphemerisParamsStruct.xi = xiVector;
+   integratedEphemerisParamsStruct.hstep = integratedEphemeridesParams[integratedEphemeridesParams.size() - 1];
 
-    *integratedEphemeris = smartastro::ephemerides::integratedEphemeris(&integratedEphemerisParamsStruct);
+  integratedephemeris = new  smartastro::ephemerides::integratedEphemeris(&integratedEphemerisParamsStruct);
   }
 }
 
-smartastro::ephemerides::base_ephemeris * Astro_Body::getEphemerides(const int ephemeridesType, const smartastro::ephemerides::base_ephemeris::ephemerisParams &pParams)
-{
-  switch(ephemeridesType) {
-    case 1:
-      if(integratedEphemeris == NULL){
-	*integratedEphemeris = smartastro::ephemerides::integratedEphemeris(&pParams);
-      }
-      return integratedEphemeris;
-      break;
-    case 2:
-      if(spiceEphemeris == NULL){
-       *spiceEphemeris = smartastro::ephemerides::spiceEphemeris(&pParams);
-      }
-      return spiceEphemeris;
-      break;
-  }
-}
-
-void Astro_Body::getState(const StateType& stateType, const double& time, std::vector<double>& state)
+std::vector<double> Astro_Body::getState(const StateType& stateType, const double& time)
 {
   switch(stateType){
   case CARTESIAN:
-    if(integratedEphemeris != NULL){
-      state = integratedEphemeris->getCartesianState(time); 
-    } else  {
-      state = spiceEphemeris->getCartesianState(time);
-    }
+    if(ephemerisType){
+      return integratedephemeris->getCartesianState(time); 
+    } else if(!ephemerisType) {
+		return spiceephemeris->getCartesianState(time);
+	} else {
+		smartastro_throw("This body has no epheneris data.");   		
+	}
     break;
   case KEPLERIAN:
     break;

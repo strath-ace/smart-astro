@@ -26,11 +26,44 @@ namespace smartastro
 				double mu;
 
 			public:
+
+				/**
+         			* Constructor for providing a name and a spiceEphemeris
+         			*
+         			* @param givenName Name of astro body
+				* @param spiceEphemeridesParams Parameters to create spiceEphemeris. Format: referenceFrame, kernelsToLoad, target, abberrationCorrection
+         			*/
+
 				Celestial_Object(std::string givenName, std::vector<std::string> spiceEphemeridesParams, std::vector<double> &Givenpositn,  double givenMu);
+
+				/**
+         			* Constructor for providing a name and an integratedEphemeris
+         			*
+         			* @param givenName Name of astro body
+				* @param referenceFrame Reference frame for integratedEphemeris
+				* @param integratedEphemeridesFunction Integration function for integratedEphemeris
+				* @param integratedEphemeridesParams  Parameters to create integratedEphemeris. Format: ti, xi, hstep
+         			*/
 
 				Celestial_Object(std::string givenName, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>,std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams, std::vector<double> &Givenpositn,  double givenMu);
 
+				/**
+         			* Constructor for providing an ID and a spiceEphemeris
+         			*
+         			* @param givenId ID of astro body
+				* @param spiceEphemeridesParams Parameters to create spiceEphemeris. Format: referenceFrame, kernelsToLoad, target, abberrationCorrection
+         			*/
+
 				Celestial_Object(int givenId, std::vector<std::string> spiceEphemeridesParams, std::vector<double> &Givenpositn, double givenMu);
+
+				/**
+         			* Constructor for providing an ID and an integratedEphemeris
+         			*
+         			* @param givenId ID of astro body
+				* @param referenceFrame Reference frame for integratedEphemeris
+				* @param integratedEphemeridesFunction Integration function for integratedEphemeris
+				* @param integratedEphemeridesParams  Parameters to create integratedEphemeris. Format: ti, xi, hstep
+         			*/
 
 				Celestial_Object(int givenId, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>,std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams, std::vector<double> &Givenpositn, double givenMu);
 
@@ -107,7 +140,7 @@ namespace smartastro
 				*
 				*/
 
-				void surfpt(const std::vector<double> &u, const double &a, const double &b, const double &c,  std::vector<double> &point, int &found);
+				void surfpt(const std::vector<double> &u, const double &a, const double &b, const double &c, std::vector<double> &point, int &found);
 
 				/**
 				* @brief This routine computes the outward-pointing, unit normal vector 
@@ -122,7 +155,7 @@ namespace smartastro
 				*
 				*/
 
-				void surfnm(const double &a, const double &b, const double &c, const std::vector<double> &point,  std::vector<double> &normal);
+				void surfnm(const double &a, const double &b, const double &c, const std::vector<double> &point, std::vector<double> &normal);
 
 				/**
 				* @brief Find the limb of a triaxial ellipsoid, viewed from a specified 
@@ -212,7 +245,7 @@ namespace smartastro
 				*
 				*/
 
-				void saelgv(const std::vector<double> &vec1, const std::vector<double> &vec2,  std::vector<double> &smajor,  std::vector<double> &sminor);
+				void saelgv(const std::vector<double> &vec1, const std::vector<double> &vec2,  std::vector<double> &smajor, std::vector<double> &sminor);
 
 				/**
 				* @brief Find the nearest point on a line to a specified point, and find 
@@ -227,7 +260,7 @@ namespace smartastro
 				*
 				*/
 
-				void nplnpt(const std::vector<double> &linpt, const std::vector<double> &lindir, const std::vector<double> &point,  std::vector<double> &pnear, double &dist);
+				void nplnpt(const std::vector<double> &linpt, const std::vector<double> &lindir, const std::vector<double> &point, std::vector<double> &pnear, double &dist);
 
 				/**
 				* @brief Given an observer and a direction vector defining a ray, compute 
@@ -305,7 +338,7 @@ namespace smartastro
 				*
 				*/
 
-				void dskxsi(const int &pri, const std::string &target, const int &nsurf, const std::vector<int> &srflst, const double &et, const std::string &fixref, const std::vector<double> &vertex, const std::vector<double> &raydir, const int &maxd, const int &maxi, std::vector<double> &xpt, int &handle, std::vector<int> &dladsc, std::vector<int> &dskdsc, std::vector<double> &dc, std::vector<int> &ic, int &found);
+				void dskxsi(const int &pri, const std::string &target, const int &nsurf, const std::vector<int> &srflst, const double &et, const std::string &fixref, const std::vector<double> &vertex, const std::vector<double> &raydir, const int &maxd, const int &maxi, std::vector<double> &xpt, int &handle, std::vector<int> &dladsc, std::vector<double> &dskdsc, std::vector<double> &dc, std::vector<int> &ic, int &found);
 
 				/**
 				* @brief Find the illumination angles (phase, solar incidence, and
