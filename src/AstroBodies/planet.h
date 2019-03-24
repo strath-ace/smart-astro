@@ -26,6 +26,8 @@ namespace smartastro
          			*
          			* @param givenName Name of astro body
 				* @param spiceEphemeridesParams Parameters to create spiceEphemeris. Format: referenceFrame, kernelsToLoad, target, abberrationCorrection
+				* @param Givenpositn Position of the observer in body-fixed frame.
+				* @param givenMu Gravitational parameter (GM)
          			*/
 
 				Planet(std::string givenName, std::vector<std::string> spiceEphemeridesParams, std::vector<double> &Givenpositn, double givenMu);
@@ -37,6 +39,8 @@ namespace smartastro
 				* @param referenceFrame Reference frame for integratedEphemeris
 				* @param integratedEphemeridesFunction Integration function for integratedEphemeris
 				* @param integratedEphemeridesParams  Parameters to create integratedEphemeris. Format: ti, xi, hstep
+				* @param Givenpositn Position of the observer in body-fixed frame.
+				* @param givenMu Gravitational parameter (GM)
          			*/
 
 				Planet(std::string givenName, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>,std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams, std::vector<double> &Givenpositn, double givenMu);
@@ -46,6 +50,8 @@ namespace smartastro
          			*
          			* @param givenId ID of astro body
 				* @param spiceEphemeridesParams Parameters to create spiceEphemeris. Format: referenceFrame, kernelsToLoad, target, abberrationCorrection
+				* @param Givenpositn Position of the observer in body-fixed frame.
+				* @param givenMu Gravitational parameter (GM)
          			*/
 
 				Planet(int givenId, std::vector<std::string> spiceEphemeridesParams, std::vector<double> &Givenpositn, double givenMu);
@@ -57,6 +63,8 @@ namespace smartastro
 				* @param referenceFrame Reference frame for integratedEphemeris
 				* @param integratedEphemeridesFunction Integration function for integratedEphemeris
 				* @param integratedEphemeridesParams  Parameters to create integratedEphemeris. Format: ti, xi, hstep
+				* @param Givenpositn Position of the observer in body-fixed frame.
+				* @param givenMu Gravitational parameter (GM)
          			*/
 
 				Planet(int givenId, std::string referenceFrame, std::function<int(double,double,int,std::vector<double>,std::vector<double>)> integratedEphemeridesFunction, std::vector<double> integratedEphemeridesParams, std::vector<double> &Givenpositn, double givenMu);
