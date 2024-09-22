@@ -1,1 +1,12 @@
+This folder contains Julia code developed to propagate both the full coupled orbital-attitude dynamics and
+the averaged coupled orbital-attitude dynamics. 
 
+Here, you can find two folders: 
+- ATTITUDE: this is the Julia package with all the functions for the coupled orbital-attitude dynamics propagation
+- workspace : this is a folder with examples for the employment of ATTITUDE
+
+For further details, look at the documentation contained in the ATTITUDE package. 
+
+The theory behind the code is summarised in the two following papers: 
+- I. Cavallari, J. Feng, S. Bi, and M. Vasile. Semi-Analytical Attitude Propagation for Earth Orbiting Objects. 2024.
+- I. Cavallari, J. Feng, S. Bi, and M. Vasile. Semi-analytical attitude propagation of low-altitude Earth orbiting objects. 2024.
